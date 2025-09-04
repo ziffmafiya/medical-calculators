@@ -1,0 +1,1209 @@
+export type Language = 'en' | 'ru' | 'uk';
+
+export interface Translations {
+  // Navigation
+  home: string;
+  potassium: string;
+  wounds: string;
+  children: string;
+  about: string;
+  
+  // Header
+  welcome: string;
+  welcomeSubtitle: string;
+  
+  // Calculator titles and descriptions
+  potassiumCorrection: string;
+  potassiumCorrectionDesc: string;
+  antibioticProphylaxis: string;
+  antibioticProphylaxisDesc: string;
+  pediatricDoses: string;
+  pediatricDosesDesc: string;
+  glasgowComaScale: string;
+  glasgowComaScaleDesc: string;
+  comingSoon: string;
+  
+  // Actions
+  startCalculation: string;
+  backToCalculators: string;
+  
+  // Footer
+  copyright: string;
+  
+  // Calculator specific
+  currentPotassiumLevel: string;
+  patientWeight: string;
+  mmolL: string;
+  kg: string;
+  targetPotassiumLevel: string;
+  targetPotassiumLevelDesc: string;
+  useAsparkam: string;
+  useAsparkamDesc: string;
+  calculate: string;
+  reset: string;
+  pleaseFillAllFields: string;
+  
+  // Results
+  potassiumDeficit: string;
+  asparkamDose: string;
+  potassiumChlorideDose: string;
+  infusionRate: string;
+  duration: string;
+  ml: string;
+  mmolHour: string;
+  
+  // Wound calculator
+  woundType: string;
+  woundLocation: string;
+  woundAge: string;
+  patientAge: string;
+  diabetes: string;
+  immunosuppression: string;
+  woundDepth: string;
+  contaminationLevel: string;
+  selectWoundType: string;
+  selectLocation: string;
+  selectDepth: string;
+  selectContamination: string;
+  superficial: string;
+  deep: string;
+  clean: string;
+  contaminated: string;
+  dirty: string;
+  head: string;
+  neck: string;
+  trunk: string;
+  extremities: string;
+  hands: string;
+  feet: string;
+  laceration: string;
+  puncture: string;
+  bite: string;
+  burn: string;
+  abrasion: string;
+  avulsion: string;
+  crush: string;
+  gunshot: string;
+  other: string;
+  lessThan6Hours: string;
+  moreThan6Hours: string;
+  lessThan50: string;
+  moreThan50: string;
+  yes: string;
+  no: string;
+  antibioticRecommended: string;
+  antibioticNotRecommended: string;
+  recommendation: string;
+  reasoning: string;
+  
+  // Pediatric calculator
+  medicationName: string;
+  childAge: string;
+  childWeight: string;
+  childHeight: string;
+  years: string;
+  months: string;
+  cm: string;
+  selectMedication: string;
+  recommendedDose: string;
+  maxDose: string;
+  contraindications: string;
+  notes: string;
+  mg: string;
+  mgKg: string;
+  every4Hours: string;
+  every6Hours: string;
+  every8Hours: string;
+  every12Hours: string;
+  daily: string;
+  asNeeded: string;
+  none: string;
+  every4to6Hours: string;
+  every6to8Hours: string;
+  every8to12Hours: string;
+  once: string;
+  
+
+  ageRestriction: string;
+  weightRestriction: string;
+  allergy: string;
+  renalImpairment: string;
+  hepaticImpairment: string;
+  
+  // Recommendations
+  calculationResults: string;
+  recommendations: string;
+  maxInfusionRate: string;
+  monitorPotassium: string;
+  stopInfusion: string;
+  ecgMonitoring: string;
+  
+  // Antibiotic calculator specific
+  timeFromInjury: string;
+  surgeryDuration: string;
+  hasDiabetes: string;
+  hasImmunodeficiency: string;
+  hasVascularDisease: string;
+  hasMalnutrition: string;
+  hasAllergies: string;
+  allergies: string;
+  renalFunction: string;
+  isDelayedClosure: string;
+  hours: string;
+  minutes: string;
+  riskLevel: string;
+  low: string;
+  medium: string;
+  high: string;
+  immediateIndication: string;
+  antibioticNeeded: string;
+  antibioticNotNeeded: string;
+  riskFactors: string;
+  patientFactors: string;
+  woundFactors: string;
+  environmentalFactors: string;
+  
+  // Section headers
+  step1WoundAssessment: string;
+  step2PatientFactors: string;
+  step3AllergiesAndAdditional: string;
+  
+  // Route options
+  oral: string;
+  intravenous: string;
+  intramuscular: string;
+  subcutaneous: string;
+  routeOfAdministration: string;
+  indication: string;
+  indicationPlaceholder: string;
+  safety: string;
+  safe: string;
+  notSafe: string;
+  contraindication: string;
+  contraindicationReason: string;
+  medicationNotFound: string;
+  consultDoctor: string;
+  contraindicatedForAge: string;
+  contraindicatedForWeight: string;
+  dosingRecommendations: string;
+  doseRange: string;
+  frequency: string;
+  dailyDose: string;
+  bodySurfaceArea: string;
+  importantWarnings: string;
+  disclaimer: string;
+  disclaimerText: string;
+  age: string;
+  weight: string;
+  route: string;
+  category: string;
+  notSpecified: string;
+  availableMedications: string;
+  medications: string;
+  medication: string;
+  verified: string;
+  medicationCategories: string;
+  speciallyAdded: string;
+  verifiedDoses: string;
+  emergencyMedications: string;
+  quickSearch: string;
+  searchPlaceholder: string;
+  allCategories: string;
+  clickToSelect: string;
+  hideMedicationList: string;
+  showMedicationList: string;
+  
+  // Electrolyte correction calculator
+  electrolyteCorrection: string;
+  electrolyteCorrectionDesc: string;
+  selectElectrolyte: string;
+  selectCorrectionType: string;
+  currentLevel: string;
+  albumin: string;
+  gdL: string;
+  hasEcgChanges: string;
+  hasSymptoms: string;
+  normal: string;
+  mild: string;
+  moderate: string;
+  severe: string;
+  correctedLevel: string;
+  deficit: string;
+  excess: string;
+  recommendedDoses: string;
+  emergencyActions: string;
+  warnings: string;
+  
+  // Electrolyte types
+  electrolytePotassium: string;
+  electrolyteSodium: string;
+  electrolyteMagnesium: string;
+  electrolyteCalcium: string;
+  
+  // Correction types
+  correctionHypo: string;
+  correctionHyper: string;
+  
+  // Units
+  unitMgdL: string;
+  unitMEqL: string;
+  unitGL: string;
+  
+  // Additional electrolyte calculator translations
+  mmol: string;
+  tablets: string;
+  timesPerDay: string;
+  takeAfterMeals: string;
+  maxSpeed: string;
+  infusion24Hours: string;
+  alternativeToAsparkam: string;
+  slowCorrection: string;
+  osmoticDemyelination: string;
+  monitorSodium: string;
+  tendonReflexes: string;
+  monitorMagnesium: string;
+  maxSpeed1gHour: string;
+  maxSpeed10mEqHour: string;
+  monitorECG: string;
+  monitorCalcium: string;
+  severeHyperkalemia: string;
+  emergencyCare: string;
+  significantSodiumDeviation: string;
+  carefulCorrection: string;
+  membraneStabilization: string;
+  insulinGlucose: string;
+  sodiumBicarbonate: string;
+  acidosis: string;
+  salbutamol: string;
+  inhaled: string;
+  furosemide: string;
+  preservedKidneyFunction: string;
+  continuousECG: string;
+  monitorPotassiumEvery: string;
+  considerHemodialysis: string;
+  dextrose5: string;
+  magnesiumAntagonist: string;
+  enhanceExcretion: string;
+  considerHemodialysisMagnesium: string;
+  calcitonin: string;
+  zoledronicAcid: string;
+  infusion60Minutes: string;
+  hydration: string;
+  physiologicalSolution: string;
+  monitorKidneyFunction: string;
+  severeHypokalemia: string;
+  every2to4Hours: string;
+  stopInfusionIfPotassiumHigh: string;
+  oralCourse3to4Weeks: string;
+  forBetterTolerability: string;
+  toPrevent: string;
+  every6to12Hours: string;
+  severeHypocalcemia: string;
+  notMoreThan: string;
+  moreConcentratedSolution: string;
+}
+
+export const translations: Record<Language, Translations> = {
+  en: {
+    // Navigation
+    home: 'Home',
+    potassium: 'Potassium',
+    wounds: 'Wounds',
+    children: 'Children',
+    about: 'About',
+    
+    // Header
+    welcome: 'Welcome to MDcalc',
+    welcomeSubtitle: 'Your reliable assistant in medical calculations',
+    
+    // Calculator titles and descriptions
+    potassiumCorrection: 'Potassium Level Correction',
+    potassiumCorrectionDesc: 'Calculation of Asparkam and KCl dose for potassium correction considering patient weight and target level.',
+    antibioticProphylaxis: 'Wound Antibiotic Prophylaxis',
+    antibioticProphylaxisDesc: 'Decision algorithm for antibiotic prophylaxis according to modern recommendations.',
+    pediatricDoses: 'Pediatric Drug Doses',
+    pediatricDosesDesc: 'Calculation of pediatric drug doses considering age and weight. Safety check and contraindications.',
+    glasgowComaScale: 'Glasgow Coma Scale (GCS)',
+    glasgowComaScaleDesc: 'Assessment of patient consciousness level using Glasgow scale.',
+    comingSoon: 'Coming Soon',
+    
+    // Actions
+    startCalculation: 'Start Calculation',
+    backToCalculators: '← Back to Calculators',
+    
+    // Footer
+    copyright: '© 2025 MDcalc. All rights reserved.',
+    
+    // Calculator specific
+    currentPotassiumLevel: 'Current potassium level',
+    patientWeight: 'Patient weight',
+    mmolL: 'mmol/L',
+    kg: 'kg',
+    targetPotassiumLevel: 'Target potassium level',
+    targetPotassiumLevelDesc: 'Target potassium level: 4.5 mmol/L (fixed value)',
+    useAsparkam: 'Use Asparkam',
+    useAsparkamDesc: 'If not checked, potassium chloride 7.5% will be used',
+    calculate: 'Calculate',
+    reset: 'Reset',
+    pleaseFillAllFields: 'Please fill in all required fields',
+    
+    // Results
+    potassiumDeficit: 'Potassium deficit',
+    asparkamDose: 'Asparkam dose',
+    potassiumChlorideDose: 'Potassium chloride dose',
+    infusionRate: 'Infusion rate',
+    duration: 'Duration',
+    ml: 'ml',
+    mmolHour: 'mmol/hour',
+    
+    // Wound calculator
+    woundType: 'Wound type',
+    woundLocation: 'Wound location',
+    woundAge: 'Wound age',
+    patientAge: 'Patient age',
+    diabetes: 'Diabetes',
+    immunosuppression: 'Immunosuppression',
+    woundDepth: 'Wound depth',
+    contaminationLevel: 'Contamination level',
+    selectWoundType: 'Select wound type',
+    selectLocation: 'Select location',
+    selectDepth: 'Select depth',
+    selectContamination: 'Select contamination level',
+    superficial: 'Superficial',
+    deep: 'Deep',
+    clean: 'Clean',
+    contaminated: 'Contaminated',
+    dirty: 'Dirty',
+    head: 'Head',
+    neck: 'Neck',
+    trunk: 'Trunk',
+    extremities: 'Extremities',
+    hands: 'Hands',
+    feet: 'Feet',
+    laceration: 'Laceration',
+    puncture: 'Puncture',
+    bite: 'Bite',
+    burn: 'Burn',
+    abrasion: 'Abrasion',
+    avulsion: 'Avulsion',
+    crush: 'Crush',
+    gunshot: 'Gunshot',
+    other: 'Other',
+    lessThan6Hours: 'Less than 6 hours',
+    moreThan6Hours: 'More than 6 hours',
+    lessThan50: 'Less than 50 years',
+    moreThan50: 'More than 50 years',
+    yes: 'Yes',
+    no: 'No',
+    antibioticRecommended: 'Antibiotic prophylaxis is recommended',
+    antibioticNotRecommended: 'Antibiotic prophylaxis is not recommended',
+    recommendation: 'Recommendation',
+    reasoning: 'Reasoning',
+    
+    // Pediatric calculator
+    medicationName: 'Medication name',
+    childAge: 'Child age',
+    childWeight: 'Child weight',
+    childHeight: 'Child height',
+    years: 'years',
+    months: 'months',
+    cm: 'cm',
+    selectMedication: 'Select medication',
+    recommendedDose: 'Recommended dose',
+    maxDose: 'Maximum dose',
+    contraindications: 'Contraindications',
+    notes: 'Notes',
+    mg: 'mg',
+    mgKg: 'mg/kg',
+    every4Hours: 'every 4 hours',
+    every6Hours: 'every 6 hours',
+    every8Hours: 'every 8 hours',
+    every12Hours: 'every 12 hours',
+    daily: 'daily',
+    asNeeded: 'as needed',
+    none: 'None',
+    every4to6Hours: 'every 4-6 hours',
+    every6to8Hours: 'every 6-8 hours',
+    every8to12Hours: 'every 8-12 hours',
+    once: 'once',
+    ageRestriction: 'Age restriction',
+    weightRestriction: 'Weight restriction',
+    allergy: 'Allergy',
+    renalImpairment: 'Renal impairment',
+    hepaticImpairment: 'Hepatic impairment',
+    
+    // Recommendations
+    calculationResults: 'Calculation Results',
+    recommendations: 'Recommendations:',
+    maxInfusionRate: '• Maximum potassium infusion rate: 20 mmol/hour',
+    monitorPotassium: '• Monitor potassium level every 2-4 hours',
+    stopInfusion: '• Stop infusion if potassium level > 5.5 mmol/L',
+    ecgMonitoring: '• ECG monitoring for severe hypokalemia',
+    
+    // Antibiotic calculator specific
+    timeFromInjury: 'Time from injury',
+    surgeryDuration: 'Surgery duration',
+    hasDiabetes: 'Diabetes',
+    hasImmunodeficiency: 'Immunodeficiency',
+    hasVascularDisease: 'Vascular disease',
+    hasMalnutrition: 'Malnutrition',
+    hasAllergies: 'Allergies',
+    allergies: 'Allergies',
+    renalFunction: 'Renal function',
+    isDelayedClosure: 'Delayed closure',
+    hours: 'hours',
+    minutes: 'minutes',
+    riskLevel: 'Risk level',
+    low: 'Low',
+    medium: 'Medium',
+    high: 'High',
+    immediateIndication: 'Immediate indication',
+    antibioticNeeded: 'Antibiotic prophylaxis needed',
+    antibioticNotNeeded: 'Antibiotic prophylaxis not needed',
+    riskFactors: 'Risk factors',
+    patientFactors: 'Patient factors',
+    woundFactors: 'Wound factors',
+    environmentalFactors: 'Environmental factors',
+    
+    // Section headers
+    step1WoundAssessment: 'Step 1: Wound Assessment',
+    step2PatientFactors: 'Step 2: Patient Factors',
+    step3AllergiesAndAdditional: 'Step 3: Allergies and Additional Parameters',
+    
+    // Route options
+    oral: 'Oral',
+    intravenous: 'Intravenous',
+    intramuscular: 'Intramuscular',
+    subcutaneous: 'Subcutaneous',
+    routeOfAdministration: 'Route of administration',
+    indication: 'Indication',
+    indicationPlaceholder: 'For example: Fever, Pain, Infection...',
+    safety: 'Safety',
+    safe: 'SAFE',
+    notSafe: 'NOT SAFE',
+    contraindication: 'Contraindication',
+    contraindicationReason: 'Contraindication reason',
+    medicationNotFound: 'Medication not found in database',
+    consultDoctor: 'Consult a doctor for accurate dosing information',
+    contraindicatedForAge: 'Medication is contraindicated for children under',
+    contraindicatedForWeight: 'years or weighing less than',
+    dosingRecommendations: 'Dosing recommendations',
+    doseRange: 'Dose range',
+    frequency: 'Frequency',
+    dailyDose: 'Daily dose',
+    bodySurfaceArea: 'Body surface area',
+    importantWarnings: 'Important warnings',
+    disclaimer: 'Important',
+    disclaimerText: 'This calculator is for informational purposes only. All prescriptions should be made by qualified medical personnel taking into account individual patient characteristics and clinical situation.',
+    age: 'Age',
+    weight: 'Weight',
+    route: 'Route',
+    category: 'Category',
+    notSpecified: 'Not specified',
+    availableMedications: 'Available medications in database',
+    medications: 'medications',
+    medication: 'Medication',
+    verified: 'Verified',
+    medicationCategories: 'Medication categories',
+    speciallyAdded: 'Specially added medications',
+    verifiedDoses: 'Verified doses',
+    emergencyMedications: 'Emergency medications',
+    quickSearch: 'Quick medication search',
+    searchPlaceholder: 'Enter medication name to search...',
+    allCategories: 'All categories',
+    clickToSelect: 'Click to select',
+    hideMedicationList: 'Hide medication list',
+    showMedicationList: 'Show medication list',
+    
+    // Electrolyte correction calculator
+    electrolyteCorrection: 'Electrolyte Correction Calculator',
+    electrolyteCorrectionDesc: 'Comprehensive calculator for correction of potassium, sodium, magnesium, and calcium disorders',
+    selectElectrolyte: 'Select electrolyte',
+    selectCorrectionType: 'Select correction type',
+    currentLevel: 'Current level',
+    albumin: 'Albumin',
+    gdL: 'g/dL',
+    hasEcgChanges: 'ECG changes present',
+    hasSymptoms: 'Symptoms present',
+    normal: 'Normal',
+    mild: 'Mild',
+    moderate: 'Moderate',
+    severe: 'Severe',
+    correctedLevel: 'Corrected level',
+    deficit: 'Deficit',
+    excess: 'Excess',
+    recommendedDoses: 'Recommended doses',
+    emergencyActions: 'Emergency actions',
+    warnings: 'Warnings',
+    
+    // Electrolyte types
+    electrolytePotassium: 'Potassium',
+    electrolyteSodium: 'Sodium',
+    electrolyteMagnesium: 'Magnesium',
+    electrolyteCalcium: 'Calcium',
+    
+    // Correction types
+    correctionHypo: 'Hypo',
+    correctionHyper: 'Hyper',
+    
+    // Units
+    unitMgdL: 'mg/dL',
+    unitMEqL: 'mEq/L',
+    unitGL: 'g/L',
+    
+    // Additional electrolyte calculator translations
+    mmol: 'mmol',
+    tablets: 'tablets',
+    timesPerDay: 'times per day',
+    takeAfterMeals: 'Take after meals',
+    maxSpeed: 'Maximum speed',
+    infusion24Hours: 'Infusion 24 hours',
+    alternativeToAsparkam: 'Alternative to Asparkam',
+    slowCorrection: 'Slow correction',
+    osmoticDemyelination: 'osmotic demyelination',
+    monitorSodium: 'Monitor sodium level',
+    tendonReflexes: 'Monitor tendon reflexes',
+    monitorMagnesium: 'Monitor magnesium level',
+    maxSpeed1gHour: 'Maximum speed 1 g/hour',
+    maxSpeed10mEqHour: 'Maximum speed 10 mEq/hour',
+    monitorECG: 'Monitor ECG',
+    monitorCalcium: 'Monitor calcium level',
+    severeHyperkalemia: 'Severe hyperkalemia',
+    emergencyCare: 'Emergency care required',
+    significantSodiumDeviation: 'Significant sodium deviation',
+    carefulCorrection: 'Careful correction required',
+    membraneStabilization: 'membrane stabilization',
+    insulinGlucose: 'Insulin 10 units + glucose 50% 50 ml IV',
+    sodiumBicarbonate: 'Sodium bicarbonate 50-100 mEq IV',
+    acidosis: 'in acidosis',
+    salbutamol: 'Salbutamol 10-20 mg',
+    inhaled: 'inhaled',
+    furosemide: 'Furosemide',
+    preservedKidneyFunction: 'With preserved kidney function',
+    continuousECG: 'Continuous ECG monitoring',
+    monitorPotassiumEvery: 'Monitor potassium level every 1-2 hours',
+    considerHemodialysis: 'Consider hemodialysis at level > 7.0 mmol/L',
+    dextrose5: 'Dextrose 5%',
+    magnesiumAntagonist: 'Magnesium antagonist',
+    enhanceExcretion: 'Enhance excretion',
+    considerHemodialysisMagnesium: 'Consider hemodialysis for severe hypermagnesemia',
+    calcitonin: 'Calcitonin',
+    zoledronicAcid: 'Zoledronic acid',
+    infusion60Minutes: 'Infusion 60 minutes',
+    hydration: 'Hydration',
+    physiologicalSolution: 'with physiological solution',
+    monitorKidneyFunction: 'Monitor kidney function',
+    severeHypokalemia: 'in severe hypokalemia',
+    every2to4Hours: 'every 2-4 hours',
+    stopInfusionIfPotassiumHigh: 'Stop infusion if potassium level > 5.5 mmol/L',
+    oralCourse3to4Weeks: 'Oral course: 3-4 weeks with possibility of repetition',
+    forBetterTolerability: 'for better tolerability',
+    toPrevent: 'to prevent',
+    every6to12Hours: 'every 6-12 hours',
+    severeHypocalcemia: 'in severe hypocalcemia',
+    notMoreThan: 'not more than',
+    moreConcentratedSolution: 'More concentrated solution',
+  },
+  
+  ru: {
+    // Navigation
+    home: 'Главная',
+    potassium: 'Калий',
+    wounds: 'Раны',
+    children: 'Дети',
+    about: 'О нас',
+    
+    // Header
+    welcome: 'Добро пожаловать в MDcalc',
+    welcomeSubtitle: 'Ваш надежный помощник в медицинских расчетах',
+    
+    // Calculator titles and descriptions
+    potassiumCorrection: 'Коррекция уровня калия',
+    potassiumCorrectionDesc: 'Расчет дозы Аспаркама и KCl для коррекции калия с учетом веса пациента и целевого уровня.',
+    antibioticProphylaxis: 'Антибиотикопрофилактика при ранах',
+    antibioticProphylaxisDesc: 'Алгоритм принятия решения о назначении антибиотикопрофилактики согласно современным рекомендациям.',
+    pediatricDoses: 'Детские дозы препаратов',
+    pediatricDosesDesc: 'Расчет детских доз препаратов с учетом возраста и веса ребенка. Проверка безопасности и противопоказаний.',
+    glasgowComaScale: 'Шкала комы Глазго (ШКГ)',
+    glasgowComaScaleDesc: 'Оценка уровня сознания пациента по шкале Глазго.',
+    comingSoon: 'Скоро',
+    
+    // Actions
+    startCalculation: 'Начать расчет',
+    backToCalculators: '← Назад к калькуляторам',
+    
+    // Footer
+    copyright: '© 2025 MDcalc. Все права защищены.',
+    
+    // Calculator specific
+    currentPotassiumLevel: 'Текущий уровень калия',
+    patientWeight: 'Вес пациента',
+    mmolL: 'ммоль/л',
+    kg: 'кг',
+    targetPotassiumLevel: 'Целевой уровень калия',
+    targetPotassiumLevelDesc: 'Целевой уровень калия: 4.5 ммоль/л (фиксированное значение)',
+    useAsparkam: 'Использовать аспаркам',
+    useAsparkamDesc: 'Если не отмечено, будет использован калия хлорид 7.5%',
+    calculate: 'Рассчитать',
+    reset: 'Сбросить',
+    pleaseFillAllFields: 'Пожалуйста, заполните все необходимые поля',
+    
+    // Results
+    potassiumDeficit: 'Дефицит калия',
+    asparkamDose: 'Доза аспаркама',
+    potassiumChlorideDose: 'Доза калия хлорида',
+    infusionRate: 'Скорость инфузии',
+    duration: 'Длительность',
+    ml: 'мл',
+    mmolHour: 'ммоль/час',
+    
+    // Wound calculator
+    woundType: 'Тип раны',
+    woundLocation: 'Локализация раны',
+    woundAge: 'Возраст раны',
+    patientAge: 'Возраст пациента',
+    diabetes: 'Сахарный диабет',
+    immunosuppression: 'Иммуносупрессия',
+    woundDepth: 'Глубина раны',
+    contaminationLevel: 'Уровень загрязнения',
+    selectWoundType: 'Выберите тип раны',
+    selectLocation: 'Выберите локализацию',
+    selectDepth: 'Выберите глубину',
+    selectContamination: 'Выберите уровень загрязнения',
+    superficial: 'Поверхностная',
+    deep: 'Глубокая',
+    clean: 'Чистая',
+    contaminated: 'Загрязненная',
+    dirty: 'Грязная',
+    head: 'Голова',
+    neck: 'Шея',
+    trunk: 'Туловище',
+    extremities: 'Конечности',
+    hands: 'Кисти',
+    feet: 'Стопы',
+    laceration: 'Рваная',
+    puncture: 'Колотая',
+    bite: 'Укус',
+    burn: 'Ожог',
+    abrasion: 'Ссадина',
+    avulsion: 'Отрывная',
+    crush: 'Размозженная',
+    gunshot: 'Огнестрельная',
+    other: 'Другая',
+    lessThan6Hours: 'Менее 6 часов',
+    moreThan6Hours: 'Более 6 часов',
+    lessThan50: 'Менее 50 лет',
+    moreThan50: 'Более 50 лет',
+    yes: 'Да',
+    no: 'Нет',
+    antibioticRecommended: 'Антибиотикопрофилактика рекомендуется',
+    antibioticNotRecommended: 'Антибиотикопрофилактика не рекомендуется',
+    recommendation: 'Рекомендация',
+    reasoning: 'Обоснование',
+    
+    // Pediatric calculator
+    medicationName: 'Название препарата',
+    childAge: 'Возраст ребенка',
+    childWeight: 'Вес ребенка',
+    childHeight: 'Рост ребенка',
+    years: 'лет',
+    months: 'месяцев',
+    cm: 'см',
+    selectMedication: 'Выберите препарат',
+    recommendedDose: 'Рекомендуемая доза',
+    maxDose: 'Максимальная доза',
+    contraindications: 'Противопоказания',
+    notes: 'Примечания',
+    mg: 'мг',
+    mgKg: 'мг/кг',
+    every4Hours: 'каждые 4 часа',
+    every6Hours: 'каждые 6 часов',
+    every8Hours: 'каждые 8 часов',
+    every12Hours: 'каждые 12 часов',
+    daily: 'в сутки',
+    asNeeded: 'по необходимости',
+    none: 'Нет',
+    every4to6Hours: 'каждые 4-6 часов',
+    every6to8Hours: 'каждые 6-8 часов',
+    every8to12Hours: 'каждые 8-12 часов',
+    once: 'однократно',
+    ageRestriction: 'Возрастное ограничение',
+    weightRestriction: 'Ограничение по весу',
+    allergy: 'Аллергия',
+    renalImpairment: 'Почечная недостаточность',
+    hepaticImpairment: 'Печеночная недостаточность',
+    
+    // Recommendations
+    calculationResults: 'Результаты расчета',
+    recommendations: 'Рекомендации:',
+    maxInfusionRate: '• Максимальная скорость инфузии калия: 20 ммоль/час',
+    monitorPotassium: '• Контролировать уровень калия каждые 2-4 часа',
+    stopInfusion: '• При уровне калия > 5.5 ммоль/л прекратить инфузию',
+    ecgMonitoring: '• Мониторинг ЭКГ при тяжелой гипокалиемии',
+    
+    // Antibiotic calculator specific
+    timeFromInjury: 'Время с момента травмы',
+    surgeryDuration: 'Длительность операции',
+    hasDiabetes: 'Сахарный диабет',
+    hasImmunodeficiency: 'Иммунодефицит',
+    hasVascularDisease: 'Сосудистые заболевания',
+    hasMalnutrition: 'Недоедание',
+    hasAllergies: 'Аллергии',
+    allergies: 'Аллергии',
+    renalFunction: 'Функция почек',
+    isDelayedClosure: 'Отсроченное закрытие',
+    hours: 'часов',
+    minutes: 'минут',
+    riskLevel: 'Уровень риска',
+    low: 'Низкий',
+    medium: 'Средний',
+    high: 'Высокий',
+    immediateIndication: 'Немедленное показание',
+    antibioticNeeded: 'Антибиотикопрофилактика необходима',
+    antibioticNotNeeded: 'Антибиотикопрофилактика не необходима',
+    riskFactors: 'Факторы риска',
+    patientFactors: 'Факторы пациента',
+    woundFactors: 'Факторы раны',
+    environmentalFactors: 'Факторы окружающей среды',
+    
+    // Section headers
+    step1WoundAssessment: 'Шаг 1: Первичная оценка раны',
+    step2PatientFactors: 'Шаг 2: Факторы пациента',
+    step3AllergiesAndAdditional: 'Шаг 3: Аллергии и дополнительные параметры',
+    
+    // Route options
+    oral: 'Перорально',
+    intravenous: 'Внутривенно',
+    intramuscular: 'Внутримышечно',
+    subcutaneous: 'Подкожно',
+    routeOfAdministration: 'Путь введения',
+    indication: 'Показание к применению',
+    indicationPlaceholder: 'Например: Лихорадка, Боль, Инфекция...',
+    safety: 'Безопасность',
+    safe: 'БЕЗОПАСЕН',
+    notSafe: 'НЕ БЕЗОПАСЕН',
+    contraindication: 'Противопоказание',
+    contraindicationReason: 'Причина противопоказания',
+    medicationNotFound: 'Препарат не найден в базе данных',
+    consultDoctor: 'Проконсультируйтесь с врачом для получения точной информации о дозировке',
+    contraindicatedForAge: 'Препарат противопоказан детям младше',
+    contraindicatedForWeight: 'лет или весом менее',
+    dosingRecommendations: 'Рекомендации по дозировке',
+    doseRange: 'Диапазон доз',
+    frequency: 'Частота приема',
+    dailyDose: 'Суточная доза',
+    bodySurfaceArea: 'Площадь поверхности тела',
+    importantWarnings: 'Важные предупреждения',
+    disclaimer: 'Важно',
+    disclaimerText: 'Данный калькулятор предназначен только для информационных целей. Все назначения должны производиться квалифицированным медицинским персоналом с учетом индивидуальных особенностей пациента и клинической ситуации.',
+    age: 'Возраст',
+    weight: 'Вес',
+    route: 'Путь введения',
+    category: 'Категория',
+    notSpecified: 'Не указан',
+    availableMedications: 'Доступные препараты в базе',
+    medications: 'препаратов',
+    medication: 'Препарат',
+    verified: 'Проверено',
+    medicationCategories: 'Категории препаратов',
+    speciallyAdded: 'Специально добавленные препараты',
+    verifiedDoses: 'Проверенные дозировки',
+    emergencyMedications: 'Препараты неотложной помощи',
+    quickSearch: 'Быстрый поиск препаратов',
+    searchPlaceholder: 'Введите название препарата для поиска...',
+    allCategories: 'Все категории',
+    clickToSelect: 'Кликните для выбора',
+    hideMedicationList: 'Скрыть список препаратов',
+    showMedicationList: 'Показать список препаратов',
+    
+    // Electrolyte correction calculator
+    electrolyteCorrection: 'Калькулятор коррекции электролитов',
+    electrolyteCorrectionDesc: 'Комплексный калькулятор для коррекции нарушений калия, натрия, магния и кальция',
+    selectElectrolyte: 'Выберите электролит',
+    selectCorrectionType: 'Выберите тип коррекции',
+    currentLevel: 'Текущий уровень',
+    albumin: 'Альбумин',
+    gdL: 'г/дл',
+    hasEcgChanges: 'Изменения на ЭКГ',
+    hasSymptoms: 'Симптомы присутствуют',
+    normal: 'Нормальная',
+    mild: 'Легкая',
+    moderate: 'Умеренная',
+    severe: 'Тяжелая',
+    correctedLevel: 'Скорректированный уровень',
+    deficit: 'Дефицит',
+    excess: 'Избыток',
+    recommendedDoses: 'Рекомендуемые дозы',
+    emergencyActions: 'Неотложные действия',
+    warnings: 'Предупреждения',
+    
+    // Electrolyte types
+    electrolytePotassium: 'Калий',
+    electrolyteSodium: 'Натрий',
+    electrolyteMagnesium: 'Магний',
+    electrolyteCalcium: 'Кальций',
+    
+    // Correction types
+    correctionHypo: 'Гипо',
+    correctionHyper: 'Гипер',
+    
+    // Units
+    unitMgdL: 'мг/дл',
+    unitMEqL: 'мЭкв/л',
+    unitGL: 'г/л',
+    
+    // Additional electrolyte calculator translations
+    mmol: 'ммоль',
+    tablets: 'таблеток',
+    timesPerDay: 'раз в день',
+    takeAfterMeals: 'Принимать после еды',
+    maxSpeed: 'Максимальная скорость',
+    infusion24Hours: 'Инфузия 24 часа',
+    alternativeToAsparkam: 'Альтернатива аспаркаму',
+    slowCorrection: 'Медленная коррекция',
+    osmoticDemyelination: 'осмотической демиелинизации',
+    monitorSodium: 'Контроль уровня натрия',
+    tendonReflexes: 'Мониторинг сухожильных рефлексов',
+    monitorMagnesium: 'Контроль уровня магния',
+    maxSpeed1gHour: 'Максимальная скорость 1 г/час',
+    maxSpeed10mEqHour: 'Максимальная скорость 10 мЭкв/час',
+    monitorECG: 'Мониторинг ЭКГ',
+    monitorCalcium: 'Контроль уровня кальция',
+    severeHyperkalemia: 'Тяжелая гиперкалиемия',
+    emergencyCare: 'требуется неотложная помощь',
+    significantSodiumDeviation: 'Значительное отклонение натрия',
+    carefulCorrection: 'требуется осторожная коррекция',
+    membraneStabilization: 'стабилизация мембран',
+    insulinGlucose: 'Инсулин 10 ЕД + глюкоза 50% 50 мл IV',
+    sodiumBicarbonate: 'Натрия бикарбонат 50-100 мЭкв IV',
+    acidosis: 'при ацидозе',
+    salbutamol: 'Сальбутамол 10-20 мг',
+    inhaled: 'ингаляционно',
+    furosemide: 'Фуросемид',
+    preservedKidneyFunction: 'При сохранной функции почек',
+    continuousECG: 'Непрерывный мониторинг ЭКГ',
+    monitorPotassiumEvery: 'Контроль уровня калия каждые 1-2 часа',
+    considerHemodialysis: 'Рассмотреть гемодиализ при уровне > 7.0 ммоль/л',
+    dextrose5: 'Декстроза 5%',
+    magnesiumAntagonist: 'Антагонист магния',
+    enhanceExcretion: 'Усиление экскреции',
+    considerHemodialysisMagnesium: 'Рассмотреть гемодиализ при тяжелой гипермагниемии',
+    calcitonin: 'Кальцитонин',
+    zoledronicAcid: 'Золедроновая кислота',
+    infusion60Minutes: 'Инфузия 60 минут',
+    hydration: 'Гидратация',
+    physiologicalSolution: 'физиологическим раствором',
+    monitorKidneyFunction: 'Мониторинг функции почек',
+    severeHypokalemia: 'при тяжелой гипокалиемии',
+    every2to4Hours: 'каждые 2-4 часа',
+    stopInfusionIfPotassiumHigh: 'При уровне калия > 5.5 ммоль/л прекратить инфузию',
+    oralCourse3to4Weeks: 'Пероральный курс: 3-4 недели с возможностью повторения',
+    forBetterTolerability: 'для лучшей переносимости',
+    toPrevent: 'для предотвращения',
+    every6to12Hours: 'каждые 6-12 часов',
+    severeHypocalcemia: 'при тяжелой гипокальциемии',
+    notMoreThan: 'не более',
+    moreConcentratedSolution: 'Более концентрированный раствор',
+  },
+  
+  uk: {
+    // Navigation
+    home: 'Головна',
+    potassium: 'Калій',
+    wounds: 'Рани',
+    children: 'Діти',
+    about: 'Про нас',
+    
+    // Header
+    welcome: 'Ласкаво просимо до MDcalc',
+    welcomeSubtitle: 'Ваш надійний помічник у медичних розрахунках',
+    
+    // Calculator titles and descriptions
+    potassiumCorrection: 'Корекція рівня калію',
+    potassiumCorrectionDesc: 'Розрахунок дози Аспаркаму та KCl для корекції калію з урахуванням ваги пацієнта та цільового рівня.',
+    antibioticProphylaxis: 'Антибіотикопрофілактика при ранах',
+    antibioticProphylaxisDesc: 'Алгоритм прийняття рішення про призначення антибіотикопрофілактики згідно з сучасними рекомендаціями.',
+    pediatricDoses: 'Дитячі дози препаратів',
+    pediatricDosesDesc: 'Розрахунок дитячих доз препаратів з урахуванням віку та ваги дитини. Перевірка безпеки та протипоказань.',
+    glasgowComaScale: 'Шкала коми Глазго (ШКГ)',
+    glasgowComaScaleDesc: 'Оцінка рівня свідомості пацієнта за шкалою Глазго.',
+    comingSoon: 'Незабаром',
+    
+    // Actions
+    startCalculation: 'Почати розрахунок',
+    backToCalculators: '← Назад до калькуляторів',
+    
+    // Footer
+    copyright: '© 2025 MDcalc. Всі права захищені.',
+    
+    // Calculator specific
+    currentPotassiumLevel: 'Поточний рівень калію',
+    patientWeight: 'Вага пацієнта',
+    mmolL: 'ммоль/л',
+    kg: 'кг',
+    targetPotassiumLevel: 'Цільовий рівень калію',
+    targetPotassiumLevelDesc: 'Цільовий рівень калію: 4.5 ммоль/л (фіксоване значення)',
+    useAsparkam: 'Використовувати аспаркам',
+    useAsparkamDesc: 'Якщо не відмічено, буде використаний калію хлорид 7.5%',
+    calculate: 'Розрахувати',
+    reset: 'Скинути',
+    pleaseFillAllFields: 'Будь ласка, заповніть всі необхідні поля',
+    
+    // Results
+    potassiumDeficit: 'Дефіцит калію',
+    asparkamDose: 'Доза аспаркаму',
+    potassiumChlorideDose: 'Доза калію хлориду',
+    infusionRate: 'Швидкість інфузії',
+    duration: 'Тривалість',
+    ml: 'мл',
+    mmolHour: 'ммоль/год',
+    
+    // Wound calculator
+    woundType: 'Тип рани',
+    woundLocation: 'Локалізація рани',
+    woundAge: 'Вік рани',
+    patientAge: 'Вік пацієнта',
+    diabetes: 'Цукровий діабет',
+    immunosuppression: 'Імуносупресія',
+    woundDepth: 'Глибина рани',
+    contaminationLevel: 'Рівень забруднення',
+    selectWoundType: 'Виберіть тип рани',
+    selectLocation: 'Виберіть локалізацію',
+    selectDepth: 'Виберіть глибину',
+    selectContamination: 'Виберіть рівень забруднення',
+    superficial: 'Поверхнева',
+    deep: 'Глибока',
+    clean: 'Чиста',
+    contaminated: 'Забруднена',
+    dirty: 'Брудна',
+    head: 'Голова',
+    neck: 'Шия',
+    trunk: 'Тулуб',
+    extremities: 'Кінцівки',
+    hands: 'Кисті',
+    feet: 'Стопи',
+    laceration: 'Рвана',
+    puncture: 'Колота',
+    bite: 'Укус',
+    burn: 'Опік',
+    abrasion: 'Подряпина',
+    avulsion: 'Відривна',
+    crush: 'Розчавлена',
+    gunshot: 'Куляна',
+    other: 'Інша',
+    lessThan6Hours: 'Менше 6 годин',
+    moreThan6Hours: 'Більше 6 годин',
+    lessThan50: 'Менше 50 років',
+    moreThan50: 'Більше 50 років',
+    yes: 'Так',
+    no: 'Ні',
+    antibioticRecommended: 'Антибіотикопрофілактика рекомендується',
+    antibioticNotRecommended: 'Антибіотикопрофілактика не рекомендується',
+    recommendation: 'Рекомендація',
+    reasoning: 'Обґрунтування',
+    
+    // Pediatric calculator
+    medicationName: 'Назва препарату',
+    childAge: 'Вік дитини',
+    childWeight: 'Вага дитини',
+    childHeight: 'Зріст дитини',
+    years: 'років',
+    months: 'місяців',
+    cm: 'см',
+    selectMedication: 'Виберіть препарат',
+    recommendedDose: 'Рекомендована доза',
+    maxDose: 'Максимальна доза',
+    contraindications: 'Протипоказання',
+    notes: 'Примітки',
+    mg: 'мг',
+    mgKg: 'мг/кг',
+    every4Hours: 'кожні 4 години',
+    every6Hours: 'кожні 6 годин',
+    every8Hours: 'кожні 8 годин',
+    every12Hours: 'кожні 12 годин',
+    daily: 'на добу',
+    asNeeded: 'за необхідності',
+    none: 'Немає',
+    every4to6Hours: 'кожні 4-6 годин',
+    every6to8Hours: 'кожні 6-8 годин',
+    every8to12Hours: 'кожні 8-12 годин',
+    once: 'одноразово',
+    ageRestriction: 'Вікове обмеження',
+    weightRestriction: 'Обмеження за вагою',
+    allergy: 'Алергія',
+    renalImpairment: 'Ниркова недостатність',
+    hepaticImpairment: 'Печінкова недостатність',
+    
+    // Recommendations
+    calculationResults: 'Результати розрахунку',
+    recommendations: 'Рекомендації:',
+    maxInfusionRate: '• Максимальна швидкість інфузії калію: 20 ммоль/год',
+    monitorPotassium: '• Контролювати рівень калію кожні 2-4 години',
+    stopInfusion: '• При рівні калію > 5.5 ммоль/л припинити інфузію',
+    ecgMonitoring: '• Моніторинг ЕКГ при важкій гіпокаліємії',
+    
+    // Antibiotic calculator specific
+    timeFromInjury: 'Час з моменту травми',
+    surgeryDuration: 'Тривалість операції',
+    hasDiabetes: 'Цукровий діабет',
+    hasImmunodeficiency: 'Імунодефіцит',
+    hasVascularDisease: 'Судінні захворювання',
+    hasMalnutrition: 'Недоїдання',
+    hasAllergies: 'Алергії',
+    allergies: 'Алергії',
+    renalFunction: 'Функція нирок',
+    isDelayedClosure: 'Відстрочене закриття',
+    hours: 'годин',
+    minutes: 'хвилин',
+    riskLevel: 'Рівень ризику',
+    low: 'Низький',
+    medium: 'Середній',
+    high: 'Високий',
+    immediateIndication: 'Негайне показання',
+    antibioticNeeded: 'Антибіотикопрофілактика необхідна',
+    antibioticNotNeeded: 'Антибіотикопрофілактика не необхідна',
+    riskFactors: 'Фактори ризику',
+    patientFactors: 'Фактори пацієнта',
+    woundFactors: 'Фактори рани',
+    environmentalFactors: 'Фактори навколишнього середовища',
+    
+    // Section headers
+    step1WoundAssessment: 'Крок 1: Первинна оцінка рани',
+    step2PatientFactors: 'Крок 2: Фактори пацієнта',
+    step3AllergiesAndAdditional: 'Крок 3: Алергії та додаткові параметри',
+    
+    // Route options
+    oral: 'Перорально',
+    intravenous: 'Внутрішньовенно',
+    intramuscular: 'Внутрішньом\'язово',
+    subcutaneous: 'Підшкірно',
+    routeOfAdministration: 'Шлях введення',
+    indication: 'Показання до застосування',
+    indicationPlaceholder: 'Наприклад: Лихоманка, Біль, Інфекція...',
+    safety: 'Безпека',
+    safe: 'БЕЗПЕЧНИЙ',
+    notSafe: 'НЕ БЕЗПЕЧНИЙ',
+    contraindication: 'Протипоказання',
+    contraindicationReason: 'Причина протипоказання',
+    medicationNotFound: 'Препарат не знайдено в базі даних',
+    consultDoctor: 'Проконсультуйтесь з лікарем для отримання точної інформації про дозування',
+    contraindicatedForAge: 'Препарат протипоказаний дітям молодше',
+    contraindicatedForWeight: 'років або вагою менше',
+    dosingRecommendations: 'Рекомендації щодо дозування',
+    doseRange: 'Діапазон доз',
+    frequency: 'Частота прийому',
+    dailyDose: 'Добова доза',
+    bodySurfaceArea: 'Площа поверхні тіла',
+    importantWarnings: 'Важливі попередження',
+    disclaimer: 'Важливо',
+    disclaimerText: 'Даний калькулятор призначений тільки для інформаційних цілей. Всі призначення повинні проводитися кваліфікованим медичним персоналом з урахуванням індивідуальних особливостей пацієнта та клінічної ситуації.',
+    age: 'Вік',
+    weight: 'Вага',
+    route: 'Шлях введення',
+    category: 'Категорія',
+    notSpecified: 'Не вказано',
+    availableMedications: 'Доступні препарати в базі',
+    medications: 'препаратів',
+    medication: 'Препарат',
+    verified: 'Перевірено',
+    medicationCategories: 'Категорії препаратів',
+    speciallyAdded: 'Спеціально додані препарати',
+    verifiedDoses: 'Перевірені дозування',
+    emergencyMedications: 'Препарати невідкладної допомоги',
+    quickSearch: 'Швидкий пошук препаратів',
+    searchPlaceholder: 'Введіть назву препарату для пошуку...',
+    allCategories: 'Всі категорії',
+    clickToSelect: 'Клікніть для вибору',
+    hideMedicationList: 'Сховати список препаратів',
+    showMedicationList: 'Показати список препаратів',
+    
+    // Electrolyte correction calculator
+    electrolyteCorrection: 'Калькулятор корекції електролітів',
+    electrolyteCorrectionDesc: 'Комплексний калькулятор для корекції порушень калію, натрію, магнію та кальцію',
+    selectElectrolyte: 'Виберіть електроліт',
+    selectCorrectionType: 'Виберіть тип корекції',
+    currentLevel: 'Поточний рівень',
+    albumin: 'Альбумін',
+    gdL: 'г/дл',
+    hasEcgChanges: 'Зміни на ЕКГ',
+    hasSymptoms: 'Симптоми присутні',
+    normal: 'Нормальна',
+    mild: 'Легка',
+    moderate: 'Помірна',
+    severe: 'Важка',
+    correctedLevel: 'Скоригований рівень',
+    deficit: 'Дефіцит',
+    excess: 'Надлишок',
+    recommendedDoses: 'Рекомендовані дози',
+    emergencyActions: 'Термінові дії',
+    warnings: 'Попередження',
+    
+    // Electrolyte types
+    electrolytePotassium: 'Калій',
+    electrolyteSodium: 'Натрій',
+    electrolyteMagnesium: 'Магній',
+    electrolyteCalcium: 'Кальцій',
+    
+    // Correction types
+    correctionHypo: 'Гіпо',
+    correctionHyper: 'Гіпер',
+    
+    // Units
+    unitMgdL: 'мг/дл',
+    unitMEqL: 'мЕкв/л',
+    unitGL: 'г/л',
+    
+    // Additional electrolyte calculator translations
+    mmol: 'ммоль',
+    tablets: 'таблеток',
+    timesPerDay: 'разів на день',
+    takeAfterMeals: 'Приймати після їжі',
+    maxSpeed: 'Максимальна швидкість',
+    infusion24Hours: 'Інфузія 24 години',
+    alternativeToAsparkam: 'Альтернатива аспаркаму',
+    slowCorrection: 'Повільна корекція',
+    osmoticDemyelination: 'осмотичної демієлінізації',
+    monitorSodium: 'Контроль рівня натрію',
+    tendonReflexes: 'Моніторинг сухожильних рефлексів',
+    monitorMagnesium: 'Контроль рівня магнію',
+    maxSpeed1gHour: 'Максимальна швидкість 1 г/год',
+    maxSpeed10mEqHour: 'Максимальна швидкість 10 мЕкв/год',
+    monitorECG: 'Моніторинг ЕКГ',
+    monitorCalcium: 'Контроль рівня кальцію',
+    severeHyperkalemia: 'Важка гіперкаліємія',
+    emergencyCare: 'потребує невідкладної допомоги',
+    significantSodiumDeviation: 'Значне відхилення натрію',
+    carefulCorrection: 'потребує обережної корекції',
+    membraneStabilization: 'стабілізація мембран',
+    insulinGlucose: 'Інсулін 10 ОД + глюкоза 50% 50 мл IV',
+    sodiumBicarbonate: 'Натрію бікарбонат 50-100 мЕкв IV',
+    acidosis: 'при ацидозі',
+    salbutamol: 'Сальбутамол 10-20 мг',
+    inhaled: 'інгаляційно',
+    furosemide: 'Фуросемід',
+    preservedKidneyFunction: 'При збереженій функції нирок',
+    continuousECG: 'Безперервний моніторинг ЕКГ',
+    monitorPotassiumEvery: 'Контроль рівня калію кожні 1-2 години',
+    considerHemodialysis: 'Розглянути гемодіаліз при рівні > 7.0 ммоль/л',
+    dextrose5: 'Декстроза 5%',
+    magnesiumAntagonist: 'Антагоніст магнію',
+    enhanceExcretion: 'Посилення екскреції',
+    considerHemodialysisMagnesium: 'Розглянути гемодіаліз при важкій гіпермагніємії',
+    calcitonin: 'Кальцитонін',
+    zoledronicAcid: 'Золедронова кислота',
+    infusion60Minutes: 'Інфузія 60 хвилин',
+    hydration: 'Гідратація',
+    physiologicalSolution: 'фізіологічним розчином',
+    monitorKidneyFunction: 'Моніторинг функції нирок',
+    severeHypokalemia: 'при важкій гіпокаліємії',
+    every2to4Hours: 'кожні 2-4 години',
+    stopInfusionIfPotassiumHigh: 'При рівні калію > 5.5 ммоль/л припинити інфузію',
+    oralCourse3to4Weeks: 'Пероральний курс: 3-4 тижні з можливістю повторення',
+    forBetterTolerability: 'для кращої переносимості',
+    toPrevent: 'для запобігання',
+    every6to12Hours: 'кожні 6-12 годин',
+    severeHypocalcemia: 'при важкій гіпокальціємії',
+    notMoreThan: 'не більше',
+    moreConcentratedSolution: 'Більш концентрований розчин',
+  },
+}; 
