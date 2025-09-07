@@ -106,4 +106,4 @@ Where:
 
 ## Disclaimer
 
-This calculator is designed for educational and clinical decision support purposes. It should be used in conjunction with clinical judgment and appropriate medical supervision. The authors are not responsible for any clinical decisions made based on the results of this calculator. 
+This calculator is designed for educational and clinical decision support purposes. It should be used in conjunction with clinical judgment and appropriate medical supervision. The authors are not responsible for any clinical decisions made based on the results of this calculator.
