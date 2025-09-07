@@ -26,7 +26,7 @@ interface BloodGasData {
   urineNa: number | null;
   urineK: number | null;
   urineCl: number | null;
-  // Поля для расчета BE по формуле Siggaard-Andersen
+  // Поля для расчета BE по формуле Zander-van Slyke
   hemoglobin: number | null; // Концентрация гемоглобина (g/dL)
   oxygenSaturation: number | null; // Насыщение кислородом (0.0-1.0)
 }
@@ -115,7 +115,7 @@ export const BloodGasAnalysisCalculator: React.FC = () => {
     urineNa: 50,
     urineK: 20,
     urineCl: 60,
-    // Поля для расчета BE по формуле Siggaard-Andersen
+    // Поля для расчета BE по формуле Zander-van Slyke
     hemoglobin: 14.0,
     oxygenSaturation: 0.98,
   });
@@ -212,7 +212,7 @@ export const BloodGasAnalysisCalculator: React.FC = () => {
     return hco3 + (pco2 * 0.0307); // HCO3 + (PCO2 * 0.0307)
   };
 
-  // Calculate Base Excess using Siggaard-Andersen formula
+  // Calculate Base Excess using Zander-van Slyke formula
   const calculateBaseExcess = (
     ph: number | null, 
     pco2: number | null, 
@@ -351,10 +351,10 @@ export const BloodGasAnalysisCalculator: React.FC = () => {
 
     // Информация о новом методе расчета BE
     if (data.hemoglobin !== null && data.oxygenSaturation !== null) {
-      reasoning.push(`BE рассчитан по формуле Siggaard-Andersen с учетом гемоглобина (${data.hemoglobin} г/дл) и насыщения O2 (${(data.oxygenSaturation * 100).toFixed(1)}%)`);
-      reasoning.push('Формула Siggaard-Andersen: BE = (1 – 0.0143 × cHb) × [[0.0304 × PaCO₂ × 10^(pH – 6.1) – 24.26] + (9.5 + 1.63 × cHb) × (pH – 7.4)] – 0.2 × cHb × (1 – sO₂)');
+      reasoning.push(`BE рассчитан по формуле Zander-van Slyke с учетом гемоглобина (${data.hemoglobin} г/дл) и насыщения O2 (${(data.oxygenSaturation * 100).toFixed(1)}%)`);
+      reasoning.push('Формула Zander-van Slyke: BE = (1 – 0.0143 × cHb) × [[0.0304 × PaCO₂ × 10^(pH – 6.1) – 24.26] + (9.5 + 1.63 × cHb) × (pH – 7.4)] – 0.2 × cHb × (1 – sO₂)');
     } else {
-      reasoning.push('BE рассчитан по упрощенной формуле (требуются гемоглобин и насыщение O2 для точного расчета по Siggaard-Andersen)');
+      reasoning.push('BE рассчитан по упрощенной формуле (требуются гемоглобин и насыщение O2 для точного расчета по Zander-van Slyke)');
     }
 
     // Determine primary acid-base disorder with reasoning
@@ -941,7 +941,7 @@ ${result.anionGapCorrected !== null ? `Скорректированный AnionG
 ${data.pao2 ? `PaO2: ${data.pao2} mmHg - ${result.pao2Status}` : ''}
 ${result.oxygenationIndex ? `Индекс оксигенации: ${result.oxygenationIndex.toFixed(0)}` : ''}
 Общая концентрация CO2: ${result.totalCO2.toFixed(1)} mmol/L
-Избыток оснований: ${result.baseExcess !== null && result.baseExcess !== undefined ? result.baseExcess.toFixed(1) : 'Н/Д'} mmol/L (по формуле Siggaard-Andersen)
+Избыток оснований: ${result.baseExcess !== null && result.baseExcess !== undefined ? result.baseExcess.toFixed(1) : 'Н/Д'} mmol/L (по формуле Zander-van Slyke)
 Концентрация [H+]: ${result.hydrogenIon.toFixed(10)} nM
 Альвеолярно-артериальный градиент O2: ${result.aaGradient !== null && result.aaGradient !== undefined ? result.aaGradient.toFixed(1) : 'не вычисляется'} mmHg
 
@@ -1024,7 +1024,7 @@ ${result.treatmentAdvice.specificAdvice.length > 0 ?
     <div className="max-w-7xl mx-auto p-4 space-y-6">
       <Card 
         title="🩸 Калькулятор анализа газов крови"
-        subtitle="Расчет анионного промежутка, формулы Винтера, BE по Siggaard-Andersen, интерпретация кислотно-щелочного баланса"
+        subtitle="Расчет анионного промежутка, формулы Винтера, BE по Zander-van Slyke, интерпретация кислотно-щелочного баланса"
         className="w-full bg-slate-800 border-slate-700 text-slate-100"
       >
         <div className="space-y-8">
@@ -1256,7 +1256,7 @@ ${result.treatmentAdvice.specificAdvice.length > 0 ?
                 step={0.1}
                 precision={1}
                 required={false}
-                helperText="Концентрация гемоглобина для расчета BE по формуле Siggaard-Andersen"
+                helperText="Концентрация гемоглобина для расчета BE по формуле Zander-van Slyke"
               />
               <NumberInput
                 label="Насыщение O2 (0.0-1.0)"
@@ -1267,7 +1267,7 @@ ${result.treatmentAdvice.specificAdvice.length > 0 ?
                 step={0.01}
                 precision={2}
                 required={false}
-                helperText="Насыщение кислородом (0.0-1.0) для расчета BE по формуле Siggaard-Andersen"
+                helperText="Насыщение кислородом (0.0-1.0) для расчета BE по формуле Zander-van Slyke"
               />
             </div>
           )}
@@ -1481,7 +1481,7 @@ ${result.treatmentAdvice.specificAdvice.length > 0 ?
                     </div>
                     <div className="text-sm text-slate-400 mt-2">mmol/L</div>
                     <div className="text-xs text-slate-500 mt-1">
-                      По формуле Siggaard-Andersen
+                      По формуле Zander-van Slyke
                     </div>
                   </div>
                 </div>
