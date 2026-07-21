@@ -128,8 +128,8 @@ export const PediatricDoseCalculator: React.FC = () => {
         // Для ондасетрона
         else if (medication.name.toLowerCase().includes('ондасетрон')) {
           if (inputs.route === 'iv') {
-            selectedDose = 0.1;
-            routeSpecificDose = 0.1;
+            selectedDose = 0.15;
+            routeSpecificDose = 0.15;
           }
         }
         // Для других препаратов - общая логика
