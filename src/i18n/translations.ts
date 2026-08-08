@@ -303,6 +303,95 @@ export interface Translations {
   severeHypocalcemia: string;
   notMoreThan: string;
   moreConcentratedSolution: string;
+
+  // Intubation calculator specific
+  intubationTitle: string;
+  intubationSubtitle: string;
+  patientDataSection: string;
+  genderLabel: string;
+  maleGender: string;
+  femaleGender: string;
+  ageYearsLabel: string;
+  heightCmLabel: string;
+  actualWeightTbwLabel: string;
+  lbwFormulaLabel: string;
+  janmahasatianGoldStandard: string;
+  jamesClassic: string;
+  relaxantForIntubationLabel: string;
+  showBothRelaxants: string;
+  rocuroniumDoseRangeOption: string;
+  atracuriumDoseRangeOption: string;
+  showConcSettings: string;
+  hideConcSettings: string;
+  propofolConcLabel: string;
+  fentanylConcLabel: string;
+  rocuroniumConcLabel: string;
+  atracuriumConcLabel: string;
+  anthropometricMatrixTitle: string;
+  tbwMatrixLabel: string;
+  ibwMatrixLabel: string;
+  lbwJanMatrixLabel: string;
+  lbwJamesMatrixLabel: string;
+  abwMatrixLabel: string;
+  bmiMatrixLabel: string;
+  ventilationVtParamLabel: string;
+  obesityWarningText: string;
+  dosageFineTuningTitle: string;
+  propofolInductionSliderLabel: string;
+  propofolMaintSliderLabel: string;
+  fentanylInductionSliderLabel: string;
+  fentanylMaintSliderLabel: string;
+  rocuroniumInductionSliderLabel: string;
+  atracuriumInductionSliderLabel: string;
+  standardLabel: string;
+  minLabel: string;
+  maxLabel: string;
+  summaryTableTitle: string;
+  colDrugAndPhase: string;
+  colBaseWeight: string;
+  colDoseRange: string;
+  colCalculatedDose: string;
+  colVolumeOrSpeed: string;
+  colWeightRationale: string;
+  propofolInductionExp: string;
+  propofolMaintExp: string;
+  fentanylInductionExp: string;
+  fentanylMaintExp: string;
+  rocuroniumExp: string;
+  atracuriumExp: string;
+  cheatSheetTitle: string;
+  cheatSheetSubtitle: string;
+  colClinicalParam: string;
+  colScalarUsed: string;
+  colPhysioRationale: string;
+  paramVentVt: string;
+  rationaleVentVt: string;
+  paramPropInduction: string;
+  rationalePropInduction: string;
+  paramPropMaintenance: string;
+  rationalePropMaintenance: string;
+  paramRelaxants: string;
+  rationaleRelaxants: string;
+  paramSuxamethonium: string;
+  rationaleSuxamethonium: string;
+  paramFentanyl: string;
+  rationaleFentanyl: string;
+  paramAminoglycosides: string;
+  rationaleAminoglycosides: string;
+  propofolName: string;
+  propofolMaintName: string;
+  fentanylName: string;
+  fentanylMaintName: string;
+  rocuroniumName: string;
+  atracuriumName: string;
+  unitMgKg: string;
+  unitMcgKgMin: string;
+  unitMcgKg: string;
+  unitMcgKgHour: string;
+  unitMgHour: string;
+  unitMcgHour: string;
+  unitMl: string;
+  unitMlHour: string;
 }
 
 export const translations: Record<Language, Translations> = {
@@ -607,6 +696,95 @@ export const translations: Record<Language, Translations> = {
     severeHypocalcemia: 'in severe hypocalcemia',
     notMoreThan: 'not more than',
     moreConcentratedSolution: 'More concentrated solution',
+
+    // Intubation calculator specific
+    intubationTitle: 'Intubation & Body Weight Drug Dosage Calculator',
+    intubationSubtitle: 'Accurate dosage calculation for hypnotics (Propofol), analgesics (Fentanyl), and muscle relaxants (Rocuronium / Atracurium) for induction and maintenance considering anthropometric parameters (TBW, IBW, LBW Janmahasatian/James, ABW) and mechanical ventilation parameters (Vt).',
+    patientDataSection: '1. Patient Data',
+    genderLabel: 'Gender',
+    maleGender: 'Male',
+    femaleGender: 'Female',
+    ageYearsLabel: 'Age (years)',
+    heightCmLabel: 'Height (cm)',
+    actualWeightTbwLabel: 'Actual Body Weight TBW (kg)',
+    lbwFormulaLabel: 'LBW Formula (Lean Body Weight)',
+    janmahasatianGoldStandard: 'Janmahasatian (2005) — Gold Standard',
+    jamesClassic: 'James (1976) — Classic',
+    relaxantForIntubationLabel: 'Muscle Relaxant for Intubation',
+    showBothRelaxants: 'Show Rocuronium & Atracurium',
+    rocuroniumDoseRangeOption: 'Rocuronium (0.6 - 1.2 mg/kg)',
+    atracuriumDoseRangeOption: 'Atracurium (0.4 - 0.5 mg/kg)',
+    showConcSettings: 'Solution Concentration Settings (mg/ml)',
+    hideConcSettings: 'Hide Concentration Settings',
+    propofolConcLabel: 'Propofol (mg/ml)',
+    fentanylConcLabel: 'Fentanyl (mcg/ml)',
+    rocuroniumConcLabel: 'Rocuronium (mg/ml)',
+    atracuriumConcLabel: 'Atracurium (mg/ml)',
+    anthropometricMatrixTitle: 'Anthropometric Matrix',
+    tbwMatrixLabel: 'TBW (Actual weight):',
+    ibwMatrixLabel: 'IBW (Ideal weight - Devine):',
+    lbwJanMatrixLabel: 'LBW (Lean weight - Janmahasatian):',
+    lbwJamesMatrixLabel: 'LBW (Lean weight - James):',
+    abwMatrixLabel: 'ABW (Adjusted weight):',
+    bmiMatrixLabel: 'BMI:',
+    ventilationVtParamLabel: 'Ventilation Tidal Vol (Vt):',
+    obesityWarningText: '⚠️ Warning (Obesity BMI ≥ 30): Actual weight significantly exceeds ideal weight. Using TBW for Propofol induction or muscle relaxants will cause severe overdose!',
+    dosageFineTuningTitle: '2. Interactive Target Dosage Tuning',
+    propofolInductionSliderLabel: 'Propofol Induction (LBW):',
+    propofolMaintSliderLabel: 'Propofol Infusion (TBW):',
+    fentanylInductionSliderLabel: 'Fentanyl Induction (LBW):',
+    fentanylMaintSliderLabel: 'Fentanyl Infusion (LBW):',
+    rocuroniumInductionSliderLabel: 'Rocuronium Induction (IBW):',
+    atracuriumInductionSliderLabel: 'Atracurium Induction (IBW):',
+    standardLabel: 'Standard',
+    minLabel: 'Min',
+    maxLabel: 'Max',
+    summaryTableTitle: '3. Summary Dosing Table',
+    colDrugAndPhase: 'Drug & Phase',
+    colBaseWeight: 'Base Weight (kg)',
+    colDoseRange: 'Dose Range',
+    colCalculatedDose: 'Calculated Dose',
+    colVolumeOrSpeed: 'Volume / Rate',
+    colWeightRationale: 'Weight Category Rationale',
+    propofolInductionExp: 'Dose is calculated on LBW (lean body weight) to avoid severe hemodynamic instability in overweight patients.',
+    propofolMaintExp: 'Anesthesia maintenance is calculated on TBW (actual body weight) or TCI target concentration models.',
+    fentanylInductionExp: 'Analgesia induction is calculated on lean body weight (LBW).',
+    fentanylMaintExp: 'Fentanyl maintenance is dosed on lean body weight (LBW).',
+    rocuroniumExp: 'Muscle relaxant dose is calculated on ideal body weight (IBW) to prevent dangerous prolongation of neuromuscular blockade.',
+    atracuriumExp: 'Dosed on ideal body weight (IBW) to prevent prolonged blockade.',
+    cheatSheetTitle: 'Cheat Sheet: Body Weight Scalar Usage in ICU & Anesthesiology',
+    cheatSheetSubtitle: 'Guide for applying body weight scalars in clinical tasks:',
+    colClinicalParam: 'Clinical Parameter / Drug',
+    colScalarUsed: 'Calculated Body Weight',
+    colPhysioRationale: 'Physiological Rationale',
+    paramVentVt: 'Ventilation Parameters (Vt)',
+    rationaleVentVt: 'Lung size depends on height and gender, not fat mass. Prevents volutrauma.',
+    paramPropInduction: 'Propofol (Induction)',
+    rationalePropInduction: 'Prevents severe vasodilation and profound hypotension in obese patients.',
+    paramPropMaintenance: 'Propofol (Infusion / TCI)',
+    rationalePropMaintenance: 'Redistribution into adipose tissue during continuous infusion requires considering clearance and actual weight.',
+    paramRelaxants: 'Muscle Relaxants (Rocuronium, Vecuronium, Atracurium)',
+    rationaleRelaxants: 'Volume of distribution for hydrophilic relaxants does not scale with fat mass. Protects against prolonged block.',
+    paramSuxamethonium: 'Succinylcholine (Suxamethonium)',
+    rationaleSuxamethonium: 'Plasma pseudocholinesterase activity and blood volume are increased in obesity.',
+    paramFentanyl: 'Fentanyl (Induction & Maintenance Infusion)',
+    rationaleFentanyl: 'Lipophilic opioid, but primary central effects and pharmacokinetics correlate best with lean body mass.',
+    paramAminoglycosides: 'Aminoglycosides / Vancomycin',
+    rationaleAminoglycosides: 'Adipose tissue contains ~20-30% extracellular water. Correction prevents nephrotoxicity.',
+    propofolName: 'Propofol',
+    propofolMaintName: 'Propofol (Infusion)',
+    fentanylName: 'Fentanyl',
+    fentanylMaintName: 'Fentanyl (Infusion)',
+    rocuroniumName: 'Rocuronium',
+    atracuriumName: 'Atracurium',
+    unitMgKg: 'mg/kg',
+    unitMcgKgMin: 'mcg/kg/min',
+    unitMcgKg: 'mcg/kg',
+    unitMcgKgHour: 'mcg/kg/h',
+    unitMgHour: 'mg/h',
+    unitMcgHour: 'mcg/h',
+    unitMl: 'ml',
+    unitMlHour: 'ml/h',
   },
   
   ru: {
@@ -910,6 +1088,95 @@ export const translations: Record<Language, Translations> = {
     severeHypocalcemia: 'при тяжелой гипокальциемии',
     notMoreThan: 'не более',
     moreConcentratedSolution: 'Более концентрированный раствор',
+
+    // Intubation calculator specific
+    intubationTitle: 'Калькулятор доз препаратов для интубации и параметров масс тела',
+    intubationSubtitle: 'Точный расчет дозировок гипнотиков (Пропофол), анальгетиков (Фентанил) и миорелаксантов (Рокуроний / Атракуриум) для индукции и поддержания анестезии с учетом антропометрических показателей (TBW, IBW, LBW Жанмахасатиан/Джеймс, ABW) и параметров ИВЛ (Vt).',
+    patientDataSection: '1. Данные пациента',
+    genderLabel: 'Пол',
+    maleGender: 'Мужской',
+    femaleGender: 'Женский',
+    ageYearsLabel: 'Возраст (лет)',
+    heightCmLabel: 'Рост (см)',
+    actualWeightTbwLabel: 'Фактическая масса тела TBW (кг)',
+    lbwFormulaLabel: 'Формула LBW (Тощая масса)',
+    janmahasatianGoldStandard: 'Janmahasatian (2005) — Золотой стандарт',
+    jamesClassic: 'James (1976) — Классическая',
+    relaxantForIntubationLabel: 'Миорелаксант для интубации',
+    showBothRelaxants: 'Показать Рокуроний и Атракуриум',
+    rocuroniumDoseRangeOption: 'Рокуроний (0.6 - 1.2 мг/кг)',
+    atracuriumDoseRangeOption: 'Атракуриум (0.4 - 0.5 мг/кг)',
+    showConcSettings: 'Настройки концентраций растворов (мг/мл)',
+    hideConcSettings: 'Скрыть настройки концентраций',
+    propofolConcLabel: 'Пропофол (мг/мл)',
+    fentanylConcLabel: 'Фентанил (мкг/мл)',
+    rocuroniumConcLabel: 'Рокуроний (мг/мл)',
+    atracuriumConcLabel: 'Атракуриум (мг/мл)',
+    anthropometricMatrixTitle: 'Антропометрическая матрица',
+    tbwMatrixLabel: 'TBW (Фактический вес):',
+    ibwMatrixLabel: 'IBW (Идеальный вес - Devine):',
+    lbwJanMatrixLabel: 'LBW (Тощий вес - Janmahasatian):',
+    lbwJamesMatrixLabel: 'LBW (Тощий вес - James):',
+    abwMatrixLabel: 'ABW (Скорректированный):',
+    bmiMatrixLabel: 'ИМТ (BMI):',
+    ventilationVtParamLabel: 'ИВЛ Параметр ДО (Vt):',
+    obesityWarningText: '⚠️ Внимание (Ожирение ИМТ ≥ 30): Фактический вес значительно превосходит идеальный. Использование TBW для индукции пропофола или релаксантов приведет к тяжелой передозировке!',
+    dosageFineTuningTitle: '2. Интерактивная настройка целевых дозировок',
+    propofolInductionSliderLabel: 'Пропофол Индукция (LBW):',
+    propofolMaintSliderLabel: 'Пропофол Инфузия (TBW):',
+    fentanylInductionSliderLabel: 'Фентанил Индукция (LBW):',
+    fentanylMaintSliderLabel: 'Фентанил Инфузия (LBW):',
+    rocuroniumInductionSliderLabel: 'Рокуроний Индукция (IBW):',
+    atracuriumInductionSliderLabel: 'Атракуриум Индукция (IBW):',
+    standardLabel: 'Стандарт',
+    minLabel: 'Мин',
+    maxLabel: 'Макс',
+    summaryTableTitle: '3. Сводная таблица дозирования препаратов',
+    colDrugAndPhase: 'Препарат и Этап',
+    colBaseWeight: 'Базовый вес (кг)',
+    colDoseRange: 'Диапазон дозы',
+    colCalculatedDose: 'Рассчитанная доза',
+    colVolumeOrSpeed: 'Объем / Скорость',
+    colWeightRationale: 'Обоснование весовой категории',
+    propofolInductionExp: 'Доза рассчитывается по LBW (тощей массе) во избежание выраженной гемодинамической нестабильности у пациентов с избыточным весом.',
+    propofolMaintExp: 'Поддержание анестезии рассчитывается по TBW (фактическому весу) или целевой концентрации TCI.',
+    fentanylInductionExp: 'Индукция анальгезии рассчитывается по тощей массе тела (LBW).',
+    fentanylMaintExp: 'Поддержание фентанилом дозируется по тощей массе тела (LBW).',
+    rocuroniumExp: 'Доза миорелаксанта рассчитывается по идеальной массе (IBW) во избежание опасного удлинения нервно-мышечного блока.',
+    atracuriumExp: 'Дозируется по идеальной массе тела (IBW) для предотвращения пролонгированного блока.',
+    cheatSheetTitle: 'Шпаргалка применения массы тела в ОРИТ и анестезиологии',
+    cheatSheetSubtitle: 'Определяющий ориентир применения антропометрических масс при различных клинических задачах:',
+    colClinicalParam: 'Клинический параметр / Препарат',
+    colScalarUsed: 'Расчетная масса тела',
+    colPhysioRationale: 'Физиологическое обоснование',
+    paramVentVt: 'Параметры ИВЛ (Vt)',
+    rationaleVentVt: 'Размер легких зависит от роста и пола человека, а не от объема жировой ткани. Предотвращает волюмотравму.',
+    paramPropInduction: 'Пропофол (Индукция)',
+    rationalePropInduction: 'Предотвращает тяжелую вазодилатацию и глубокую гипотензию у пациентов с ожирением.',
+    paramPropMaintenance: 'Пропофол (Инфузия / TCI)',
+    rationalePropMaintenance: 'Перераспределение препарата в жировую ткань при продолжительном введении требует учета клиренса и фактической массы.',
+    paramRelaxants: 'Миорелаксанты (Рокуроний, Векуроний, Атракуриум)',
+    rationaleRelaxants: 'Объем распределения гидрофильных релаксантов не увеличивается пропорционально жировой массе. Защищает от затяжного блока.',
+    paramSuxamethonium: 'Суксаметоний (Дитилин)',
+    rationaleSuxamethonium: 'При ожирении уровень псевдохолинэстеразы плазмы и объем крови повышены.',
+    paramFentanyl: 'Фентанил (Индукция и поддерживающая инфузия)',
+    rationaleFentanyl: 'Липофильный опиоид, но первичный центральный эффект и фармакодинамика зависят от метаболически активных органов.',
+    paramAminoglycosides: 'Аминогликозиды / Ванкомицин',
+    rationaleAminoglycosides: 'Жировая ткань содержит ~20-30% внеклеточной жидкости. Коррекция предотвращает нефротоксичность.',
+    propofolName: 'Пропофол (Propofol)',
+    propofolMaintName: 'Пропофол (Инфузия)',
+    fentanylName: 'Фентанил (Fentanyl)',
+    fentanylMaintName: 'Фентанил (Инфузия)',
+    rocuroniumName: 'Рокуроний (Rocuronium)',
+    atracuriumName: 'Атракуриум (Atracurium)',
+    unitMgKg: 'мг/кг',
+    unitMcgKgMin: 'мкг/кг/мин',
+    unitMcgKg: 'мкг/кг',
+    unitMcgKgHour: 'мкг/кг/час',
+    unitMgHour: 'мг/час',
+    unitMcgHour: 'мкг/час',
+    unitMl: 'мл',
+    unitMlHour: 'мл/час',
   },
   
   uk: {
@@ -1213,5 +1480,94 @@ export const translations: Record<Language, Translations> = {
     severeHypocalcemia: 'при важкій гіпокальціємії',
     notMoreThan: 'не більше',
     moreConcentratedSolution: 'Більш концентрований розчин',
+
+    // Intubation calculator specific
+    intubationTitle: 'Калькулятор доз препаратів для інтубації та параметрів мас тіла',
+    intubationSubtitle: 'Точний розрахунок дозувань гіпнотиків (Пропофол), анальгетиків (Фентаніл) та міорелаксантів (Рокуроній / Атракуріум) для індукції та підтримання анестезії з урахуванням антропометричних показників (TBW, IBW, LBW Жанмахасатіан/Джеймс, ABW) та параметрів ШВЛ (Vt).',
+    patientDataSection: '1. Дані пацієнта',
+    genderLabel: 'Стать',
+    maleGender: 'Чоловіча',
+    femaleGender: 'Жіноча',
+    ageYearsLabel: 'Вік (років)',
+    heightCmLabel: 'Зріст (см)',
+    actualWeightTbwLabel: 'Фактична маса тіла TBW (кг)',
+    lbwFormulaLabel: 'Формула LBW (Тоща маса)',
+    janmahasatianGoldStandard: 'Janmahasatian (2005) — Золотий стандарт',
+    jamesClassic: 'James (1976) — Класична',
+    relaxantForIntubationLabel: 'Міорелаксант для інтубації',
+    showBothRelaxants: 'Показати Рокуроній та Атракуріум',
+    rocuroniumDoseRangeOption: 'Рокуроній (0.6 - 1.2 мг/кг)',
+    atracuriumDoseRangeOption: 'Атракуріум (0.4 - 0.5 мг/кг)',
+    showConcSettings: 'Налаштування концентрацій розчинів (мг/мл)',
+    hideConcSettings: 'Сховати налаштування концентрацій',
+    propofolConcLabel: 'Пропофол (мг/мл)',
+    fentanylConcLabel: 'Фентаніл (мкг/мл)',
+    rocuroniumConcLabel: 'Рокуроній (мг/мл)',
+    atracuriumConcLabel: 'Атракуріум (мг/мл)',
+    anthropometricMatrixTitle: 'Антропометрична матриця',
+    tbwMatrixLabel: 'TBW (Фактична вага):',
+    ibwMatrixLabel: 'IBW (Ідеальна вага - Devine):',
+    lbwJanMatrixLabel: 'LBW (Тоща вага - Janmahasatian):',
+    lbwJamesMatrixLabel: 'LBW (Тоща вага - James):',
+    abwMatrixLabel: 'ABW (Скоригована вага):',
+    bmiMatrixLabel: 'ІМТ (BMI):',
+    ventilationVtParamLabel: 'ШВЛ Параметр ДОб (Vt):',
+    obesityWarningText: '⚠️ Увага (Ожиріння ІМТ ≥ 30): Фактична вага значно перевищує ідеальну. Використання TBW для індукції пропофолу або релаксантів призведе до тяжкого передозирування!',
+    dosageFineTuningTitle: '2. Інтерактивне налаштування цільових дозувань',
+    propofolInductionSliderLabel: 'Пропофол Індукція (LBW):',
+    propofolMaintSliderLabel: 'Пропофол Інфузія (TBW):',
+    fentanylInductionSliderLabel: 'Фентаніл Індукція (LBW):',
+    fentanylMaintSliderLabel: 'Фентаніл Інфузія (LBW):',
+    rocuroniumInductionSliderLabel: 'Рокуроній Індукція (IBW):',
+    atracuriumInductionSliderLabel: 'Атракуріум Індукція (IBW):',
+    standardLabel: 'Стандарт',
+    minLabel: 'Мін',
+    maxLabel: 'Макс',
+    summaryTableTitle: '3. Зведена таблиця дозування препаратів',
+    colDrugAndPhase: 'Препарат та Етап',
+    colBaseWeight: 'Базова вага (кг)',
+    colDoseRange: 'Діапазон дози',
+    colCalculatedDose: 'Розрахована доза',
+    colVolumeOrSpeed: 'Об\'єм / Швидкість',
+    colWeightRationale: 'Обґрунтування ваговій категорії',
+    propofolInductionExp: 'Доза розраховується за LBW (тощою масою) для уникнення вираженої гемодинамічної нестабільності у пацієнтів із надмірною вагою.',
+    propofolMaintExp: 'Підтримання анестезії розраховується за TBW (фактичною вагою) або цільовою концентрацією TCI.',
+    fentanylInductionExp: 'Індукція анальгезії розраховується за щойною масою тіла (LBW).',
+    fentanylMaintExp: 'Підтримання фентанілом дозується за щойною масою тіла (LBW).',
+    rocuroniumExp: 'Доза міорелаксанту розраховується за ідеальною масою (IBW) для уникнення небезпечного подовження нервово-м\'язового блоку.',
+    atracuriumExp: 'Дозується за ідеальною масою тіла (IBW) для запобігання пролонгованому блоку.',
+    cheatSheetTitle: 'Шпаргалка застосування маси тіла в ВІТ та анестезіології',
+    cheatSheetSubtitle: 'Визначальний орієнтир застосування антропометричних мас при різних клінічних завданнях:',
+    colClinicalParam: 'Клінічний параметр / Препарат',
+    colScalarUsed: 'Розрахункова маса тіла',
+    colPhysioRationale: 'Фізіологічне обґрунтування',
+    paramVentVt: 'Параметри ШВЛ (Vt)',
+    rationaleVentVt: 'Розмір легень залежить від зросту та статі людини, а не від об\'єму жирової тканини. Запобігає волюмотравмі.',
+    paramPropInduction: 'Пропофол (Індукція)',
+    rationalePropInduction: 'Запобігає тяжкій вазодилатації та глибокій гіпотензії у пацієнтів з ожирінням.',
+    paramPropMaintenance: 'Пропофол (Інфузія / TCI)',
+    rationalePropMaintenance: 'Перерозподіл препарату у жирову тканину при тривалому введенні вимагає урахування кліренсу та фактичної маси.',
+    paramRelaxants: 'Міорелаксанти (Рокуроній, Векуроній, Атракуріум)',
+    rationaleRelaxants: 'Об\'єм розподілу гідрофільних релаксантів не збільшується пропорційно жировій масі. Захищає від затяжного блоку.',
+    paramSuxamethonium: 'Суксаметоний (Дитилін)',
+    rationaleSuxamethonium: 'При ожирінні рівень псевдохолінестерази плазми та об\'єм крові підвищені.',
+    paramFentanyl: 'Фентаніл (Індукція та підтримуюча інфузія)',
+    rationaleFentanyl: 'Ліпофільний опіоїд, але первинний центральний ефект та фармакодинаміка залежать від метаболічно активних органів.',
+    paramAminoglycosides: 'Аміноглікозиди / Ванкоміцин',
+    rationaleAminoglycosides: 'Жирова тканина містить ~20-30% позаклітинної рідини. Корекція запобігає нефротоксичності.',
+    propofolName: 'Пропофол (Propofol)',
+    propofolMaintName: 'Пропофол (Інфузія)',
+    fentanylName: 'Фентаніл (Fentanyl)',
+    fentanylMaintName: 'Фентаніл (Інфузія)',
+    rocuroniumName: 'Рокуроній (Rocuronium)',
+    atracuriumName: 'Атракуріум (Atracurium)',
+    unitMgKg: 'мг/кг',
+    unitMcgKgMin: 'мкг/кг/хв',
+    unitMcgKg: 'мкг/кг',
+    unitMcgKgHour: 'мкг/кг/год',
+    unitMgHour: 'мг/год',
+    unitMcgHour: 'мкг/год',
+    unitMl: 'мл',
+    unitMlHour: 'мл/год',
   },
 }; 
