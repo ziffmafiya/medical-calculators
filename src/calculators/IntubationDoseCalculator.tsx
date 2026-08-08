@@ -405,15 +405,15 @@ export const IntubationDoseCalculator: React.FC = () => {
       <div className="space-y-3">
         <div className="flex items-center gap-3 flex-wrap">
           <Badge variant="brand" dot className="px-3 py-1 text-xs uppercase tracking-wider font-semibold">
-            Анестезиология & Реанимация
+            {t.anesthesiologyDepartment || 'Anesthesiology & ICU'}
           </Badge>
           <span className="text-xs text-slate-500 font-mono">v2.4 • Janmahasatian / Devine</span>
         </div>
         <h1 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
-          {t.intubationTitle || 'Калькулятор доз препаратов для интубации и параметров масс тела'}
+          {t.intubationTitle || 'Intubation & Body Weight Drug Dosage Calculator'}
         </h1>
         <p className="text-sm text-slate-400 max-w-3xl leading-relaxed">
-          {t.intubationSubtitle || 'Точный расчет дозировок гипнотиков (Пропофол), анальгетиков (Фентанил) и миорелаксантов (Рокуроний / Атракуриум) для индукции и поддержания анестезии с учетом антропометрических показателей (TBW, IBW, LBW Жанмахасатиан/Джеймс, ABW) и параметров ИВЛ ($V_t$).'}
+          {t.intubationSubtitle || 'Accurate dosage calculation for hypnotics (Propofol), analgesics (Fentanyl), and muscle relaxants (Rocuronium / Atracurium) considering anthropometric parameters (TBW, IBW, LBW, ABW) and mechanical ventilation.'}
         </p>
       </div>
 
@@ -425,11 +425,11 @@ export const IntubationDoseCalculator: React.FC = () => {
               1
             </div>
             <h2 className="text-lg font-bold text-white tracking-tight">
-              {t.patientDataSection || '1. Данные пациента'}
+              {t.patientDataSection || '1. Patient Data'}
             </h2>
           </div>
           <Button onClick={handleReset} variant="outline" size="xs" className="text-slate-400 hover:text-white">
-            {t.reset || 'Сбросить данные'}
+            {t.reset || 'Reset'}
           </Button>
         </div>
 
@@ -438,7 +438,7 @@ export const IntubationDoseCalculator: React.FC = () => {
           <div className="lg:col-span-6 bg-[#101828] border border-slate-800/80 rounded-2xl p-6 space-y-6 shadow-sm">
             <div>
               <label className="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-2.5">
-                {t.genderLabel || 'Пол пациента'}
+                {t.genderLabel || 'Gender'}
               </label>
               {/* Segmented Toggle Control */}
               <div className="bg-slate-900/90 border border-slate-800 rounded-xl p-1 grid grid-cols-2 gap-1">
@@ -452,7 +452,7 @@ export const IntubationDoseCalculator: React.FC = () => {
                   }`}
                 >
                   <MaleIcon />
-                  <span>{t.maleGender || 'Мужской'}</span>
+                  <span>{t.maleGender || 'Male'}</span>
                 </button>
                 <button
                   type="button"
@@ -464,14 +464,14 @@ export const IntubationDoseCalculator: React.FC = () => {
                   }`}
                 >
                   <FemaleIcon />
-                  <span>{t.femaleGender || 'Женский'}</span>
+                  <span>{t.femaleGender || 'Female'}</span>
                 </button>
               </div>
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
               <NumberInput
-                label={t.ageYearsLabel || 'Возраст (лет)'}
+                label={t.ageYearsLabel || 'Age (years)'}
                 value={inputs.age}
                 onChange={(val) => setInputs({ ...inputs, age: val })}
                 min={1}
@@ -479,7 +479,7 @@ export const IntubationDoseCalculator: React.FC = () => {
                 placeholder="45"
               />
               <NumberInput
-                label={t.heightCmLabel || 'Рост (см)'}
+                label={t.heightCmLabel || 'Height (cm)'}
                 value={inputs.height}
                 onChange={(val) => setInputs({ ...inputs, height: val })}
                 min={50}
@@ -487,7 +487,7 @@ export const IntubationDoseCalculator: React.FC = () => {
                 placeholder="175"
               />
               <NumberInput
-                label={t.actualWeightTbwLabel || 'Вес TBW (кг)'}
+                label={t.actualWeightTbwLabel || 'Weight TBW (kg)'}
                 value={inputs.weight}
                 onChange={(val) => setInputs({ ...inputs, weight: val })}
                 min={10}
@@ -498,22 +498,22 @@ export const IntubationDoseCalculator: React.FC = () => {
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <Select
-                label={t.lbwFormulaLabel || 'Формула LBW'}
+                label={t.lbwFormulaLabel || 'LBW Formula'}
                 value={inputs.lbwFormula}
                 onChange={(val) => setInputs({ ...inputs, lbwFormula: val as 'janmahasatian' | 'james' })}
                 options={[
-                  { value: 'janmahasatian', label: t.janmahasatianGoldStandard || 'Janmahasatian (2005) — Золотой стандарт' },
-                  { value: 'james', label: t.jamesClassic || 'James (1976) — Классическая' },
+                  { value: 'janmahasatian', label: t.janmahasatianGoldStandard || 'Janmahasatian (2005) — Gold Standard' },
+                  { value: 'james', label: t.jamesClassic || 'James (1976) — Classic' },
                 ]}
               />
               <Select
-                label={t.relaxantForIntubationLabel || 'Миорелаксант'}
+                label={t.relaxantForIntubationLabel || 'Muscle Relaxant'}
                 value={inputs.selectedRelaxant}
                 onChange={(val) => setInputs({ ...inputs, selectedRelaxant: val as 'rocuronium' | 'atracurium' | 'both' })}
                 options={[
-                  { value: 'both', label: t.showBothRelaxants || 'Рокуроний + Атракуриум' },
-                  { value: 'rocuronium', label: t.rocuroniumDoseRangeOption || 'Рокуроний (0.6 - 1.2 мг/кг)' },
-                  { value: 'atracurium', label: t.atracuriumDoseRangeOption || 'Атракуриум (0.4 - 0.5 мг/кг)' },
+                  { value: 'both', label: t.showBothRelaxants || 'Show Rocuronium & Atracurium' },
+                  { value: 'rocuronium', label: t.rocuroniumDoseRangeOption || 'Rocuronium (0.6 - 1.2 mg/kg)' },
+                  { value: 'atracurium', label: t.atracuriumDoseRangeOption || 'Atracurium (0.4 - 0.5 mg/kg)' },
                 ]}
               />
             </div>
@@ -521,7 +521,7 @@ export const IntubationDoseCalculator: React.FC = () => {
             <div className="pt-1 border-t border-slate-800/60">
               <Checkbox
                 id="advanced-conc"
-                label={t.showConcSettings || 'Настройки концентраций растворов (мг/мл)'}
+                label={t.showConcSettings || 'Solution Concentration Settings (mg/ml)'}
                 checked={showAdvancedConc}
                 onChange={(checked) => setShowAdvancedConc(checked)}
               />
@@ -529,22 +529,22 @@ export const IntubationDoseCalculator: React.FC = () => {
               {showAdvancedConc && (
                 <div className="mt-4 p-4 bg-slate-900/80 border border-slate-800 rounded-xl grid grid-cols-2 sm:grid-cols-4 gap-4 animate-slide-up">
                   <NumberInput
-                    label={t.propofolConcLabel || 'Пропофол (мг/мл)'}
+                    label={t.propofolConcLabel || 'Propofol (mg/ml)'}
                     value={inputs.propofolConcMgMl}
                     onChange={(val) => setInputs({ ...inputs, propofolConcMgMl: val || 10 })}
                   />
                   <NumberInput
-                    label={t.fentanylConcLabel || 'Фентанил (мкг/мл)'}
+                    label={t.fentanylConcLabel || 'Fentanyl (mcg/ml)'}
                     value={inputs.fentanylConcMcgMl}
                     onChange={(val) => setInputs({ ...inputs, fentanylConcMcgMl: val || 50 })}
                   />
                   <NumberInput
-                    label={t.rocuroniumConcLabel || 'Рокуроний (мг/мл)'}
+                    label={t.rocuroniumConcLabel || 'Rocuronium (mg/ml)'}
                     value={inputs.rocuroniumConcMgMl}
                     onChange={(val) => setInputs({ ...inputs, rocuroniumConcMgMl: val || 10 })}
                   />
                   <NumberInput
-                    label={t.atracuriumConcLabel || 'Атракуриум (мг/мл)'}
+                    label={t.atracuriumConcLabel || 'Atracurium (mg/ml)'}
                     value={inputs.atracuriumConcMgMl}
                     onChange={(val) => setInputs({ ...inputs, atracuriumConcMgMl: val || 10 })}
                   />
@@ -559,33 +559,33 @@ export const IntubationDoseCalculator: React.FC = () => {
               <div className="bg-[#101828] border border-slate-800/80 rounded-2xl p-6 space-y-4 shadow-sm">
                 <div className="flex items-center justify-between border-b border-slate-800 pb-3">
                   <h3 className="text-sm font-bold text-white uppercase tracking-wider">
-                    {t.anthropometricMatrixTitle || 'Антропометрическая матрица'}
+                    {t.anthropometricMatrixTitle || 'Anthropometric Matrix'}
                   </h3>
                   <span className="text-xs font-mono text-slate-400">
-                    ИМТ (BMI): <strong className="text-white font-bold">{anthropometrics.bmi.toFixed(1)}</strong> кг/м²
+                    BMI: <strong className="text-white font-bold">{anthropometrics.bmi.toFixed(1)}</strong> kg/m²
                   </span>
                 </div>
 
                 <div className="grid grid-cols-2 gap-3.5">
                   <StatCard 
-                    label="TBW (Фактический)" 
+                    label={t.tbwMatrixLabel || 'TBW (Actual)'} 
                     value={anthropometrics.tbw.toFixed(1)} 
-                    unit={t.kg || 'кг'} 
+                    unit={t.kg || 'kg'} 
                   />
                   <StatCard 
-                    label="IBW (Идеальный)" 
+                    label={t.ibwMatrixLabel || 'IBW (Ideal)'} 
                     value={anthropometrics.ibw.toFixed(1)} 
-                    unit={t.kg || 'кг'} 
+                    unit={t.kg || 'kg'} 
                   />
                   <StatCard 
-                    label="LBW (Тощая)" 
+                    label={t.lbwJanMatrixLabel || 'LBW (Lean)'} 
                     value={anthropometrics.selectedLbw.toFixed(1)} 
-                    unit={t.kg || 'кг'} 
+                    unit={t.kg || 'kg'} 
                   />
                   <StatCard 
-                    label="ABW (Скоригован)" 
+                    label={t.abwMatrixLabel || 'ABW (Adjusted)'} 
                     value={anthropometrics.abw.toFixed(1)} 
-                    unit={t.kg || 'кг'} 
+                    unit={t.kg || 'kg'} 
                   />
                 </div>
 
@@ -593,32 +593,32 @@ export const IntubationDoseCalculator: React.FC = () => {
                 <div className="bg-slate-900/90 border border-slate-800 rounded-xl p-4 flex items-center justify-between">
                   <div>
                     <span className="text-xs font-semibold text-slate-400 uppercase tracking-wider block">
-                      {t.ventilationVtParamLabel || 'ИВЛ Параметр ДО (Vt)'}
+                      {t.ventilationVtParamLabel || 'Ventilation Tidal Vol (Vt):'}
                     </span>
                     <span className="text-xs text-slate-500 mt-0.5 block">
-                      6–8 {t.unitMl || 'мл'}/кг IBW
+                      6–8 {t.unitMl || 'ml'}/kg IBW
                     </span>
                   </div>
                   <div className="text-right">
                     <span className="text-2xl font-bold font-mono text-sky-400 tracking-tight">
                       {anthropometrics.vtMin} – {anthropometrics.vtMax}
                     </span>
-                    <span className="text-xs font-medium text-slate-400 ml-1">мл</span>
+                    <span className="text-xs font-medium text-slate-400 ml-1">{t.unitMl || 'ml'}</span>
                   </div>
                 </div>
 
                 {anthropometrics.isObese && (
                   <Alert
                     variant="warning"
-                    title={t.obesityWarningText || 'Внимание (Ожирение ИМТ ≥ 30)'}
+                    title={t.obesityWarningTitle || 'Warning (Obesity BMI ≥ 30)'}
                   >
-                    Фактическая масса (TBW) значительно превосходит идеальную. Использование TBW для индукции пропофола или миорелаксантов приведет к тяжелой передозировке!
+                    {t.obesityWarningText || 'Actual weight (TBW) significantly exceeds ideal weight. Using TBW for Propofol induction or muscle relaxants will cause severe overdose!'}
                   </Alert>
                 )}
               </div>
             ) : (
               <div className="bg-[#101828] border border-slate-800 rounded-2xl p-12 text-center text-slate-400 text-sm">
-                Введите рост и вес пациента для расчета матрицы.
+                {t.enterHeightWeightPrompt || 'Enter height & weight to calculate matrix.'}
               </div>
             )}
           </div>
@@ -646,7 +646,7 @@ export const IntubationDoseCalculator: React.FC = () => {
               'propofolInductionDosePerKg',
               [
                 { val: 1.0, label: '1.0' },
-                { val: 2.0, label: '2.0 (Стандарт)' },
+                { val: 2.0, label: `2.0 (${t.standardLabel || 'Standard'})` },
                 { val: 3.0, label: '3.0' }
               ]
             )}

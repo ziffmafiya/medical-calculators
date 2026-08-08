@@ -434,6 +434,9 @@ export interface Translations {
   burnsLabel: string;
   sepsisLabel: string;
   kidneyFailureLabel: string;
+  anesthesiologyDepartment: string;
+  obesityWarningTitle: string;
+  enterHeightWeightPrompt: string;
 }
 
 export const translations: Record<Language, Translations> = {
@@ -869,6 +872,9 @@ export const translations: Record<Language, Translations> = {
     burnsLabel: 'Burn Surface Area',
     sepsisLabel: 'Sepsis / Septic Shock',
     kidneyFailureLabel: 'Renal Failure / Oliguria',
+    anesthesiologyDepartment: 'Anesthesiology & ICU',
+    obesityWarningTitle: 'Warning (Obesity BMI ≥ 30)',
+    enterHeightWeightPrompt: 'Enter height & weight to calculate matrix.',
   },
   
   ru: {
@@ -1303,6 +1309,9 @@ export const translations: Record<Language, Translations> = {
     burnsLabel: 'Ожоговая поверхность',
     sepsisLabel: 'Сепсис / Септический шок',
     kidneyFailureLabel: 'Почечная недостаточность / Олигурия',
+    anesthesiologyDepartment: 'Анестезиология & Реанимация',
+    obesityWarningTitle: 'Внимание (Ожирение ИМТ ≥ 30)',
+    enterHeightWeightPrompt: 'Введите рост и вес пациента для расчета матрицы.',
   },
   
   uk: {
@@ -1737,5 +1746,8 @@ export const translations: Record<Language, Translations> = {
     burnsLabel: 'Опікова поверхня',
     sepsisLabel: 'Сепсис / Септичний шок',
     kidneyFailureLabel: 'Ниркова недостатність / Олігурія',
+    anesthesiologyDepartment: 'Анестезіологія & Реанімація',
+    obesityWarningTitle: 'Увага (Ожиріння ІМТ ≥ 30)',
+    enterHeightWeightPrompt: 'Введіть зріст та вагу пацієнта для розрахунку матриці.',
   },
 }; 

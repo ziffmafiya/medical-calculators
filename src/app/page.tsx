@@ -217,10 +217,10 @@ export default function Home() {
       <footer className="border-t border-[var(--border)] bg-[var(--background)]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 py-6 text-center">
           <p className="text-xs text-[var(--muted-foreground)]">
-            © {new Date().getFullYear()} MDcalc. Все права защищены.
+            {t.copyright || `© ${new Date().getFullYear()} MDcalc. All rights reserved.`}
           </p>
           <p className="text-xs text-[var(--muted-foreground)] mt-2">
-            Приложение предназначено только для медицинских работников.
+            {t.disclaimerText || 'This application is intended for medical professionals only.'}
           </p>
         </div>
       </footer>
