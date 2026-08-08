@@ -111,7 +111,8 @@ export const IntubationDoseCalculator: React.FC = () => {
     const vtMin = Math.round(6 * ibw);
     const vtMax = Math.round(8 * ibw);
 
-    const isObese = weight > 1.2 * ibw || bmi >= 30;
+    const isObese = bmi >= 30;
+    const isOverweight = weight > 1.2 * ibw && bmi < 30;
 
     return {
       tbw: weight,
@@ -124,6 +125,7 @@ export const IntubationDoseCalculator: React.FC = () => {
       vtMin,
       vtMax,
       isObese,
+      isOverweight,
     };
   }, [inputs.weight, inputs.height, inputs.gender, inputs.lbwFormula]);
 
@@ -613,7 +615,16 @@ export const IntubationDoseCalculator: React.FC = () => {
                     variant="warning"
                     title={t.obesityWarningTitle || 'Warning (Obesity BMI ≥ 30)'}
                   >
-                    {t.obesityWarningText || 'Actual weight (TBW) significantly exceeds ideal weight. Using TBW for Propofol induction or muscle relaxants will cause severe overdose!'}
+                    {t.obesityWarningText || 'Actual weight (TBW) significantly exceeds ideal weight (BMI ≥ 30). Using TBW for Propofol induction or muscle relaxants will cause severe overdose!'}
+                  </Alert>
+                )}
+
+                {anthropometrics.isOverweight && (
+                  <Alert
+                    variant="warning"
+                    title={t.overweightWarningTitle || 'Warning (Overweight: TBW > 120% IBW)'}
+                  >
+                    {t.overweightWarningText || 'Actual weight exceeds ideal weight by more than 20%. Use LBW for Propofol induction and IBW for muscle relaxants to avoid overdose.'}
                   </Alert>
                 )}
               </div>

@@ -436,6 +436,8 @@ export interface Translations {
   kidneyFailureLabel: string;
   anesthesiologyDepartment: string;
   obesityWarningTitle: string;
+  overweightWarningTitle: string;
+  overweightWarningText: string;
   enterHeightWeightPrompt: string;
 }
 
@@ -874,6 +876,8 @@ export const translations: Record<Language, Translations> = {
     kidneyFailureLabel: 'Renal Failure / Oliguria',
     anesthesiologyDepartment: 'Anesthesiology & ICU',
     obesityWarningTitle: 'Warning (Obesity BMI ≥ 30)',
+    overweightWarningTitle: 'Warning (Overweight: TBW > 120% IBW)',
+    overweightWarningText: 'Actual weight exceeds ideal weight by more than 20%. Use LBW for Propofol induction and IBW for muscle relaxants to avoid overdose.',
     enterHeightWeightPrompt: 'Enter height & weight to calculate matrix.',
   },
   
@@ -1311,6 +1315,8 @@ export const translations: Record<Language, Translations> = {
     kidneyFailureLabel: 'Почечная недостаточность / Олигурия',
     anesthesiologyDepartment: 'Анестезиология & Реанимация',
     obesityWarningTitle: 'Внимание (Ожирение ИМТ ≥ 30)',
+    overweightWarningTitle: 'Внимание (Избыточный вес: TBW > 120% IBW)',
+    overweightWarningText: 'Фактическая масса превышает идеальную более чем на 20%. Используйте LBW для индукции пропофола и IBW для миорелаксантов во избежание передозировки.',
     enterHeightWeightPrompt: 'Введите рост и вес пациента для расчета матрицы.',
   },
   
@@ -1748,6 +1754,8 @@ export const translations: Record<Language, Translations> = {
     kidneyFailureLabel: 'Ниркова недостатність / Олігурія',
     anesthesiologyDepartment: 'Анестезіологія & Реанімація',
     obesityWarningTitle: 'Увага (Ожиріння ІМТ ≥ 30)',
+    overweightWarningTitle: 'Увага (Надмірна вага: TBW > 120% IBW)',
+    overweightWarningText: 'Фактична маса перевищує ідеальну більше ніж на 20%. Використовуйте LBW для індукції пропофолу та IBW для міорелаксантів для запобігання передозуванню.',
     enterHeightWeightPrompt: 'Введіть зріст та вагу пацієнта для розрахунку матриці.',
   },
 }; 

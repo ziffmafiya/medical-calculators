@@ -291,7 +291,8 @@ export interface AnthropometricsResult {
   bmi: number; // body mass index (kg/m²)
   vtMin: number; // min tidal volume 6 ml/kg IBW (ml)
   vtMax: number; // max tidal volume 8 ml/kg IBW (ml)
-  isObese: boolean; // TBW > 1.2 * IBW or BMI >= 30
+  isObese: boolean; // BMI >= 30
+  isOverweight: boolean; // TBW > 1.2 * IBW & BMI < 30
 }
 
 export interface DrugDoseDetail {
