@@ -396,6 +396,44 @@ export interface Translations {
   unitMcgHour: string;
   unitMl: string;
   unitMlHour: string;
+
+  // Blood Gas & Infusion therapy additions
+  bloodGasTitle: string;
+  bloodGasSubtitle: string;
+  primaryDisorderLabel: string;
+  compensationLabel: string;
+  mixedDisorderLabel: string;
+  anionGapStatusLabel: string;
+  deltaDeltaLabel: string;
+  treatmentAdviceLabel: string;
+  generalPrinciplesLabel: string;
+  internalConsistencyLabel: string;
+  sampleTypeLabel: string;
+  arterialSample: string;
+  venousSample: string;
+
+  infusionTherapyTitle: string;
+  infusionTherapySubtitle: string;
+  totalBodyWaterLabel: string;
+  extracellularFluidLabel: string;
+  intracellularFluidLabel: string;
+  maintenanceFluidLabel: string;
+  fluidDeficitLabel: string;
+  ongoingLossesLabel: string;
+  totalInfusionVolumeLabel: string;
+  recommendedSolutionsLabel: string;
+  monitoringParametersLabel: string;
+  diuresisLabel: string;
+  bloodPressureLabel: string;
+  heartRateLabel: string;
+  cvpLabel: string;
+  vomitingLabel: string;
+  diarrheaLabel: string;
+  feverLabel: string;
+  postoperativeLabel: string;
+  burnsLabel: string;
+  sepsisLabel: string;
+  kidneyFailureLabel: string;
 }
 
 export const translations: Record<Language, Translations> = {
@@ -793,6 +831,44 @@ export const translations: Record<Language, Translations> = {
     unitMcgHour: 'mcg/h',
     unitMl: 'ml',
     unitMlHour: 'ml/h',
+
+    // Blood Gas & Infusion therapy additions
+    bloodGasTitle: 'Arterial Blood Gas Analysis & Acid-Base Balance',
+    bloodGasSubtitle: 'Interpretation of blood gases, anion gap, Delta/Delta, expected PaCO2, osmolar gap, and treatment recommendations.',
+    primaryDisorderLabel: 'Primary Disorder',
+    compensationLabel: 'Compensation',
+    mixedDisorderLabel: 'Mixed Disorder',
+    anionGapStatusLabel: 'Anion Gap Status',
+    deltaDeltaLabel: 'Delta/Delta Ratio',
+    treatmentAdviceLabel: 'Treatment Advice & Strategy',
+    generalPrinciplesLabel: 'General Principles of Management',
+    internalConsistencyLabel: 'Internal Consistency Check',
+    sampleTypeLabel: 'Sample Type',
+    arterialSample: 'Arterial Blood',
+    venousSample: 'Venous Blood',
+
+    infusionTherapyTitle: 'Infusion Therapy & Fluid Calculator',
+    infusionTherapySubtitle: 'Calculation of total body water, fluid deficit, maintenance fluid requirements, ongoing losses, and solution selection.',
+    totalBodyWaterLabel: 'Total Body Water (TBW)',
+    extracellularFluidLabel: 'Extracellular Fluid (ECF)',
+    intracellularFluidLabel: 'Intracellular Fluid (ICF)',
+    maintenanceFluidLabel: 'Maintenance Fluids',
+    fluidDeficitLabel: 'Fluid Deficit',
+    ongoingLossesLabel: 'Ongoing Losses',
+    totalInfusionVolumeLabel: 'Total 24h Infusion Volume',
+    recommendedSolutionsLabel: 'Recommended Infusion Solutions',
+    monitoringParametersLabel: 'Monitoring & Safety Parameters',
+    diuresisLabel: 'Urine Output (Diuresis)',
+    bloodPressureLabel: 'Blood Pressure (BP)',
+    heartRateLabel: 'Heart Rate (HR)',
+    cvpLabel: 'Central Venous Pressure (CVP)',
+    vomitingLabel: 'Vomiting / Gastric Drainage',
+    diarrheaLabel: 'Diarrhea / Intestinal Loss',
+    feverLabel: 'Fever / Hyperthermia',
+    postoperativeLabel: 'Postoperative Losses',
+    burnsLabel: 'Burn Surface Area',
+    sepsisLabel: 'Sepsis / Septic Shock',
+    kidneyFailureLabel: 'Renal Failure / Oliguria',
   },
   
   ru: {
@@ -1189,6 +1265,44 @@ export const translations: Record<Language, Translations> = {
     unitMcgHour: 'мкг/час',
     unitMl: 'мл',
     unitMlHour: 'мл/час',
+
+    // Blood Gas & Infusion therapy additions
+    bloodGasTitle: 'Анализ газов крови и кислотно-основного состояния',
+    bloodGasSubtitle: 'Интерпретация артериальных газов, анионного промежутка, Δ/Δ, ожидаемого PaCO2, осмолярного промежутка и тактики лечения.',
+    primaryDisorderLabel: 'Основное нарушение',
+    compensationLabel: 'Компенсация',
+    mixedDisorderLabel: 'Смешанное нарушение',
+    anionGapStatusLabel: 'Анионный промежуток',
+    deltaDeltaLabel: 'Соотношение Δ/Δ',
+    treatmentAdviceLabel: 'Рекомендации по тактике лечения',
+    generalPrinciplesLabel: 'Общие принципы терапии',
+    internalConsistencyLabel: 'Проверка внутренней согласованности',
+    sampleTypeLabel: 'Тип пробы',
+    arterialSample: 'Артериальная кровь',
+    venousSample: 'Венозная кровь',
+
+    infusionTherapyTitle: 'Калькулятор инфузионной терапии и баланса жидкости',
+    infusionTherapySubtitle: 'Расчет общей воды организма, дефицита жидкости, поддерживающей инфузии, текущих потерь и подбор растворов.',
+    totalBodyWaterLabel: 'Общая вода организма (ОВоО)',
+    extracellularFluidLabel: 'Внеклеточная жидкость (ВКЖ)',
+    intracellularFluidLabel: 'Внутриклеточная жидкость (ВКЖ)',
+    maintenanceFluidLabel: 'Поддерживающая инфузия',
+    fluidDeficitLabel: 'Дефицит жидкости',
+    ongoingLossesLabel: 'Текущие потери',
+    totalInfusionVolumeLabel: 'Общий объем инфузии (24ч)',
+    recommendedSolutionsLabel: 'Рекомендуемые растворы',
+    monitoringParametersLabel: 'Параметры мониторинга и безопасности',
+    diuresisLabel: 'Диурез (выделение мочи)',
+    bloodPressureLabel: 'Артериальное давление (АД)',
+    heartRateLabel: 'Частота сердечных сокращений (ЧСС)',
+    cvpLabel: 'Центральное венозное давление (ЦВД)',
+    vomitingLabel: 'Рвота / Желудочные потери',
+    diarrheaLabel: 'Диарея / Кишечные потери',
+    feverLabel: 'Лихорадка / Повышенная температура',
+    postoperativeLabel: 'Послеоперационные потери',
+    burnsLabel: 'Ожоговая поверхность',
+    sepsisLabel: 'Сепсис / Септический шок',
+    kidneyFailureLabel: 'Почечная недостаточность / Олигурия',
   },
   
   uk: {
@@ -1585,5 +1699,43 @@ export const translations: Record<Language, Translations> = {
     unitMcgHour: 'мкг/год',
     unitMl: 'мл',
     unitMlHour: 'мл/год',
+
+    // Blood Gas & Infusion therapy additions
+    bloodGasTitle: 'Аналіз газів крові та кислотно-основного стану',
+    bloodGasSubtitle: 'Інтерпретація артеріальних газів, аніонного проміжку, Δ/Δ, очікуваного PaCO2, осмолярного проміжку та тактики лікування.',
+    primaryDisorderLabel: 'Основне порушення',
+    compensationLabel: 'Компенсація',
+    mixedDisorderLabel: 'Змішане порушення',
+    anionGapStatusLabel: 'Аніонний проміжок',
+    deltaDeltaLabel: 'Співвідношення Δ/Δ',
+    treatmentAdviceLabel: 'Рекомендації щодо тактики лікування',
+    generalPrinciplesLabel: 'Загальні принципи терапії',
+    internalConsistencyLabel: 'Перевірка внутрішньої узгодженості',
+    sampleTypeLabel: 'Тип проби',
+    arterialSample: 'Артеріальна кров',
+    venousSample: 'Венозна кров',
+
+    infusionTherapyTitle: 'Калькулятор інфузійної терапії та балансу рідини',
+    infusionTherapySubtitle: 'Розрахунок загальної води організму, дефіциту рідини, підтримуючої інфузії, поточних втрат та підбір розчинів.',
+    totalBodyWaterLabel: 'Загальна вода організму (ЗВО)',
+    extracellularFluidLabel: 'Позаклітинна рідина (ПКР)',
+    intracellularFluidLabel: 'Внутрішньоклітинна рідина (ВКР)',
+    maintenanceFluidLabel: 'Підтримуюча інфузія',
+    fluidDeficitLabel: 'Дефіцит рідини',
+    ongoingLossesLabel: 'Поточні втрати',
+    totalInfusionVolumeLabel: 'Загальний об\'єм інфузії (24год)',
+    recommendedSolutionsLabel: 'Рекомендовані розчини',
+    monitoringParametersLabel: 'Параметри моніторингу та безпеки',
+    diuresisLabel: 'Диурез (виділення сечі)',
+    bloodPressureLabel: 'Артеріальний тиск (АТ)',
+    heartRateLabel: 'Частота серцевих скорочень (ЧСС)',
+    cvpLabel: 'Центральний венозний тиск (ЦВТ)',
+    vomitingLabel: 'Блювання / Шлункові втрати',
+    diarrheaLabel: 'Діарея / Кишкові втрати',
+    feverLabel: 'Лихоманка / Підвищена температура',
+    postoperativeLabel: 'Післяопераційні втрати',
+    burnsLabel: 'Опікова поверхня',
+    sepsisLabel: 'Сепсис / Септичний шок',
+    kidneyFailureLabel: 'Ниркова недостатність / Олігурія',
   },
 }; 
