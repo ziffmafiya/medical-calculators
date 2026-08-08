@@ -84,6 +84,7 @@ export const IntubationDoseCalculator: React.FC = () => {
   });
 
   const [showAdvancedConc, setShowAdvancedConc] = useState(false);
+  const [showSection2, setShowSection2] = useState(false);
 
   // Anthro calculations
   const anthropometrics = useMemo<AnthropometricsResult | null>(() => {
@@ -447,7 +448,7 @@ export const IntubationDoseCalculator: React.FC = () => {
               1
             </div>
             <h2 className="text-lg font-bold text-white tracking-tight">
-              {t.patientDataSection || '1. Patient Data'}
+              {t.patientDataSection || 'Patient Data'}
             </h2>
           </div>
           <Button onClick={handleReset} variant="outline" size="xs" className="text-slate-400 hover:text-white">
@@ -669,97 +670,111 @@ export const IntubationDoseCalculator: React.FC = () => {
         </div>
       </div>
 
-      {/* SECTION 2: Interactive Target Dosage Tuning */}
+      {/* SECTION 2: Interactive Target Dosage Tuning (Collapsible) */}
       {anthropometrics && (
         <div className="space-y-4">
-          <div className="flex items-center gap-3">
-            <div className="w-8 h-8 rounded-xl bg-sky-500/10 text-sky-400 flex items-center justify-center font-bold text-sm border border-sky-500/20">
-              2
+          <button
+            type="button"
+            onClick={() => setShowSection2(!showSection2)}
+            className="w-full flex items-center justify-between p-4 bg-[#101828] border border-slate-800/80 hover:border-slate-700 rounded-2xl transition-all group cursor-pointer text-left shadow-sm"
+          >
+            <div className="flex items-center gap-3">
+              <div className="w-8 h-8 rounded-xl bg-sky-500/10 text-sky-400 flex items-center justify-center font-bold text-sm border border-sky-500/20 group-hover:bg-sky-500/20 transition-colors">
+                2
+              </div>
+              <h2 className="text-lg font-bold text-white tracking-tight">
+                {t.dosageFineTuningTitle || 'Interactive Target Dosage Tuning'}
+              </h2>
             </div>
-            <h2 className="text-lg font-bold text-white tracking-tight">
-              {t.dosageFineTuningTitle || '2. Interactive Target Dosage Tuning'}
-            </h2>
-          </div>
+            <div className="flex items-center gap-2">
+              <span className="text-xs font-mono text-slate-400 group-hover:text-slate-200">
+                {showSection2 ? 'Hide Sliders' : 'Configure Sliders'}
+              </span>
+              <ChevronDownIcon className={`w-5 h-5 text-slate-400 transition-transform duration-200 ${showSection2 ? 'rotate-180 text-sky-400' : ''}`} />
+            </div>
+          </button>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-stretch">
-            {renderSlider(
-              t.propofolInductionSliderLabel || 'Propofol Induction (LBW):',
-              inputs.propofolInductionDosePerKg,
-              1.0, 3.0, 0.1,
-              t.unitMgKg || 'mg/kg',
-              'propofolInductionDosePerKg',
-              [
-                { val: 1.0, label: '1.0' },
-                { val: 2.0, label: `2.0 (${t.standardLabel || 'Standard'})` },
-                { val: 3.0, label: '3.0' }
-              ]
-            )}
+          {showSection2 && (
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-stretch animate-slide-up">
+              {renderSlider(
+                t.propofolInductionSliderLabel || 'Propofol Induction (LBW):',
+                inputs.propofolInductionDosePerKg,
+                1.0, 3.0, 0.1,
+                t.unitMgKg || 'mg/kg',
+                'propofolInductionDosePerKg',
+                [
+                  { val: 1.0, label: '1.0' },
+                  { val: 2.0, label: `2.0 (${t.standardLabel || 'Standard'})` },
+                  { val: 3.0, label: '3.0' }
+                ]
+              )}
 
-            {renderSlider(
-              t.propofolMaintSliderLabel || 'Propofol Infusion (TBW):',
-              inputs.propofolMaintDosePerKgMin,
-              50, 200, 5,
-              t.unitMcgKgMin || 'mcg/kg/min',
-              'propofolMaintDosePerKgMin',
-              [
-                { val: 50, label: '50' },
-                { val: 100, label: '100' },
-                { val: 200, label: '200' }
-              ]
-            )}
+              {renderSlider(
+                t.propofolMaintSliderLabel || 'Propofol Infusion (TBW):',
+                inputs.propofolMaintDosePerKgMin,
+                50, 200, 5,
+                t.unitMcgKgMin || 'mcg/kg/min',
+                'propofolMaintDosePerKgMin',
+                [
+                  { val: 50, label: '50' },
+                  { val: 100, label: '100' },
+                  { val: 200, label: '200' }
+                ]
+              )}
 
-            {renderSlider(
-              t.fentanylInductionSliderLabel || 'Fentanyl Induction (LBW):',
-              inputs.fentanylInductionDosePerKg,
-              0.5, 1.0, 0.05,
-              t.unitMcgKg || 'mcg/kg',
-              'fentanylInductionDosePerKg',
-              [
-                { val: 0.5, label: '0.5' },
-                { val: 0.75, label: '0.75' },
-                { val: 1.0, label: '1.0' }
-              ]
-            )}
+              {renderSlider(
+                t.fentanylInductionSliderLabel || 'Fentanyl Induction (LBW):',
+                inputs.fentanylInductionDosePerKg,
+                0.5, 1.0, 0.05,
+                t.unitMcgKg || 'mcg/kg',
+                'fentanylInductionDosePerKg',
+                [
+                  { val: 0.5, label: '0.5' },
+                  { val: 0.75, label: '0.75' },
+                  { val: 1.0, label: '1.0' }
+                ]
+              )}
 
-            {renderSlider(
-              t.fentanylMaintSliderLabel || 'Fentanyl Infusion (LBW):',
-              inputs.fentanylMaintDosePerKgHour,
-              1.0, 2.0, 0.1,
-              t.unitMcgKgHour || 'mcg/kg/h',
-              'fentanylMaintDosePerKgHour',
-              [
-                { val: 1.0, label: '1.0' },
-                { val: 1.5, label: '1.5' },
-                { val: 2.0, label: '2.0' }
-              ]
-            )}
+              {renderSlider(
+                t.fentanylMaintSliderLabel || 'Fentanyl Infusion (LBW):',
+                inputs.fentanylMaintDosePerKgHour,
+                1.0, 2.0, 0.1,
+                t.unitMcgKgHour || 'mcg/kg/h',
+                'fentanylMaintDosePerKgHour',
+                [
+                  { val: 1.0, label: '1.0' },
+                  { val: 1.5, label: '1.5' },
+                  { val: 2.0, label: '2.0' }
+                ]
+              )}
 
-            {(inputs.selectedRelaxant === 'rocuronium' || inputs.selectedRelaxant === 'both') && renderSlider(
-              t.rocuroniumInductionSliderLabel || 'Rocuronium Induction (IBW):',
-              inputs.rocuroniumDosePerKg,
-              0.6, 1.2, 0.1,
-              t.unitMgKg || 'mg/kg',
-              'rocuroniumDosePerKg',
-              [
-                { val: 0.6, label: '0.6' },
-                { val: 1.0, label: '1.0 (RSI)' },
-                { val: 1.2, label: '1.2' }
-              ]
-            )}
+              {(inputs.selectedRelaxant === 'rocuronium' || inputs.selectedRelaxant === 'both') && renderSlider(
+                t.rocuroniumInductionSliderLabel || 'Rocuronium Induction (IBW):',
+                inputs.rocuroniumDosePerKg,
+                0.6, 1.2, 0.1,
+                t.unitMgKg || 'mg/kg',
+                'rocuroniumDosePerKg',
+                [
+                  { val: 0.6, label: '0.6' },
+                  { val: 1.0, label: '1.0 (RSI)' },
+                  { val: 1.2, label: '1.2' }
+                ]
+              )}
 
-            {(inputs.selectedRelaxant === 'atracurium' || inputs.selectedRelaxant === 'both') && renderSlider(
-              t.atracuriumInductionSliderLabel || 'Atracurium Induction (IBW):',
-              inputs.atracuriumDosePerKg,
-              0.4, 0.5, 0.01,
-              t.unitMgKg || 'mg/kg',
-              'atracuriumDosePerKg',
-              [
-                { val: 0.4, label: '0.4' },
-                { val: 0.45, label: '0.45' },
-                { val: 0.5, label: '0.5' }
-              ]
-            )}
-          </div>
+              {(inputs.selectedRelaxant === 'atracurium' || inputs.selectedRelaxant === 'both') && renderSlider(
+                t.atracuriumInductionSliderLabel || 'Atracurium Induction (IBW):',
+                inputs.atracuriumDosePerKg,
+                0.4, 0.5, 0.01,
+                t.unitMgKg || 'mg/kg',
+                'atracuriumDosePerKg',
+                [
+                  { val: 0.4, label: '0.4' },
+                  { val: 0.45, label: '0.45' },
+                  { val: 0.5, label: '0.5' }
+                ]
+              )}
+            </div>
+          )}
         </div>
       )}
 
@@ -771,7 +786,7 @@ export const IntubationDoseCalculator: React.FC = () => {
               3
             </div>
             <h2 className="text-lg font-bold text-white tracking-tight">
-              {t.summaryTableTitle || '3. Summary Dosing Table'}
+              {t.summaryTableTitle || 'Summary Dosing Table'}
             </h2>
           </div>
 
