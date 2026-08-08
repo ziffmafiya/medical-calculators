@@ -31,12 +31,10 @@ export const NumberInput: React.FC<NumberInputProps> = ({
     const inputValue = e.target.value;
     
     if (inputValue === '') {
-      // Если поле пустое, устанавливаем null
       onChange(null);
     } else {
       let newValue = parseFloat(inputValue);
       if (!isNaN(newValue)) {
-        // Применяем precision если указан
         if (precision !== undefined) {
           newValue = Math.round(newValue * Math.pow(10, precision)) / Math.pow(10, precision);
         }
@@ -46,10 +44,10 @@ export const NumberInput: React.FC<NumberInputProps> = ({
   };
 
   return (
-    <div className="mb-4">
-      <label className="block text-sm font-medium text-foreground mb-2">
+    <div className="w-full">
+      <label className="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-1.5">
         {label}
-        {required && <span className="text-red-500 ml-1">*</span>}
+        {required && <span className="text-rose-400 ml-1">*</span>}
       </label>
       <div className="relative">
         <input
@@ -60,19 +58,19 @@ export const NumberInput: React.FC<NumberInputProps> = ({
           max={max}
           step={step}
           placeholder={placeholder}
-          className="w-full px-3 py-3 bg-input border border-border rounded-md text-foreground placeholder-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent min-h-[44px] text-base"
+          className="w-full px-3.5 py-2.5 bg-slate-900/90 border border-slate-800 rounded-xl text-white placeholder-slate-500 font-medium text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-sky-500/30 focus:border-sky-500 transition-all shadow-inner min-h-[44px]"
         />
         {unit && (
-          <span className="absolute right-3 top-2 text-muted-foreground text-sm">
+          <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs font-bold text-slate-400 bg-slate-800/80 px-2 py-0.5 rounded-md border border-slate-700/60 pointer-events-none">
             {unit}
           </span>
         )}
       </div>
       {helperText && (
-        <p className="mt-1 text-xs text-muted-foreground">
+        <p className="mt-1 text-[11px] text-slate-400 leading-normal">
           {helperText}
         </p>
       )}
     </div>
   );
-}; 
+};

@@ -9,16 +9,16 @@ interface CardProps {
 
 export const Card: React.FC<CardProps> = ({ children, className = '', title, subtitle }) => {
   return (
-    <div className={`bg-card border border-border rounded-lg p-4 md:p-6 shadow-lg hover:shadow-xl transition-shadow duration-200 ${className}`}>
+    <div className={`glass-panel border border-slate-800/80 rounded-2xl p-5 sm:p-6 shadow-xl shadow-slate-950/40 transition-all duration-200 ${className}`}>
       {title && (
-        <div className="mb-4 md:mb-6">
-          <h2 className="text-xl md:text-2xl font-bold text-card-foreground mb-2">{title}</h2>
+        <div className="mb-4 sm:mb-6 border-b border-slate-800/80 pb-3">
+          <h2 className="text-lg sm:text-xl font-bold text-white tracking-tight">{title}</h2>
           {subtitle && (
-            <p className="text-muted-foreground text-sm">{subtitle}</p>
+            <p className="text-slate-400 text-xs sm:text-sm mt-1">{subtitle}</p>
           )}
         </div>
       )}
       {children}
     </div>
   );
-}; 
+};
