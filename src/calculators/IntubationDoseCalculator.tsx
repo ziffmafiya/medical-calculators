@@ -393,10 +393,8 @@ export const IntubationDoseCalculator: React.FC = () => {
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2 border-t border-border">
             <div>
-              <label className="block text-sm font-medium text-foreground mb-2">
-                Формула LBW (Тощая масса)
-              </label>
               <Select
+                label="Формула LBW (Тощая масса)"
                 value={inputs.lbwFormula}
                 onChange={(val) => setInputs({ ...inputs, lbwFormula: val as 'janmahasatian' | 'james' })}
                 options={[
@@ -407,10 +405,8 @@ export const IntubationDoseCalculator: React.FC = () => {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-foreground mb-2">
-                Миорелаксант для интубации
-              </label>
               <Select
+                label="Миорелаксант для интубации"
                 value={inputs.selectedRelaxant}
                 onChange={(val) => setInputs({ ...inputs, selectedRelaxant: val as 'rocuronium' | 'atracurium' | 'both' })}
                 options={[
