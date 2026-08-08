@@ -108,6 +108,7 @@ export const IntubationDoseCalculator: React.FC = () => {
 
   const [showAdvancedConc, setShowAdvancedConc] = useState(false);
   const [showSection2, setShowSection2] = useState(false);
+  const [showSection4, setShowSection4] = useState(false);
   const [showMatrixDetails, setShowMatrixDetails] = useState(false);
   const [expandedCards, setExpandedCards] = useState<Record<string, boolean>>({});
 
@@ -1376,38 +1377,51 @@ export const IntubationDoseCalculator: React.FC = () => {
         </div>
       )}
 
-      {/* SECTION 4: Cheat Sheet Section */}
+      {/* SECTION 4: Cheat Sheet Section (Collapsible) */}
       <div className="space-y-4">
-        <div className="flex items-center gap-3">
-          <div className="w-8 h-8 rounded-xl bg-sky-500/10 text-sky-400 flex items-center justify-center font-bold text-sm border border-sky-500/20">
-            4
+        <div
+          onClick={() => setShowSection4(!showSection4)}
+          className="flex items-center justify-between cursor-pointer group select-none"
+        >
+          <div className="flex items-center gap-3">
+            <div className="w-8 h-8 rounded-xl bg-sky-500/10 text-sky-400 flex items-center justify-center font-bold text-sm border border-sky-500/20 group-hover:bg-sky-500/20 transition-colors">
+              4
+            </div>
+            <h2 className="text-lg font-bold text-white tracking-tight group-hover:text-sky-400 transition-colors">
+              {t.cheatSheetTitle || 'Cheat Sheet: Body Weight Scalar Usage in ICU & Anesthesiology'}
+            </h2>
           </div>
-          <h2 className="text-lg font-bold text-white tracking-tight">
-            {t.cheatSheetTitle || 'Cheat Sheet: Body Weight Scalar Usage in ICU & Anesthesiology'}
-          </h2>
+          <div className="flex items-center gap-2">
+            <span className="text-xs font-mono text-slate-400 group-hover:text-slate-200">
+              {showSection4 ? (t.hideLabel || 'Hide') : (t.configureLabel || 'Show')}
+            </span>
+            <ChevronDownIcon className={`w-5 h-5 text-slate-400 transition-transform duration-200 ${showSection4 ? 'rotate-180 text-sky-400' : ''}`} />
+          </div>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 items-stretch">
-          {[
-            { param: t.paramVentVt || 'Ventilation Parameters (Vt)', scalar: 'IBW', rationale: t.rationaleVentVt || 'Lung size depends on height and gender, not fat mass. Prevents volutrauma.' },
-            { param: t.paramPropInduction || 'Propofol (Induction)', scalar: 'LBW', rationale: t.rationalePropInduction || 'Prevents severe vasodilation and profound hypotension in obese patients.' },
-            { param: t.paramPropMaintenance || 'Propofol (Infusion / TCI)', scalar: 'TBW / TCI', rationale: t.rationalePropMaintenance || 'Redistribution into adipose tissue during continuous infusion requires considering clearance and actual weight.' },
-            { param: t.paramRelaxants || 'Muscle Relaxants (Rocuronium, Vecuronium, Atracurium)', scalar: 'IBW', rationale: t.rationaleRelaxants || 'Volume of distribution for hydrophilic relaxants does not scale with fat mass. Protects against prolonged block.' },
-            { param: t.paramSuxamethonium || 'Succinylcholine (Suxamethonium)', scalar: 'TBW', rationale: t.rationaleSuxamethonium || 'Plasma pseudocholinesterase activity and blood volume are increased in obesity.' },
-            { param: t.paramFentanyl || 'Fentanyl (Induction & Maintenance Infusion)', scalar: 'LBW', rationale: t.rationaleFentanyl || 'Lipophilic opioid, but primary central effects and pharmacokinetics correlate best with lean body mass.' },
-            { param: t.paramAminoglycosides || 'Aminoglycosides / Vancomycin', scalar: 'ABW', rationale: t.rationaleAminoglycosides || 'Adipose tissue contains ~20-30% extracellular water. Correction prevents nephrotoxicity.' }
-          ].map((item, idx) => (
-            <div key={idx} className="bg-[#101828] border border-slate-800/80 rounded-xl p-4.5 space-y-2.5 hover:border-slate-700 transition-colors shadow-xs h-full flex flex-col justify-between">
-              <div className="flex justify-between items-start gap-2">
-                <span className="font-semibold text-white text-sm leading-snug">{item.param}</span>
-                <Badge variant="gray" className="font-mono text-[11px] shrink-0">{item.scalar}</Badge>
+        {showSection4 && (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 items-stretch animate-slide-up">
+            {[
+              { param: t.paramVentVt || 'Ventilation Parameters (Vt)', scalar: 'IBW', rationale: t.rationaleVentVt || 'Lung size depends on height and gender, not fat mass. Prevents volutrauma.' },
+              { param: t.paramPropInduction || 'Propofol (Induction)', scalar: 'LBW', rationale: t.rationalePropInduction || 'Prevents severe vasodilation and profound hypotension in obese patients.' },
+              { param: t.paramPropMaintenance || 'Propofol (Infusion / TCI)', scalar: 'TBW / TCI', rationale: t.rationalePropMaintenance || 'Redistribution into adipose tissue during continuous infusion requires considering clearance and actual weight.' },
+              { param: t.paramRelaxants || 'Muscle Relaxants (Rocuronium, Vecuronium, Atracurium)', scalar: 'IBW', rationale: t.rationaleRelaxants || 'Volume of distribution for hydrophilic relaxants does not scale with fat mass. Protects against prolonged block.' },
+              { param: t.paramSuxamethonium || 'Succinylcholine (Suxamethonium)', scalar: 'TBW', rationale: t.rationaleSuxamethonium || 'Plasma pseudocholinesterase activity and blood volume are increased in obesity.' },
+              { param: t.paramFentanyl || 'Fentanyl (Induction & Maintenance Infusion)', scalar: 'LBW', rationale: t.rationaleFentanyl || 'Lipophilic opioid, but primary central effects and pharmacokinetics correlate best with lean body mass.' },
+              { param: t.paramAminoglycosides || 'Aminoglycosides / Vancomycin', scalar: 'ABW', rationale: t.rationaleAminoglycosides || 'Adipose tissue contains ~20-30% extracellular water. Correction prevents nephrotoxicity.' }
+            ].map((item, idx) => (
+              <div key={idx} className="bg-[#101828] border border-slate-800/80 rounded-xl p-4.5 space-y-2.5 hover:border-slate-700 transition-colors shadow-xs h-full flex flex-col justify-between">
+                <div className="flex justify-between items-start gap-2">
+                  <span className="font-semibold text-white text-sm leading-snug">{item.param}</span>
+                  <Badge variant="gray" className="font-mono text-[11px] shrink-0">{item.scalar}</Badge>
+                </div>
+                <p className="text-xs text-slate-400 leading-relaxed mt-auto pt-2">
+                  {item.rationale}
+                </p>
               </div>
-              <p className="text-xs text-slate-400 leading-relaxed mt-auto pt-2">
-                {item.rationale}
-              </p>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        )}
       </div>
     </div>
   );
