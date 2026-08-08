@@ -770,40 +770,40 @@ export const IntubationDoseCalculator: React.FC = () => {
             {/* DRUG SELECTOR DROPDOWNS (1 Hypnotic, 1 Analgesic, 1 Relaxant) */}
             <div className="pt-3 border-t border-slate-800/60 space-y-4">
               <label className="block text-xs font-bold uppercase tracking-wider text-sky-400">
-                Выбор препаратов для интубации (Гипнотик + Анальгетик + Релаксант)
+                {t.drugSelectionTitle || 'Intubation Drug Selection (Hypnotic + Analgesic + Relaxant)'}
               </label>
 
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                 <Select
-                  label={t.hypnoticSelectLabel || 'Гипнотик / Седация'}
+                  label={t.hypnoticSelectLabel || 'Hypnotic / Sedative'}
                   value={inputs.selectedHypnotic}
                   onChange={(val) => setInputs({ ...inputs, selectedHypnotic: val as any })}
                   options={[
-                    { value: 'propofol', label: 'Пропофол (Propofol)' },
-                    { value: 'midazolam', label: 'Мидазолам (Midazolam)' },
-                    { value: 'ketamine', label: 'Кетамин (Ketamine)' },
-                    { value: 'thiopental', label: 'Тиопентал (Thiopental)' },
+                    { value: 'propofol', label: t.propofolName || 'Propofol' },
+                    { value: 'midazolam', label: t.midazolamName || 'Midazolam' },
+                    { value: 'ketamine', label: t.ketamineName || 'Ketamine' },
+                    { value: 'thiopental', label: t.thiopentalName || 'Thiopental' },
                   ]}
                 />
 
                 <Select
-                  label={t.analgesicSelectLabel || 'Анальгетик / Опиоид'}
+                  label={t.analgesicSelectLabel || 'Analgesic / Opioid'}
                   value={inputs.selectedAnalgesic}
                   onChange={(val) => setInputs({ ...inputs, selectedAnalgesic: val as any })}
                   options={[
-                    { value: 'fentanyl', label: 'Фентанил (Fentanyl)' },
-                    { value: 'remifentanil', label: 'Ремифентанил (Remifentanil)' },
+                    { value: 'fentanyl', label: t.fentanylName || 'Fentanyl' },
+                    { value: 'remifentanil', label: t.remifentanilName || 'Remifentanil' },
                   ]}
                 />
 
                 <Select
-                  label={t.relaxantForIntubationLabel || 'Миорелаксант'}
+                  label={t.relaxantForIntubationLabel || 'Muscle Relaxant'}
                   value={inputs.selectedRelaxant}
                   onChange={(val) => setInputs({ ...inputs, selectedRelaxant: val as any })}
                   options={[
-                    { value: 'both', label: 'Рокуроний + Атракуриум' },
-                    { value: 'rocuronium', label: 'Рокуроний (Rocuronium)' },
-                    { value: 'atracurium', label: 'Атракуриум (Atracurium)' },
+                    { value: 'both', label: t.showBothRelaxants || 'Rocuronium + Atracurium' },
+                    { value: 'rocuronium', label: t.rocuroniumName || 'Rocuronium' },
+                    { value: 'atracurium', label: t.atracuriumName || 'Atracurium' },
                   ]}
                 />
               </div>
@@ -815,7 +815,7 @@ export const IntubationDoseCalculator: React.FC = () => {
                     checked={inputs.hasShock}
                     onChange={(checked) => setInputs({ ...inputs, hasShock: checked })}
                   >
-                    {t.hasShockLabel || 'Пациент в состоянии шока (доза 0.5–1.0 мг/кг)'}
+                    {t.hasShockLabel || 'Patient in shock state (dose 0.5–1.0 mg/kg)'}
                   </Checkbox>
                 </div>
               )}
@@ -836,7 +836,7 @@ export const IntubationDoseCalculator: React.FC = () => {
                 </div>
                 <div className="flex items-center gap-2">
                   <span className="text-[11px] font-mono text-slate-500 group-hover:text-slate-400">
-                    {showAdvancedConc ? 'Hide' : 'Configure'}
+                    {showAdvancedConc ? (t.hideLabel || 'Hide') : (t.configureLabel || 'Configure')}
                   </span>
                   <ChevronDownIcon className={`w-4 h-4 text-slate-400 transition-transform duration-200 ${showAdvancedConc ? 'rotate-180 text-sky-400' : ''}`} />
                 </div>
@@ -845,28 +845,28 @@ export const IntubationDoseCalculator: React.FC = () => {
               {showAdvancedConc && (
                 <div className="mt-4 p-4 bg-slate-900/80 border border-slate-800 rounded-xl grid grid-cols-2 sm:grid-cols-4 gap-4 animate-slide-up">
                   {inputs.selectedHypnotic === 'propofol' && (
-                    <NumberInput label="Пропофол (мг/мл)" value={inputs.propofolConcMgMl} onChange={(val) => setInputs({ ...inputs, propofolConcMgMl: val || 10 })} />
+                    <NumberInput label={`${t.propofolName || 'Propofol'} (${t.unitMgMl || 'mg/ml'})`} value={inputs.propofolConcMgMl} onChange={(val) => setInputs({ ...inputs, propofolConcMgMl: val || 10 })} />
                   )}
                   {inputs.selectedHypnotic === 'midazolam' && (
-                    <NumberInput label="Мидазолам (мг/мл)" value={inputs.midazolamConcMgMl} onChange={(val) => setInputs({ ...inputs, midazolamConcMgMl: val || 5 })} />
+                    <NumberInput label={`${t.midazolamName || 'Midazolam'} (${t.unitMgMl || 'mg/ml'})`} value={inputs.midazolamConcMgMl} onChange={(val) => setInputs({ ...inputs, midazolamConcMgMl: val || 5 })} />
                   )}
                   {inputs.selectedHypnotic === 'ketamine' && (
-                    <NumberInput label="Кетамин (мг/мл)" value={inputs.ketamineConcMgMl} onChange={(val) => setInputs({ ...inputs, ketamineConcMgMl: val || 50 })} />
+                    <NumberInput label={`${t.ketamineName || 'Ketamine'} (${t.unitMgMl || 'mg/ml'})`} value={inputs.ketamineConcMgMl} onChange={(val) => setInputs({ ...inputs, ketamineConcMgMl: val || 50 })} />
                   )}
                   {inputs.selectedHypnotic === 'thiopental' && (
-                    <NumberInput label="Тиопентал (мг/мл)" value={inputs.thiopentalConcMgMl} onChange={(val) => setInputs({ ...inputs, thiopentalConcMgMl: val || 25 })} />
+                    <NumberInput label={`${t.thiopentalName || 'Thiopental'} (${t.unitMgMl || 'mg/ml'})`} value={inputs.thiopentalConcMgMl} onChange={(val) => setInputs({ ...inputs, thiopentalConcMgMl: val || 25 })} />
                   )}
                   {inputs.selectedAnalgesic === 'fentanyl' && (
-                    <NumberInput label="Фентанил (мкг/мл)" value={inputs.fentanylConcMcgMl} onChange={(val) => setInputs({ ...inputs, fentanylConcMcgMl: val || 50 })} />
+                    <NumberInput label={`${t.fentanylName || 'Fentanyl'} (${t.unitMcgMl || 'mcg/ml'})`} value={inputs.fentanylConcMcgMl} onChange={(val) => setInputs({ ...inputs, fentanylConcMcgMl: val || 50 })} />
                   )}
                   {inputs.selectedAnalgesic === 'remifentanil' && (
-                    <NumberInput label="Ремифентанил (мкг/мл)" value={inputs.remifentanilConcMcgMl} onChange={(val) => setInputs({ ...inputs, remifentanilConcMcgMl: val || 50 })} />
+                    <NumberInput label={`${t.remifentanilName || 'Remifentanil'} (${t.unitMcgMl || 'mcg/ml'})`} value={inputs.remifentanilConcMcgMl} onChange={(val) => setInputs({ ...inputs, remifentanilConcMcgMl: val || 50 })} />
                   )}
                   {(inputs.selectedRelaxant === 'rocuronium' || inputs.selectedRelaxant === 'both') && (
-                    <NumberInput label="Рокуроний (мг/мл)" value={inputs.rocuroniumConcMgMl} onChange={(val) => setInputs({ ...inputs, rocuroniumConcMgMl: val || 10 })} />
+                    <NumberInput label={`${t.rocuroniumName || 'Rocuronium'} (${t.unitMgMl || 'mg/ml'})`} value={inputs.rocuroniumConcMgMl} onChange={(val) => setInputs({ ...inputs, rocuroniumConcMgMl: val || 10 })} />
                   )}
                   {(inputs.selectedRelaxant === 'atracurium' || inputs.selectedRelaxant === 'both') && (
-                    <NumberInput label="Атракуриум (мг/мл)" value={inputs.atracuriumConcMgMl} onChange={(val) => setInputs({ ...inputs, atracuriumConcMgMl: val || 10 })} />
+                    <NumberInput label={`${t.atracuriumName || 'Atracurium'} (${t.unitMgMl || 'mg/ml'})`} value={inputs.atracuriumConcMgMl} onChange={(val) => setInputs({ ...inputs, atracuriumConcMgMl: val || 10 })} />
                   )}
                 </div>
               )}

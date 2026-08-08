@@ -404,6 +404,11 @@ export interface Translations {
   unitMcgHour: string;
   unitMl: string;
   unitMlHour: string;
+  unitMgMl: string;
+  unitMcgMl: string;
+  drugSelectionTitle: string;
+  configureLabel: string;
+  hideLabel: string;
 
   // Blood Gas & Infusion therapy additions
   bloodGasTitle: string;
@@ -856,6 +861,11 @@ export const translations: Record<Language, Translations> = {
     unitMcgHour: 'mcg/h',
     unitMl: 'ml',
     unitMlHour: 'ml/h',
+    unitMgMl: 'mg/ml',
+    unitMcgMl: 'mcg/ml',
+    drugSelectionTitle: 'Intubation Drug Selection (Hypnotic + Analgesic + Relaxant)',
+    configureLabel: 'Configure',
+    hideLabel: 'Hide',
 
     // Blood Gas & Infusion therapy additions
     bloodGasTitle: 'Arterial Blood Gas Analysis & Acid-Base Balance',
@@ -1224,6 +1234,19 @@ export const translations: Record<Language, Translations> = {
     lbwFormulaLabel: 'Формула LBW (Тощая масса)',
     janmahasatianGoldStandard: 'Janmahasatian (2005) — Золотой стандарт',
     jamesClassic: 'James (1976) — Классическая',
+    drugSelectionTitle: 'Выбор препаратов для интубации (Гипнотик + Анальгетик + Релаксант)',
+    configureLabel: 'Настроить',
+    hideLabel: 'Скрыть',
+    unitMgKg: 'мг/кг',
+    unitMcgKgMin: 'мкг/кг/мин',
+    unitMcgKg: 'мкг/кг',
+    unitMcgKgHour: 'мкг/кг/ч',
+    unitMgHour: 'мг/ч',
+    unitMcgHour: 'мкг/ч',
+    unitMl: 'мл',
+    unitMlHour: 'мл/ч',
+    unitMgMl: 'мг/мл',
+    unitMcgMl: 'мкг/мл',
     relaxantForIntubationLabel: 'Миорелаксант для интубации',
     showBothRelaxants: 'Показать Рокуроний и Атракуриум',
     rocuroniumDoseRangeOption: 'Рокуроний (0.6 - 1.2 мг/кг)',
@@ -1299,14 +1322,6 @@ export const translations: Record<Language, Translations> = {
     hypnoticSelectLabel: 'Гипнотик / Седация',
     analgesicSelectLabel: 'Анальгетик / Опиоид',
     hasShockLabel: 'Пациент в состоянии шока (доза 0.5–1.0 мг/кг)',
-    unitMgKg: 'мг/кг',
-    unitMcgKgMin: 'мкг/кг/мин',
-    unitMcgKg: 'мкг/кг',
-    unitMcgKgHour: 'мкг/кг/час',
-    unitMgHour: 'мг/час',
-    unitMcgHour: 'мкг/час',
-    unitMl: 'мл',
-    unitMlHour: 'мл/час',
 
     // Blood Gas & Infusion therapy additions
     bloodGasTitle: 'Анализ газов крови и кислотно-основного состояния',
@@ -1758,6 +1773,11 @@ export const translations: Record<Language, Translations> = {
     unitMcgHour: 'мкг/год',
     unitMl: 'мл',
     unitMlHour: 'мл/год',
+    unitMgMl: 'мг/мл',
+    unitMcgMl: 'мкг/мл',
+    drugSelectionTitle: 'Вибір препаратів для інтубації (Гіпнотик + Анальгетик + Релаксант)',
+    configureLabel: 'Налаштувати',
+    hideLabel: 'Сховати',
 
     // Blood Gas & Infusion therapy additions
     bloodGasTitle: 'Аналіз газів крові та кислотно-основного стану',
