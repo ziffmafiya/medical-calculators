@@ -21,16 +21,17 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-background flex flex-col">
-      {/* Header */}
-      <header className="bg-card border-b border-border">
-        <div className="container mx-auto px-4 py-4">
+      {/* Sticky Glassmorphic Header */}
+      <header className="sticky top-0 z-30 bg-card/85 backdrop-blur-md border-b border-border/80 shadow-sm">
+        <div className="container mx-auto px-4 py-3.5">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-4 md:space-x-8">
               <button
                 onClick={() => setActiveCalculator('home')}
-                className="text-xl md:text-2xl font-bold text-card-foreground hover:text-primary transition-colors cursor-pointer"
+                className="text-xl md:text-2xl font-bold tracking-tight text-card-foreground hover:text-primary transition-colors cursor-pointer flex items-center gap-2"
               >
-                MDcalc
+                <span className="w-8 h-8 rounded-lg bg-primary/20 flex items-center justify-center text-primary text-base font-extrabold">M</span>
+                <span>MDcalc</span>
               </button>
               
               {/* Desktop Navigation */}
@@ -39,17 +40,28 @@ export default function Home() {
                   onClick={() => setActiveCalculator('home')}
                   className={`text-sm font-medium transition-colors ${
                     activeCalculator === 'home' 
-                      ? 'text-primary' 
+                      ? 'text-primary font-semibold' 
                       : 'text-muted-foreground hover:text-foreground'
                   }`}
                 >
                   {t.home}
                 </button>
                 <button
+                  onClick={() => setActiveCalculator('intubation')}
+                  className={`text-sm font-medium transition-colors flex items-center gap-1.5 ${
+                    activeCalculator === 'intubation' 
+                      ? 'text-primary font-semibold' 
+                      : 'text-muted-foreground hover:text-foreground'
+                  }`}
+                >
+                  <span>{t.intubationDoses}</span>
+                  <span className="text-[10px] px-1.5 py-0.2 rounded-full bg-primary/20 text-primary font-bold">NEW</span>
+                </button>
+                <button
                   onClick={() => setActiveCalculator('electrolyte')}
                   className={`text-sm font-medium transition-colors ${
                     activeCalculator === 'electrolyte' 
-                      ? 'text-primary' 
+                      ? 'text-primary font-semibold' 
                       : 'text-muted-foreground hover:text-foreground'
                   }`}
                 >
@@ -59,7 +71,7 @@ export default function Home() {
                   onClick={() => setActiveCalculator('antibiotic')}
                   className={`text-sm font-medium transition-colors ${
                     activeCalculator === 'antibiotic' 
-                      ? 'text-primary' 
+                      ? 'text-primary font-semibold' 
                       : 'text-muted-foreground hover:text-foreground'
                   }`}
                 >
@@ -69,7 +81,7 @@ export default function Home() {
                   onClick={() => setActiveCalculator('pediatric')}
                   className={`text-sm font-medium transition-colors ${
                     activeCalculator === 'pediatric' 
-                      ? 'text-primary' 
+                      ? 'text-primary font-semibold' 
                       : 'text-muted-foreground hover:text-foreground'
                   }`}
                 >
@@ -79,7 +91,7 @@ export default function Home() {
                   onClick={() => setActiveCalculator('bloodGas')}
                   className={`text-sm font-medium transition-colors ${
                     activeCalculator === 'bloodGas' 
-                      ? 'text-primary' 
+                      ? 'text-primary font-semibold' 
                       : 'text-muted-foreground hover:text-foreground'
                   }`}
                 >
@@ -89,35 +101,22 @@ export default function Home() {
                   onClick={() => setActiveCalculator('infusionTherapy')}
                   className={`text-sm font-medium transition-colors ${
                     activeCalculator === 'infusionTherapy' 
-                      ? 'text-primary' 
+                      ? 'text-primary font-semibold' 
                       : 'text-muted-foreground hover:text-foreground'
                   }`}
                 >
                   Инфузионная терапия
-                </button>
-                <button
-                  onClick={() => setActiveCalculator('intubation')}
-                  className={`text-sm font-medium transition-colors ${
-                    activeCalculator === 'intubation' 
-                      ? 'text-primary' 
-                      : 'text-muted-foreground hover:text-foreground'
-                  }`}
-                >
-                  {t.intubationDoses}
                 </button>
               </nav>
             </div>
             
             <div className="flex items-center space-x-2 md:space-x-4">
               <LanguageSelector />
-              <button className="hidden sm:block text-sm text-muted-foreground hover:text-foreground">
-                {t.about}
-              </button>
               
               {/* Mobile Menu Button */}
               <button
                 onClick={() => setIsMobileMenuOpen(true)}
-                className="md:hidden p-2 hover:bg-accent rounded-md transition-colors"
+                className="md:hidden p-2 text-muted-foreground hover:text-foreground hover:bg-accent/60 rounded-lg transition-all"
                 aria-label="Открыть меню"
               >
                 <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -126,6 +125,81 @@ export default function Home() {
               </button>
             </div>
           </div>
+        </div>
+
+        {/* Mobile Horizontal Quick-Pill Navigation Scrollbar */}
+        <div className="md:hidden flex overflow-x-auto py-2 px-3 gap-2 border-t border-border/40 bg-accent/15 no-scrollbar scroll-smooth">
+          <button
+            onClick={() => setActiveCalculator('home')}
+            className={`whitespace-nowrap px-3.5 py-1.5 rounded-full text-xs font-medium transition-all ${
+              activeCalculator === 'home'
+                ? 'bg-primary text-primary-foreground shadow-sm font-semibold'
+                : 'bg-card/70 text-muted-foreground border border-border/50 hover:bg-accent'
+            }`}
+          >
+            {t.home}
+          </button>
+          <button
+            onClick={() => setActiveCalculator('intubation')}
+            className={`whitespace-nowrap px-3.5 py-1.5 rounded-full text-xs font-medium transition-all flex items-center gap-1 ${
+              activeCalculator === 'intubation'
+                ? 'bg-primary text-primary-foreground shadow-sm font-semibold'
+                : 'bg-indigo-950/40 text-indigo-300 border border-indigo-500/30 hover:bg-indigo-900/50'
+            }`}
+          >
+            <span>{t.intubationDoses}</span>
+            <span className="w-1.5 h-1.5 rounded-full bg-indigo-400 animate-pulse" />
+          </button>
+          <button
+            onClick={() => setActiveCalculator('electrolyte')}
+            className={`whitespace-nowrap px-3.5 py-1.5 rounded-full text-xs font-medium transition-all ${
+              activeCalculator === 'electrolyte'
+                ? 'bg-primary text-primary-foreground shadow-sm font-semibold'
+                : 'bg-card/70 text-muted-foreground border border-border/50 hover:bg-accent'
+            }`}
+          >
+            {t.electrolyteCorrection}
+          </button>
+          <button
+            onClick={() => setActiveCalculator('antibiotic')}
+            className={`whitespace-nowrap px-3.5 py-1.5 rounded-full text-xs font-medium transition-all ${
+              activeCalculator === 'antibiotic'
+                ? 'bg-primary text-primary-foreground shadow-sm font-semibold'
+                : 'bg-card/70 text-muted-foreground border border-border/50 hover:bg-accent'
+            }`}
+          >
+            {t.wounds}
+          </button>
+          <button
+            onClick={() => setActiveCalculator('pediatric')}
+            className={`whitespace-nowrap px-3.5 py-1.5 rounded-full text-xs font-medium transition-all ${
+              activeCalculator === 'pediatric'
+                ? 'bg-primary text-primary-foreground shadow-sm font-semibold'
+                : 'bg-card/70 text-muted-foreground border border-border/50 hover:bg-accent'
+            }`}
+          >
+            {t.children}
+          </button>
+          <button
+            onClick={() => setActiveCalculator('bloodGas')}
+            className={`whitespace-nowrap px-3.5 py-1.5 rounded-full text-xs font-medium transition-all ${
+              activeCalculator === 'bloodGas'
+                ? 'bg-primary text-primary-foreground shadow-sm font-semibold'
+                : 'bg-card/70 text-muted-foreground border border-border/50 hover:bg-accent'
+            }`}
+          >
+            Газы крови
+          </button>
+          <button
+            onClick={() => setActiveCalculator('infusionTherapy')}
+            className={`whitespace-nowrap px-3.5 py-1.5 rounded-full text-xs font-medium transition-all ${
+              activeCalculator === 'infusionTherapy'
+                ? 'bg-primary text-primary-foreground shadow-sm font-semibold'
+                : 'bg-card/70 text-muted-foreground border border-border/50 hover:bg-accent'
+            }`}
+          >
+            Инфузия
+          </button>
         </div>
       </header>
 

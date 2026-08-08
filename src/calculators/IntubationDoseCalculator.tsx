@@ -683,19 +683,96 @@ export const IntubationDoseCalculator: React.FC = () => {
         </Card>
       )}
 
-      {/* Main Results Table & Drug Cards */}
+      {/* Main Results Table (Desktop) & Mobile Touch Cards */}
       {drugDetails.length > 0 && anthropometrics && (
-        <Card className="p-6 border-border space-y-6">
+        <Card className="p-4 sm:p-6 border-border space-y-6">
           <div className="flex justify-between items-center border-b border-border pb-4">
-            <h2 className="text-xl font-bold text-foreground flex items-center gap-2">
-              <svg className="w-6 h-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <h2 className="text-lg sm:text-xl font-bold text-foreground flex items-center gap-2">
+              <svg className="w-5 h-5 sm:w-6 sm:h-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" />
               </svg>
               {t.summaryTableTitle || '3. Сводная таблица дозирования препаратов'}
             </h2>
           </div>
 
-          <div className="overflow-x-auto">
+          {/* Mobile Touch Cards View (visible on mobile screens) */}
+          <div className="md:hidden space-y-4">
+            {drugDetails.map((drug) => (
+              <div 
+                key={drug.id} 
+                className="bg-accent/15 border border-border/70 rounded-xl p-4 space-y-3 transition-all active:scale-[0.99] shadow-sm"
+              >
+                {/* Header */}
+                <div className="flex items-center justify-between border-b border-border/40 pb-2.5">
+                  <div className="flex items-center gap-2">
+                    <span className={`w-3 h-3 rounded-full ${
+                      drug.category === 'hypnotic' ? 'bg-blue-400 shadow-sm shadow-blue-400/50' :
+                      drug.category === 'analgesic' ? 'bg-purple-400 shadow-sm shadow-purple-400/50' : 'bg-emerald-400 shadow-sm shadow-emerald-400/50'
+                    }`} />
+                    <span className="font-bold text-foreground text-sm">{drug.drugName}</span>
+                  </div>
+                  <span className="text-[11px] font-medium px-2 py-0.5 rounded-full bg-accent/60 text-muted-foreground border border-border/40">
+                    {drug.concentrationStr}
+                  </span>
+                </div>
+
+                {/* Target Metric & Dose Per Kg */}
+                <div className="grid grid-cols-2 gap-2 text-xs py-1 bg-card/60 p-2.5 rounded-lg border border-border/40">
+                  <div>
+                    <span className="text-muted-foreground block text-[10px] uppercase font-semibold">{t.colBaseWeight || 'Базовый вес'}</span>
+                    <span className="font-bold text-primary text-sm">{drug.weightMetricUsed}</span>
+                    <span className="text-muted-foreground ml-1">({drug.weightValue.toFixed(1)} {t.kg || 'кг'})</span>
+                  </div>
+                  <div>
+                    <span className="text-muted-foreground block text-[10px] uppercase font-semibold">{t.colDoseRange || 'Целевая доза'}</span>
+                    <span className="font-semibold text-foreground text-xs">{drug.selectedDosePerKg} {drug.unitPerKg}</span>
+                  </div>
+                </div>
+
+                {/* Main Results Readout */}
+                <div className="grid grid-cols-2 gap-3 pt-1">
+                  <div className="bg-card/40 p-2.5 rounded-lg border border-border/30">
+                    <span className="text-[10px] text-muted-foreground uppercase font-medium block">{t.colCalculatedDose || 'Рассчитанная доза'}</span>
+                    <div className="text-base font-bold text-foreground mt-0.5">
+                      {drug.selectedTotalDose.toFixed(1)} <span className="text-xs font-normal text-muted-foreground">{drug.totalDoseUnit}</span>
+                    </div>
+                    <div className="text-[10px] text-muted-foreground mt-0.5">
+                      [{drug.totalDoseMin.toFixed(1)} – {drug.totalDoseMax.toFixed(1)}]
+                    </div>
+                  </div>
+
+                  <div className="bg-emerald-950/30 border border-emerald-500/30 p-2.5 rounded-lg">
+                    <span className="text-[10px] text-emerald-300 uppercase font-medium block">{t.colVolumeOrSpeed || 'Объем / Скорость'}</span>
+                    <div className="text-base font-extrabold text-emerald-400 mt-0.5">
+                      {drug.phase === 'induction' ? (
+                        <>
+                          {drug.selectedVolumeMl?.toFixed(1)} <span className="text-xs font-normal">{t.unitMl || 'мл'}</span>
+                        </>
+                      ) : (
+                        <>
+                          {drug.selectedRateMlHour?.toFixed(1)} <span className="text-xs font-normal">{t.unitMlHour || 'мл/ч'}</span>
+                        </>
+                      )}
+                    </div>
+                    <div className="text-[10px] text-emerald-400/80 mt-0.5">
+                      {drug.phase === 'induction' 
+                        ? `[${drug.volumeMinMl?.toFixed(1)}–${drug.volumeMaxMl?.toFixed(1)} ${t.unitMl || 'мл'}]`
+                        : `[${drug.rateMinMlHour?.toFixed(1)}–${drug.rateMaxMlHour?.toFixed(1)} ${t.unitMlHour || 'мл/ч'}]`
+                      }
+                    </div>
+                  </div>
+                </div>
+
+                {/* Explanation */}
+                <div className="text-[11px] text-muted-foreground leading-relaxed bg-accent/20 p-2.5 rounded-lg border border-border/30">
+                  💡 {drug.explanation}
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Desktop Table View (hidden on mobile) */}
+          <div className="hidden md:block overflow-x-auto">
             <table className="w-full text-left text-sm border-collapse">
               <thead>
                 <tr className="bg-accent/40 border-b border-border text-xs uppercase tracking-wider text-muted-foreground">
@@ -763,10 +840,10 @@ export const IntubationDoseCalculator: React.FC = () => {
         </Card>
       )}
 
-      {/* Clinical Reference Cheat Sheet Table */}
-      <Card className="p-6 border-border space-y-6">
-        <h2 className="text-xl font-bold text-foreground flex items-center gap-2 border-b border-border pb-4">
-          <svg className="w-6 h-6 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      {/* Clinical Reference Cheat Sheet Section */}
+      <Card className="p-4 sm:p-6 border-border space-y-6">
+        <h2 className="text-lg sm:text-xl font-bold text-foreground flex items-center gap-2 border-b border-border pb-4">
+          <svg className="w-5 h-5 sm:w-6 sm:h-6 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
           </svg>
           {t.cheatSheetTitle || 'Шпаргалка применения массы тела в ОРИТ и анестезиологии'}
@@ -776,7 +853,33 @@ export const IntubationDoseCalculator: React.FC = () => {
           {t.cheatSheetSubtitle || 'Определяющий ориентир применения антропометрических масс при различных клинических задачах:'}
         </p>
 
-        <div className="overflow-x-auto">
+        {/* Mobile Touch Cards View for Cheat Sheet */}
+        <div className="md:hidden space-y-3">
+          {[
+            { param: t.paramVentVt || 'Параметры ИВЛ (Vt)', scalar: 'IBW', color: 'border-blue-500/40 text-blue-400 bg-blue-950/20', rationale: t.rationaleVentVt },
+            { param: t.paramPropInduction || 'Пропофол (Индукция)', scalar: 'LBW', color: 'border-emerald-500/40 text-emerald-400 bg-emerald-950/20', rationale: t.rationalePropInduction },
+            { param: t.paramPropMaintenance || 'Пропофол (Инфузия)', scalar: 'TBW / TCI', color: 'border-indigo-500/40 text-indigo-400 bg-indigo-950/20', rationale: t.rationalePropMaintenance },
+            { param: t.paramRelaxants || 'Миорелаксанты', scalar: 'IBW', color: 'border-purple-500/40 text-purple-400 bg-purple-950/20', rationale: t.rationaleRelaxants },
+            { param: t.paramSuxamethonium || 'Суксаметоний', scalar: 'TBW', color: 'border-red-500/40 text-red-400 bg-red-950/20', rationale: t.rationaleSuxamethonium },
+            { param: t.paramFentanyl || 'Фентанил', scalar: 'LBW', color: 'border-cyan-500/40 text-cyan-400 bg-cyan-950/20', rationale: t.rationaleFentanyl },
+            { param: t.paramAminoglycosides || 'Аминогликозиды / Ванкомицин', scalar: 'ABW', color: 'border-amber-500/40 text-amber-400 bg-amber-950/20', rationale: t.rationaleAminoglycosides }
+          ].map((item, idx) => (
+            <div key={idx} className="bg-card/70 border border-border/60 rounded-xl p-3.5 space-y-2">
+              <div className="flex justify-between items-start gap-2">
+                <span className="font-semibold text-foreground text-xs sm:text-sm">{item.param}</span>
+                <span className={`text-[11px] font-bold px-2 py-0.5 rounded-full border ${item.color} whitespace-nowrap`}>
+                  {item.scalar}
+                </span>
+              </div>
+              <p className="text-xs text-muted-foreground leading-normal">
+                {item.rationale}
+              </p>
+            </div>
+          ))}
+        </div>
+
+        {/* Desktop Table View for Cheat Sheet */}
+        <div className="hidden md:block overflow-x-auto">
           <table className="w-full text-left text-sm border-collapse">
             <thead>
               <tr className="bg-accent/50 border-b border-border text-xs uppercase tracking-wider text-muted-foreground">
