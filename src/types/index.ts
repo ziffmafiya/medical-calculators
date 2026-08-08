@@ -261,22 +261,51 @@ export interface MonitoringParameter {
   criticalValues: string[];
 }
 
-// Типы для калькулятора дозирования препаратов при интубации
 export interface IntubationInputs {
   gender: 'male' | 'female';
   age: number | null; // лет
   height: number | null; // см
   weight: number | null; // кг (TBW)
   lbwFormula: 'janmahasatian' | 'james';
+  
+  // Выбор препаратов
+  selectedHypnotic: 'propofol' | 'midazolam' | 'ketamine' | 'thiopental';
+  selectedAnalgesic: 'fentanyl' | 'remifentanil';
   selectedRelaxant: 'rocuronium' | 'atracurium' | 'both';
+
+  // Пропофол
   propofolInductionDosePerKg: number; // mg/kg (1.0 - 3.0)
   propofolMaintDosePerKgMin: number; // mcg/kg/min (50 - 200)
+
+  // Мидазолам
+  midazolamInductionDosePerKg: number; // mg/kg (0.1 - 0.3)
+
+  // Кетамин
+  ketamineInductionDosePerKg: number; // mg/kg (0.5 - 2.0)
+  hasShock: boolean; // Шок (снижает дозу до 0.5 - 1.0 mg/kg)
+
+  // Тиопентал
+  thiopentalInductionDosePerKg: number; // mg/kg (3.0 - 5.0)
+
+  // Фентанил
   fentanylInductionDosePerKg: number; // mcg/kg (0.5 - 1.0)
   fentanylMaintDosePerKgHour: number; // mcg/kg/hour (1.0 - 2.0)
+
+  // Ремифентанил
+  remifentanilInductionDosePerKgMin: number; // mcg/kg/min (0.5 - 1.0)
+  remifentanilMaintDosePerKgMin: number; // mcg/kg/min (0.05 - 2.0)
+
+  // Миорелаксанты
   atracuriumDosePerKg: number; // mg/kg (0.4 - 0.5)
   rocuroniumDosePerKg: number; // mg/kg (0.6 - 1.2)
+
+  // Концентрации
   propofolConcMgMl: number; // mg/ml (default 10)
+  midazolamConcMgMl: number; // mg/ml (default 5)
+  ketamineConcMgMl: number; // mg/ml (default 50)
+  thiopentalConcMgMl: number; // mg/ml (default 25)
   fentanylConcMcgMl: number; // mcg/ml (default 50)
+  remifentanilConcMcgMl: number; // mcg/ml (default 50)
   atracuriumConcMgMl: number; // mg/ml (default 10)
   rocuroniumConcMgMl: number; // mg/ml (default 10)
 }

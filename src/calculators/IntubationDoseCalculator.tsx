@@ -70,21 +70,43 @@ export const IntubationDoseCalculator: React.FC = () => {
     height: 175,
     weight: 85,
     lbwFormula: 'janmahasatian',
+
+    selectedHypnotic: 'propofol',
+    selectedAnalgesic: 'fentanyl',
     selectedRelaxant: 'both',
+
     propofolInductionDosePerKg: 2.0,
     propofolMaintDosePerKgMin: 100,
+
+    midazolamInductionDosePerKg: 0.2,
+
+    ketamineInductionDosePerKg: 1.5,
+    hasShock: false,
+
+    thiopentalInductionDosePerKg: 4.0,
+
     fentanylInductionDosePerKg: 0.75,
     fentanylMaintDosePerKgHour: 1.5,
+
+    remifentanilInductionDosePerKgMin: 0.75,
+    remifentanilMaintDosePerKgMin: 0.25,
+
     atracuriumDosePerKg: 0.45,
     rocuroniumDosePerKg: 0.6,
+
     propofolConcMgMl: 10,
+    midazolamConcMgMl: 5,
+    ketamineConcMgMl: 50,
+    thiopentalConcMgMl: 25,
     fentanylConcMcgMl: 50,
+    remifentanilConcMcgMl: 50,
     atracuriumConcMgMl: 10,
     rocuroniumConcMgMl: 10,
   });
 
   const [showAdvancedConc, setShowAdvancedConc] = useState(false);
   const [showSection2, setShowSection2] = useState(false);
+  const [showMatrixDetails, setShowMatrixDetails] = useState(false);
   const [expandedCards, setExpandedCards] = useState<Record<string, boolean>>({});
 
   const toggleExpandCard = (id: string) => {
@@ -162,117 +184,268 @@ export const IntubationDoseCalculator: React.FC = () => {
     const details: DrugDoseDetail[] = [];
     const { tbw, ibw, selectedLbw } = anthropometrics;
 
-    // 1. Propofol Induction (LBW)
-    const propIndMinMg = 1.0 * selectedLbw;
-    const propIndMaxMg = 3.0 * selectedLbw;
-    const propIndSelectedMg = inputs.propofolInductionDosePerKg * selectedLbw;
-    const propConc = inputs.propofolConcMgMl > 0 ? inputs.propofolConcMgMl : 10;
+    // --- 1. HYPNOTIC SELECTOR ---
+    if (inputs.selectedHypnotic === 'propofol') {
+      // Propofol Induction (LBW)
+      const propIndMinMg = 1.0 * selectedLbw;
+      const propIndMaxMg = 3.0 * selectedLbw;
+      const propIndSelectedMg = inputs.propofolInductionDosePerKg * selectedLbw;
+      const propConc = inputs.propofolConcMgMl > 0 ? inputs.propofolConcMgMl : 10;
 
-    details.push({
-      id: 'propofol-induction',
-      drugName: t.propofolName || 'Propofol',
-      category: 'hypnotic',
-      phase: 'induction',
-      weightMetricUsed: 'LBW',
-      weightValue: selectedLbw,
-      dosePerKgRange: `1.0 – 3.0 ${t.unitMgKg || 'mg/kg'}`,
-      selectedDosePerKg: inputs.propofolInductionDosePerKg,
-      unitPerKg: t.unitMgKg || 'mg/kg',
-      totalDoseMin: propIndMinMg,
-      totalDoseMax: propIndMaxMg,
-      selectedTotalDose: propIndSelectedMg,
-      totalDoseUnit: 'mg',
-      volumeMinMl: propIndMinMg / propConc,
-      volumeMaxMl: propIndMaxMg / propConc,
-      selectedVolumeMl: propIndSelectedMg / propConc,
-      concentrationStr: `${propConc} mg/ml (${propConc / 10}%)`,
-      explanation: t.propofolInductionExp || 'Dose is calculated on LBW (lean body weight) to avoid severe hemodynamic instability in overweight patients.',
-    });
+      details.push({
+        id: 'propofol-induction',
+        drugName: t.propofolName || 'Propofol',
+        category: 'hypnotic',
+        phase: 'induction',
+        weightMetricUsed: 'LBW',
+        weightValue: selectedLbw,
+        dosePerKgRange: `1.0 – 3.0 ${t.unitMgKg || 'mg/kg'}`,
+        selectedDosePerKg: inputs.propofolInductionDosePerKg,
+        unitPerKg: t.unitMgKg || 'mg/kg',
+        totalDoseMin: propIndMinMg,
+        totalDoseMax: propIndMaxMg,
+        selectedTotalDose: propIndSelectedMg,
+        totalDoseUnit: 'mg',
+        volumeMinMl: propIndMinMg / propConc,
+        volumeMaxMl: propIndMaxMg / propConc,
+        selectedVolumeMl: propIndSelectedMg / propConc,
+        concentrationStr: `${propConc} mg/ml (${propConc / 10}%)`,
+        explanation: t.propofolInductionExp || 'Dose is calculated on LBW (lean body weight) to avoid severe hemodynamic instability in overweight patients.',
+      });
 
-    // 2. Propofol Maintenance (TBW)
-    const propMaintMinMcgMin = 50 * tbw;
-    const propMaintMaxMcgMin = 200 * tbw;
-    const propMaintSelectedMcgMin = inputs.propofolMaintDosePerKgMin * tbw;
+      // Propofol Maintenance (TBW)
+      const propMaintMinMcgMin = 50 * tbw;
+      const propMaintMaxMcgMin = 200 * tbw;
+      const propMaintSelectedMcgMin = inputs.propofolMaintDosePerKgMin * tbw;
 
-    const propMaintMinMgH = (propMaintMinMcgMin * 60) / 1000;
-    const propMaintMaxMgH = (propMaintMaxMcgMin * 60) / 1000;
-    const propMaintSelectedMgH = (propMaintSelectedMcgMin * 60) / 1000;
+      const propMaintMinMgH = (propMaintMinMcgMin * 60) / 1000;
+      const propMaintMaxMgH = (propMaintMaxMcgMin * 60) / 1000;
+      const propMaintSelectedMgH = (propMaintSelectedMcgMin * 60) / 1000;
 
-    details.push({
-      id: 'propofol-maintenance',
-      drugName: t.propofolMaintName || 'Propofol (Infusion)',
-      category: 'hypnotic',
-      phase: 'maintenance',
-      weightMetricUsed: 'TBW',
-      weightValue: tbw,
-      dosePerKgRange: `50 – 200 ${t.unitMcgKgMin || 'mcg/kg/min'}`,
-      selectedDosePerKg: inputs.propofolMaintDosePerKgMin,
-      unitPerKg: t.unitMcgKgMin || 'mcg/kg/min',
-      totalDoseMin: propMaintMinMgH,
-      totalDoseMax: propMaintMaxMgH,
-      selectedTotalDose: propMaintSelectedMgH,
-      totalDoseUnit: t.unitMgHour || 'mg/h',
-      rateMinMlHour: propMaintMinMgH / propConc,
-      rateMaxMlHour: propMaintMaxMgH / propConc,
-      selectedRateMlHour: propMaintSelectedMgH / propConc,
-      concentrationStr: `${propConc} mg/ml (${propConc / 10}%)`,
-      explanation: t.propofolMaintExp || 'Anesthesia maintenance is calculated on TBW (actual body weight) or TCI target concentration models.',
-    });
+      details.push({
+        id: 'propofol-maintenance',
+        drugName: t.propofolMaintName || 'Propofol (Infusion)',
+        category: 'hypnotic',
+        phase: 'maintenance',
+        weightMetricUsed: 'TBW',
+        weightValue: tbw,
+        dosePerKgRange: `50 – 200 ${t.unitMcgKgMin || 'mcg/kg/min'}`,
+        selectedDosePerKg: inputs.propofolMaintDosePerKgMin,
+        unitPerKg: t.unitMcgKgMin || 'mcg/kg/min',
+        totalDoseMin: propMaintMinMgH,
+        totalDoseMax: propMaintMaxMgH,
+        selectedTotalDose: propMaintSelectedMgH,
+        totalDoseUnit: t.unitMgHour || 'mg/h',
+        rateMinMlHour: propMaintMinMgH / propConc,
+        rateMaxMlHour: propMaintMaxMgH / propConc,
+        selectedRateMlHour: propMaintSelectedMgH / propConc,
+        concentrationStr: `${propConc} mg/ml (${propConc / 10}%)`,
+        explanation: t.propofolMaintExp || 'Anesthesia maintenance is calculated on TBW (actual body weight) or TCI target concentration models.',
+      });
+    } else if (inputs.selectedHypnotic === 'midazolam') {
+      // Midazolam Induction (LBW)
+      const midMinMg = 0.1 * selectedLbw;
+      const midMaxMg = 0.3 * selectedLbw;
+      const midSelectedMg = inputs.midazolamInductionDosePerKg * selectedLbw;
+      const midConc = inputs.midazolamConcMgMl > 0 ? inputs.midazolamConcMgMl : 5;
 
-    // 3. Fentanyl Induction (LBW)
-    const fentIndMinMcg = 0.5 * selectedLbw;
-    const fentIndMaxMcg = 1.0 * selectedLbw;
-    const fentIndSelectedMcg = inputs.fentanylInductionDosePerKg * selectedLbw;
-    const fentConc = inputs.fentanylConcMcgMl > 0 ? inputs.fentanylConcMcgMl : 50;
+      details.push({
+        id: 'midazolam-induction',
+        drugName: t.midazolamName || 'Midazolam',
+        category: 'hypnotic',
+        phase: 'induction',
+        weightMetricUsed: 'LBW',
+        weightValue: selectedLbw,
+        dosePerKgRange: `0.1 – 0.3 ${t.unitMgKg || 'mg/kg'}`,
+        selectedDosePerKg: inputs.midazolamInductionDosePerKg,
+        unitPerKg: t.unitMgKg || 'mg/kg',
+        totalDoseMin: midMinMg,
+        totalDoseMax: midMaxMg,
+        selectedTotalDose: midSelectedMg,
+        totalDoseUnit: 'mg',
+        volumeMinMl: midMinMg / midConc,
+        volumeMaxMl: midMaxMg / midConc,
+        selectedVolumeMl: midSelectedMg / midConc,
+        concentrationStr: `${midConc} mg/ml`,
+        explanation: 'Benzodiazepine hypnotic dosed on LBW. Reduce dose by 50% in elderly, severe shock or hemodynamically compromised patients.',
+      });
+    } else if (inputs.selectedHypnotic === 'ketamine') {
+      // Ketamine Induction (TBW)
+      const maxRange = inputs.hasShock ? 1.0 : 2.0;
+      const ketMinMg = 0.5 * tbw;
+      const ketMaxMg = maxRange * tbw;
+      const ketSelectedMg = inputs.ketamineInductionDosePerKg * tbw;
+      const ketConc = inputs.ketamineConcMgMl > 0 ? inputs.ketamineConcMgMl : 50;
 
-    details.push({
-      id: 'fentanyl-induction',
-      drugName: t.fentanylName || 'Fentanyl',
-      category: 'analgesic',
-      phase: 'induction',
-      weightMetricUsed: 'LBW',
-      weightValue: selectedLbw,
-      dosePerKgRange: `0.5 – 1.0 ${t.unitMcgKg || 'mcg/kg'}`,
-      selectedDosePerKg: inputs.fentanylInductionDosePerKg,
-      unitPerKg: t.unitMcgKg || 'mcg/kg',
-      totalDoseMin: fentIndMinMcg,
-      totalDoseMax: fentIndMaxMcg,
-      selectedTotalDose: fentIndSelectedMcg,
-      totalDoseUnit: 'mcg',
-      volumeMinMl: fentIndMinMcg / fentConc,
-      volumeMaxMl: fentIndMaxMcg / fentConc,
-      selectedVolumeMl: fentIndSelectedMcg / fentConc,
-      concentrationStr: `${fentConc} mcg/ml (0.005%)`,
-      explanation: t.fentanylInductionExp || 'Analgesia induction is calculated on lean body weight (LBW).',
-    });
+      details.push({
+        id: 'ketamine-induction',
+        drugName: t.ketamineName || 'Ketamine',
+        category: 'hypnotic',
+        phase: 'induction',
+        weightMetricUsed: 'TBW',
+        weightValue: tbw,
+        dosePerKgRange: inputs.hasShock ? `0.5 – 1.0 ${t.unitMgKg || 'mg/kg'} (Shock)` : `0.5 – 2.0 ${t.unitMgKg || 'mg/kg'}`,
+        selectedDosePerKg: inputs.ketamineInductionDosePerKg,
+        unitPerKg: t.unitMgKg || 'mg/kg',
+        totalDoseMin: ketMinMg,
+        totalDoseMax: ketMaxMg,
+        selectedTotalDose: ketSelectedMg,
+        totalDoseUnit: 'mg',
+        volumeMinMl: ketMinMg / ketConc,
+        volumeMaxMl: ketMaxMg / ketConc,
+        selectedVolumeMl: ketSelectedMg / ketConc,
+        concentrationStr: `${ketConc} mg/ml`,
+        explanation: inputs.hasShock 
+          ? 'Dissociative anesthetic with sympathetic activation. Reduced to 0.5-1.0 mg/kg in shock state due to potential direct myocardial depression.'
+          : 'Dissociative anesthetic. Maintains blood pressure and respiratory drive via sympathetic system stimulation.',
+      });
+    } else if (inputs.selectedHypnotic === 'thiopental') {
+      // Thiopental Induction (LBW)
+      const thioMinMg = 3.0 * selectedLbw;
+      const thioMaxMg = 5.0 * selectedLbw;
+      const thioSelectedMg = inputs.thiopentalInductionDosePerKg * selectedLbw;
+      const thioConc = inputs.thiopentalConcMgMl > 0 ? inputs.thiopentalConcMgMl : 25;
 
-    // 4. Fentanyl Maintenance (LBW)
-    const fentMaintMinMcgH = 1.0 * selectedLbw;
-    const fentMaintMaxMcgH = 2.0 * selectedLbw;
-    const fentMaintSelectedMcgH = inputs.fentanylMaintDosePerKgHour * selectedLbw;
+      details.push({
+        id: 'thiopental-induction',
+        drugName: t.thiopentalName || 'Thiopental',
+        category: 'hypnotic',
+        phase: 'induction',
+        weightMetricUsed: 'LBW',
+        weightValue: selectedLbw,
+        dosePerKgRange: `3.0 – 5.0 ${t.unitMgKg || 'mg/kg'}`,
+        selectedDosePerKg: inputs.thiopentalInductionDosePerKg,
+        unitPerKg: t.unitMgKg || 'mg/kg',
+        totalDoseMin: thioMinMg,
+        totalDoseMax: thioMaxMg,
+        selectedTotalDose: thioSelectedMg,
+        totalDoseUnit: 'mg',
+        volumeMinMl: thioMinMg / thioConc,
+        volumeMaxMl: thioMaxMg / thioConc,
+        selectedVolumeMl: thioSelectedMg / thioConc,
+        concentrationStr: `${thioConc} mg/ml (2.5%)`,
+        explanation: 'Barbiturate hypnotic dosed on LBW to avoid severe vasodilation, myocardial depression, and prolonged awakening.',
+      });
+    }
 
-    details.push({
-      id: 'fentanyl-maintenance',
-      drugName: t.fentanylMaintName || 'Fentanyl (Infusion)',
-      category: 'analgesic',
-      phase: 'maintenance',
-      weightMetricUsed: 'LBW',
-      weightValue: selectedLbw,
-      dosePerKgRange: `1.0 – 2.0 ${t.unitMcgKgHour || 'mcg/kg/h'}`,
-      selectedDosePerKg: inputs.fentanylMaintDosePerKgHour,
-      unitPerKg: t.unitMcgKgHour || 'mcg/kg/h',
-      totalDoseMin: fentMaintMinMcgH,
-      totalDoseMax: fentMaintMaxMcgH,
-      selectedTotalDose: fentMaintSelectedMcgH,
-      totalDoseUnit: t.unitMcgHour || 'mcg/h',
-      rateMinMlHour: fentMaintMinMcgH / fentConc,
-      rateMaxMlHour: fentMaintMaxMcgH / fentConc,
-      selectedRateMlHour: fentMaintSelectedMcgH / fentConc,
-      concentrationStr: `${fentConc} mcg/ml (0.005%)`,
-      explanation: t.fentanylMaintExp || 'Fentanyl maintenance is dosed on lean body weight (LBW).',
-    });
+    // --- 2. ANALGESIC SELECTOR ---
+    if (inputs.selectedAnalgesic === 'fentanyl') {
+      // Fentanyl Induction (LBW)
+      const fentIndMinMcg = 0.5 * selectedLbw;
+      const fentIndMaxMcg = 1.0 * selectedLbw;
+      const fentIndSelectedMcg = inputs.fentanylInductionDosePerKg * selectedLbw;
+      const fentConc = inputs.fentanylConcMcgMl > 0 ? inputs.fentanylConcMcgMl : 50;
 
-    // 5. Rocuronium (IBW)
+      details.push({
+        id: 'fentanyl-induction',
+        drugName: t.fentanylName || 'Fentanyl',
+        category: 'analgesic',
+        phase: 'induction',
+        weightMetricUsed: 'LBW',
+        weightValue: selectedLbw,
+        dosePerKgRange: `0.5 – 1.0 ${t.unitMcgKg || 'mcg/kg'}`,
+        selectedDosePerKg: inputs.fentanylInductionDosePerKg,
+        unitPerKg: t.unitMcgKg || 'mcg/kg',
+        totalDoseMin: fentIndMinMcg,
+        totalDoseMax: fentIndMaxMcg,
+        selectedTotalDose: fentIndSelectedMcg,
+        totalDoseUnit: 'mcg',
+        volumeMinMl: fentIndMinMcg / fentConc,
+        volumeMaxMl: fentIndMaxMcg / fentConc,
+        selectedVolumeMl: fentIndSelectedMcg / fentConc,
+        concentrationStr: `${fentConc} mcg/ml (0.005%)`,
+        explanation: t.fentanylInductionExp || 'Analgesia induction is calculated on lean body weight (LBW).',
+      });
+
+      // Fentanyl Maintenance (LBW)
+      const fentMaintMinMcgH = 1.0 * selectedLbw;
+      const fentMaintMaxMcgH = 2.0 * selectedLbw;
+      const fentMaintSelectedMcgH = inputs.fentanylMaintDosePerKgHour * selectedLbw;
+
+      details.push({
+        id: 'fentanyl-maintenance',
+        drugName: t.fentanylMaintName || 'Fentanyl (Infusion)',
+        category: 'analgesic',
+        phase: 'maintenance',
+        weightMetricUsed: 'LBW',
+        weightValue: selectedLbw,
+        dosePerKgRange: `1.0 – 2.0 ${t.unitMcgKgHour || 'mcg/kg/h'}`,
+        selectedDosePerKg: inputs.fentanylMaintDosePerKgHour,
+        unitPerKg: t.unitMcgKgHour || 'mcg/kg/h',
+        totalDoseMin: fentMaintMinMcgH,
+        totalDoseMax: fentMaintMaxMcgH,
+        selectedTotalDose: fentMaintSelectedMcgH,
+        totalDoseUnit: t.unitMcgHour || 'mcg/h',
+        rateMinMlHour: fentMaintMinMcgH / fentConc,
+        rateMaxMlHour: fentMaintMaxMcgH / fentConc,
+        selectedRateMlHour: fentMaintSelectedMcgH / fentConc,
+        concentrationStr: `${fentConc} mcg/ml (0.005%)`,
+        explanation: t.fentanylMaintExp || 'Fentanyl maintenance is dosed on lean body weight (LBW).',
+      });
+    } else if (inputs.selectedAnalgesic === 'remifentanil') {
+      // Remifentanil Continuous Infusion Induction (LBW)
+      const remiIndMinMcgMin = 0.5 * selectedLbw;
+      const remiIndMaxMcgMin = 1.0 * selectedLbw;
+      const remiIndSelectedMcgMin = inputs.remifentanilInductionDosePerKgMin * selectedLbw;
+      const remiConc = inputs.remifentanilConcMcgMl > 0 ? inputs.remifentanilConcMcgMl : 50;
+
+      const remiIndMinMcgH = remiIndMinMcgMin * 60;
+      const remiIndMaxMcgH = remiIndMaxMcgMin * 60;
+      const remiIndSelectedMcgH = remiIndSelectedMcgMin * 60;
+
+      details.push({
+        id: 'remifentanil-induction',
+        drugName: t.remifentanilName || 'Remifentanil',
+        category: 'analgesic',
+        phase: 'induction',
+        weightMetricUsed: 'LBW',
+        weightValue: selectedLbw,
+        dosePerKgRange: `0.5 – 1.0 ${t.unitMcgKgMin || 'mcg/kg/min'}`,
+        selectedDosePerKg: inputs.remifentanilInductionDosePerKgMin,
+        unitPerKg: t.unitMcgKgMin || 'mcg/kg/min',
+        totalDoseMin: remiIndMinMcgH,
+        totalDoseMax: remiIndMaxMcgH,
+        selectedTotalDose: remiIndSelectedMcgH,
+        totalDoseUnit: t.unitMcgHour || 'mcg/h',
+        volumeMinMl: remiIndMinMcgH / remiConc,
+        volumeMaxMl: remiIndMaxMcgH / remiConc,
+        selectedVolumeMl: remiIndSelectedMcgH / remiConc,
+        concentrationStr: `${remiConc} mcg/ml`,
+        explanation: 'Ultra-short acting mu-opioid agonist metabolized by plasma esterases. Induction IV continuous infusion: 0.5–1.0 mcg/kg/min.',
+      });
+
+      // Remifentanil Maintenance (LBW)
+      const remiMaintMinMcgMin = 0.05 * selectedLbw;
+      const remiMaintMaxMcgMin = 2.0 * selectedLbw;
+      const remiMaintSelectedMcgMin = inputs.remifentanilMaintDosePerKgMin * selectedLbw;
+
+      const remiMaintMinMcgH = remiMaintMinMcgMin * 60;
+      const remiMaintMaxMcgH = remiMaintMaxMcgMin * 60;
+      const remiMaintSelectedMcgH = remiMaintSelectedMcgMin * 60;
+
+      details.push({
+        id: 'remifentanil-maintenance',
+        drugName: t.remifentanilMaintName || 'Remifentanil (Infusion)',
+        category: 'analgesic',
+        phase: 'maintenance',
+        weightMetricUsed: 'LBW',
+        weightValue: selectedLbw,
+        dosePerKgRange: `0.05 – 2.0 ${t.unitMcgKgMin || 'mcg/kg/min'}`,
+        selectedDosePerKg: inputs.remifentanilMaintDosePerKgMin,
+        unitPerKg: t.unitMcgKgMin || 'mcg/kg/min',
+        totalDoseMin: remiMaintMinMcgH,
+        totalDoseMax: remiMaintMaxMcgH,
+        selectedTotalDose: remiMaintSelectedMcgH,
+        totalDoseUnit: t.unitMcgHour || 'mcg/h',
+        rateMinMlHour: remiMaintMinMcgH / remiConc,
+        rateMaxMlHour: remiMaintMaxMcgH / remiConc,
+        selectedRateMlHour: remiMaintSelectedMcgH / remiConc,
+        concentrationStr: `${remiConc} mcg/ml`,
+        explanation: 'Anesthesia maintenance with propofol: IV 0.25 mcg/kg/min (range: 0.05 to 2.0 mcg/kg/min). Dosed on LBW.',
+      });
+    }
+
+    // --- 3. MUSCLE RELAXANT SELECTOR ---
     if (inputs.selectedRelaxant === 'rocuronium' || inputs.selectedRelaxant === 'both') {
       const rocMinMg = 0.6 * ibw;
       const rocMaxMg = 1.2 * ibw;
@@ -301,7 +474,6 @@ export const IntubationDoseCalculator: React.FC = () => {
       });
     }
 
-    // 6. Atracurium (IBW)
     if (inputs.selectedRelaxant === 'atracurium' || inputs.selectedRelaxant === 'both') {
       const atrMinMg = 0.4 * ibw;
       const atrMaxMg = 0.5 * ibw;
@@ -347,7 +519,11 @@ export const IntubationDoseCalculator: React.FC = () => {
 
     drugDetails.forEach(d => {
       let key = d.id.includes('propofol') ? 'propofol' :
+                d.id.includes('midazolam') ? 'midazolam' :
+                d.id.includes('ketamine') ? 'ketamine' :
+                d.id.includes('thiopental') ? 'thiopental' :
                 d.id.includes('fentanyl') ? 'fentanyl' :
+                d.id.includes('remifentanil') ? 'remifentanil' :
                 d.id.includes('rocuronium') ? 'rocuronium' : 'atracurium';
       
       if (!map[key]) {
@@ -372,15 +548,36 @@ export const IntubationDoseCalculator: React.FC = () => {
       height: 175,
       weight: 85,
       lbwFormula: 'janmahasatian',
+
+      selectedHypnotic: 'propofol',
+      selectedAnalgesic: 'fentanyl',
       selectedRelaxant: 'both',
+
       propofolInductionDosePerKg: 2.0,
       propofolMaintDosePerKgMin: 100,
+
+      midazolamInductionDosePerKg: 0.2,
+
+      ketamineInductionDosePerKg: 1.5,
+      hasShock: false,
+
+      thiopentalInductionDosePerKg: 4.0,
+
       fentanylInductionDosePerKg: 0.75,
       fentanylMaintDosePerKgHour: 1.5,
+
+      remifentanilInductionDosePerKgMin: 0.75,
+      remifentanilMaintDosePerKgMin: 0.25,
+
       atracuriumDosePerKg: 0.45,
       rocuroniumDosePerKg: 0.6,
+
       propofolConcMgMl: 10,
+      midazolamConcMgMl: 5,
+      ketamineConcMgMl: 50,
+      thiopentalConcMgMl: 25,
       fentanylConcMcgMl: 50,
+      remifentanilConcMcgMl: 50,
       atracuriumConcMgMl: 10,
       rocuroniumConcMgMl: 10,
     });
@@ -493,93 +690,139 @@ export const IntubationDoseCalculator: React.FC = () => {
           </Button>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
           {/* Patient Form Input Card */}
-          <div className="lg:col-span-6 bg-[#101828] border border-slate-800/80 rounded-2xl p-6 flex flex-col justify-between space-y-6 shadow-sm h-full">
-            <div className="space-y-6">
-              <div>
-                <label className="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-2.5">
-                  {t.genderLabel || 'Gender'}
-                </label>
-                <div className="bg-slate-900/90 border border-slate-800 rounded-xl p-1 grid grid-cols-2 gap-1">
-                  <button
-                    type="button"
-                    onClick={() => setInputs({ ...inputs, gender: 'male' })}
-                    className={`py-2.5 px-4 rounded-lg text-sm font-semibold transition-all flex items-center justify-center gap-2 ${
-                      inputs.gender === 'male'
-                        ? 'bg-sky-500 text-slate-950 shadow-md'
-                        : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/50'
-                    }`}
-                  >
-                    <MaleIcon />
-                    <span>{t.maleGender || 'Male'}</span>
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => setInputs({ ...inputs, gender: 'female' })}
-                    className={`py-2.5 px-4 rounded-lg text-sm font-semibold transition-all flex items-center justify-center gap-2 ${
-                      inputs.gender === 'female'
-                        ? 'bg-sky-500 text-slate-950 shadow-md'
-                        : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/50'
-                    }`}
-                  >
-                    <FemaleIcon />
-                    <span>{t.femaleGender || 'Female'}</span>
-                  </button>
-                </div>
-              </div>
-
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                <NumberInput
-                  label={t.ageYearsLabel || 'Age (years)'}
-                  value={inputs.age}
-                  onChange={(val) => setInputs({ ...inputs, age: val })}
-                  min={1}
-                  max={120}
-                  placeholder="45"
-                />
-                <NumberInput
-                  label={t.heightCmLabel || 'Height (cm)'}
-                  value={inputs.height}
-                  onChange={(val) => setInputs({ ...inputs, height: val })}
-                  min={50}
-                  max={250}
-                  placeholder="175"
-                />
-                <NumberInput
-                  label={t.actualWeightTbwLabel || 'Weight TBW (kg)'}
-                  value={inputs.weight}
-                  onChange={(val) => setInputs({ ...inputs, weight: val })}
-                  min={10}
-                  max={300}
-                  placeholder="85"
-                />
-              </div>
-
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <Select
-                  label={t.lbwFormulaLabel || 'LBW Formula'}
-                  value={inputs.lbwFormula}
-                  onChange={(val) => setInputs({ ...inputs, lbwFormula: val as 'janmahasatian' | 'james' })}
-                  options={[
-                    { value: 'janmahasatian', label: t.janmahasatianGoldStandard || 'Janmahasatian (2005) — Gold Standard' },
-                    { value: 'james', label: t.jamesClassic || 'James (1976) — Classic' },
-                  ]}
-                />
-                <Select
-                  label={t.relaxantForIntubationLabel || 'Muscle Relaxant'}
-                  value={inputs.selectedRelaxant}
-                  onChange={(val) => setInputs({ ...inputs, selectedRelaxant: val as 'rocuronium' | 'atracurium' | 'both' })}
-                  options={[
-                    { value: 'both', label: t.showBothRelaxants || 'Show Rocuronium & Atracurium' },
-                    { value: 'rocuronium', label: t.rocuroniumDoseRangeOption || 'Rocuronium (0.6 - 1.2 mg/kg)' },
-                    { value: 'atracurium', label: t.atracuriumDoseRangeOption || 'Atracurium (0.4 - 0.5 mg/kg)' },
-                  ]}
-                />
+          <div className="lg:col-span-6 bg-[#101828] border border-slate-800/80 rounded-2xl p-6 space-y-6 shadow-sm">
+            {/* Gender Toggle */}
+            <div>
+              <label className="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-2.5">
+                {t.genderLabel || 'Gender'}
+              </label>
+              <div className="bg-slate-900/90 border border-slate-800 rounded-xl p-1 grid grid-cols-2 gap-1">
+                <button
+                  type="button"
+                  onClick={() => setInputs({ ...inputs, gender: 'male' })}
+                  className={`py-2.5 px-4 rounded-lg text-sm font-semibold transition-all flex items-center justify-center gap-2 ${
+                    inputs.gender === 'male'
+                      ? 'bg-sky-500 text-slate-950 shadow-md'
+                      : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/50'
+                  }`}
+                >
+                  <MaleIcon />
+                  <span>{t.maleGender || 'Male'}</span>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setInputs({ ...inputs, gender: 'female' })}
+                  className={`py-2.5 px-4 rounded-lg text-sm font-semibold transition-all flex items-center justify-center gap-2 ${
+                    inputs.gender === 'female'
+                      ? 'bg-sky-500 text-slate-950 shadow-md'
+                      : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/50'
+                  }`}
+                >
+                  <FemaleIcon />
+                  <span>{t.femaleGender || 'Female'}</span>
+                </button>
               </div>
             </div>
 
-            <div className="pt-3 border-t border-slate-800/60 mt-auto">
+            {/* Age, Height, Weight */}
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+              <NumberInput
+                label={t.ageYearsLabel || 'Age (years)'}
+                value={inputs.age}
+                onChange={(val) => setInputs({ ...inputs, age: val })}
+                min={1}
+                max={120}
+                placeholder="45"
+              />
+              <NumberInput
+                label={t.heightCmLabel || 'Height (cm)'}
+                value={inputs.height}
+                onChange={(val) => setInputs({ ...inputs, height: val })}
+                min={50}
+                max={250}
+                placeholder="175"
+              />
+              <NumberInput
+                label={t.actualWeightTbwLabel || 'Weight TBW (kg)'}
+                value={inputs.weight}
+                onChange={(val) => setInputs({ ...inputs, weight: val })}
+                min={10}
+                max={300}
+                placeholder="85"
+              />
+            </div>
+
+            {/* LBW Formula */}
+            <div>
+              <Select
+                label={t.lbwFormulaLabel || 'LBW Formula'}
+                value={inputs.lbwFormula}
+                onChange={(val) => setInputs({ ...inputs, lbwFormula: val as 'janmahasatian' | 'james' })}
+                options={[
+                  { value: 'janmahasatian', label: t.janmahasatianGoldStandard || 'Janmahasatian (2005) — Gold Standard' },
+                  { value: 'james', label: t.jamesClassic || 'James (1976) — Classic' },
+                ]}
+              />
+            </div>
+
+            {/* DRUG SELECTOR DROPDOWNS (1 Hypnotic, 1 Analgesic, 1 Relaxant) */}
+            <div className="pt-3 border-t border-slate-800/60 space-y-4">
+              <label className="block text-xs font-bold uppercase tracking-wider text-sky-400">
+                Выбор препаратов для интубации (Гипнотик + Анальгетик + Релаксант)
+              </label>
+
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                <Select
+                  label={t.hypnoticSelectLabel || 'Гипнотик / Седация'}
+                  value={inputs.selectedHypnotic}
+                  onChange={(val) => setInputs({ ...inputs, selectedHypnotic: val as any })}
+                  options={[
+                    { value: 'propofol', label: 'Пропофол (Propofol)' },
+                    { value: 'midazolam', label: 'Мидазолам (Midazolam)' },
+                    { value: 'ketamine', label: 'Кетамин (Ketamine)' },
+                    { value: 'thiopental', label: 'Тиопентал (Thiopental)' },
+                  ]}
+                />
+
+                <Select
+                  label={t.analgesicSelectLabel || 'Анальгетик / Опиоид'}
+                  value={inputs.selectedAnalgesic}
+                  onChange={(val) => setInputs({ ...inputs, selectedAnalgesic: val as any })}
+                  options={[
+                    { value: 'fentanyl', label: 'Фентанил (Fentanyl)' },
+                    { value: 'remifentanil', label: 'Ремифентанил (Remifentanil)' },
+                  ]}
+                />
+
+                <Select
+                  label={t.relaxantForIntubationLabel || 'Миорелаксант'}
+                  value={inputs.selectedRelaxant}
+                  onChange={(val) => setInputs({ ...inputs, selectedRelaxant: val as any })}
+                  options={[
+                    { value: 'both', label: 'Рокуроний + Атракуриум' },
+                    { value: 'rocuronium', label: 'Рокуроний (Rocuronium)' },
+                    { value: 'atracurium', label: 'Атракуриум (Atracurium)' },
+                  ]}
+                />
+              </div>
+
+              {inputs.selectedHypnotic === 'ketamine' && (
+                <div className="p-3 bg-amber-500/10 border border-amber-500/20 rounded-xl">
+                  <Checkbox
+                    id="ketamine-shock"
+                    checked={inputs.hasShock}
+                    onChange={(checked) => setInputs({ ...inputs, hasShock: checked })}
+                  >
+                    {t.hasShockLabel || 'Пациент в состоянии шока (доза 0.5–1.0 мг/кг)'}
+                  </Checkbox>
+                </div>
+              )}
+            </div>
+
+            {/* Concentration Settings Accordion Toggle */}
+            <div className="pt-3 border-t border-slate-800/60">
               <button
                 type="button"
                 onClick={() => setShowAdvancedConc(!showAdvancedConc)}
@@ -601,101 +844,143 @@ export const IntubationDoseCalculator: React.FC = () => {
 
               {showAdvancedConc && (
                 <div className="mt-4 p-4 bg-slate-900/80 border border-slate-800 rounded-xl grid grid-cols-2 sm:grid-cols-4 gap-4 animate-slide-up">
-                  <NumberInput
-                    label={t.propofolConcLabel || 'Propofol (mg/ml)'}
-                    value={inputs.propofolConcMgMl}
-                    onChange={(val) => setInputs({ ...inputs, propofolConcMgMl: val || 10 })}
-                  />
-                  <NumberInput
-                    label={t.fentanylConcLabel || 'Fentanyl (mcg/ml)'}
-                    value={inputs.fentanylConcMcgMl}
-                    onChange={(val) => setInputs({ ...inputs, fentanylConcMcgMl: val || 50 })}
-                  />
-                  <NumberInput
-                    label={t.rocuroniumConcLabel || 'Rocuronium (mg/ml)'}
-                    value={inputs.rocuroniumConcMgMl}
-                    onChange={(val) => setInputs({ ...inputs, rocuroniumConcMgMl: val || 10 })}
-                  />
-                  <NumberInput
-                    label={t.atracuriumConcLabel || 'Atracurium (mg/ml)'}
-                    value={inputs.atracuriumConcMgMl}
-                    onChange={(val) => setInputs({ ...inputs, atracuriumConcMgMl: val || 10 })}
-                  />
+                  {inputs.selectedHypnotic === 'propofol' && (
+                    <NumberInput label="Пропофол (мг/мл)" value={inputs.propofolConcMgMl} onChange={(val) => setInputs({ ...inputs, propofolConcMgMl: val || 10 })} />
+                  )}
+                  {inputs.selectedHypnotic === 'midazolam' && (
+                    <NumberInput label="Мидазолам (мг/мл)" value={inputs.midazolamConcMgMl} onChange={(val) => setInputs({ ...inputs, midazolamConcMgMl: val || 5 })} />
+                  )}
+                  {inputs.selectedHypnotic === 'ketamine' && (
+                    <NumberInput label="Кетамин (мг/мл)" value={inputs.ketamineConcMgMl} onChange={(val) => setInputs({ ...inputs, ketamineConcMgMl: val || 50 })} />
+                  )}
+                  {inputs.selectedHypnotic === 'thiopental' && (
+                    <NumberInput label="Тиопентал (мг/мл)" value={inputs.thiopentalConcMgMl} onChange={(val) => setInputs({ ...inputs, thiopentalConcMgMl: val || 25 })} />
+                  )}
+                  {inputs.selectedAnalgesic === 'fentanyl' && (
+                    <NumberInput label="Фентанил (мкг/мл)" value={inputs.fentanylConcMcgMl} onChange={(val) => setInputs({ ...inputs, fentanylConcMcgMl: val || 50 })} />
+                  )}
+                  {inputs.selectedAnalgesic === 'remifentanil' && (
+                    <NumberInput label="Ремифентанил (мкг/мл)" value={inputs.remifentanilConcMcgMl} onChange={(val) => setInputs({ ...inputs, remifentanilConcMcgMl: val || 50 })} />
+                  )}
+                  {(inputs.selectedRelaxant === 'rocuronium' || inputs.selectedRelaxant === 'both') && (
+                    <NumberInput label="Рокуроний (мг/мл)" value={inputs.rocuroniumConcMgMl} onChange={(val) => setInputs({ ...inputs, rocuroniumConcMgMl: val || 10 })} />
+                  )}
+                  {(inputs.selectedRelaxant === 'atracurium' || inputs.selectedRelaxant === 'both') && (
+                    <NumberInput label="Атракуриум (мг/мл)" value={inputs.atracuriumConcMgMl} onChange={(val) => setInputs({ ...inputs, atracuriumConcMgMl: val || 10 })} />
+                  )}
                 </div>
               )}
             </div>
           </div>
 
-          {/* Anthropometric Matrix Stat Cards */}
-          <div className="lg:col-span-6 h-full">
+          {/* Anthropometric Matrix Stat Cards (Compact & Expandable) */}
+          <div className="lg:col-span-6">
             {anthropometrics ? (
-              <div className="bg-[#101828] border border-slate-800/80 rounded-2xl p-6 flex flex-col justify-between space-y-4 shadow-sm h-full">
-                <div className="flex items-center justify-between border-b border-slate-800 pb-3">
-                  <h3 className="text-sm font-bold text-white uppercase tracking-wider">
-                    {t.anthropometricMatrixTitle || 'Anthropometric Matrix'}
-                  </h3>
-                  <span className="text-xs font-mono text-slate-400">
-                    BMI: <strong className="text-white font-bold">{anthropometrics.bmi.toFixed(1)}</strong> kg/m²
-                  </span>
+              <div 
+                className="bg-[#101828] border border-slate-800/80 hover:border-slate-700/80 rounded-2xl p-5 space-y-4 shadow-sm transition-all text-left cursor-pointer group/matrix"
+                onClick={() => setShowMatrixDetails(!showMatrixDetails)}
+              >
+                {/* Header Row */}
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-2.5">
+                    <h3 className="text-sm font-bold text-white uppercase tracking-wider group-hover/matrix:text-sky-400 transition-colors">
+                      {t.anthropometricMatrixTitle || 'Anthropometric Matrix'}
+                    </h3>
+                    <Badge variant="gray" className="font-mono text-xs">
+                      BMI: {anthropometrics.bmi.toFixed(1)} kg/m²
+                    </Badge>
+                  </div>
+
+                  <div className="flex items-center gap-2">
+                    <span className="text-xs font-mono text-slate-400 group-hover/matrix:text-slate-200">
+                      {showMatrixDetails ? 'Hide' : 'Details'}
+                    </span>
+                    <ChevronDownIcon className={`w-4 h-4 text-slate-400 transition-transform duration-200 ${showMatrixDetails ? 'rotate-180 text-sky-400' : ''}`} />
+                  </div>
                 </div>
 
-                <div className="grid grid-cols-2 gap-3.5 flex-1">
-                  <StatCard 
-                    label={t.tbwMatrixLabel || 'TBW (Actual)'} 
-                    value={anthropometrics.tbw.toFixed(1)} 
-                    unit={t.kg || 'kg'} 
-                  />
-                  <StatCard 
-                    label={t.ibwMatrixLabel || 'IBW (Ideal)'} 
-                    value={anthropometrics.ibw.toFixed(1)} 
-                    unit={t.kg || 'kg'} 
-                  />
-                  <StatCard 
-                    label={t.lbwJanMatrixLabel || 'LBW (Lean)'} 
-                    value={anthropometrics.selectedLbw.toFixed(1)} 
-                    unit={t.kg || 'kg'} 
-                  />
-                  <StatCard 
-                    label={t.abwMatrixLabel || 'ABW (Adjusted)'} 
-                    value={anthropometrics.abw.toFixed(1)} 
-                    unit={t.kg || 'kg'} 
-                  />
-                </div>
-
-                {/* Tidal Volume Highlight Box */}
-                <div className="bg-slate-900/90 border border-slate-800 rounded-xl p-4 flex items-center justify-between">
+                {/* Mini Summary Grid (Always Visible) */}
+                <div className="grid grid-cols-4 gap-2 bg-slate-900/90 border border-slate-800/80 rounded-xl p-3 text-center">
                   <div>
-                    <span className="text-xs font-semibold text-slate-400 uppercase tracking-wider block">
-                      {t.ventilationVtParamLabel || 'Ventilation Tidal Vol (Vt):'}
-                    </span>
-                    <span className="text-xs text-slate-500 mt-0.5 block">
-                      6–8 {t.unitMl || 'ml'}/kg IBW
-                    </span>
+                    <span className="text-[10px] font-semibold text-slate-400 uppercase tracking-wider block">TBW</span>
+                    <span className="text-sm font-bold font-mono text-white">{anthropometrics.tbw.toFixed(1)} <span className="text-[10px] text-slate-400 font-normal">kg</span></span>
                   </div>
-                  <div className="text-right">
-                    <span className="text-2xl font-bold font-mono text-sky-400 tracking-tight">
-                      {anthropometrics.vtMin} – {anthropometrics.vtMax}
-                    </span>
-                    <span className="text-xs font-medium text-slate-400 ml-1">{t.unitMl || 'ml'}</span>
+                  <div>
+                    <span className="text-[10px] font-semibold text-slate-400 uppercase tracking-wider block">IBW</span>
+                    <span className="text-sm font-bold font-mono text-white">{anthropometrics.ibw.toFixed(1)} <span className="text-[10px] text-slate-400 font-normal">kg</span></span>
+                  </div>
+                  <div>
+                    <span className="text-[10px] font-semibold text-slate-400 uppercase tracking-wider block">LBW</span>
+                    <span className="text-sm font-bold font-mono text-white">{anthropometrics.selectedLbw.toFixed(1)} <span className="text-[10px] text-slate-400 font-normal">kg</span></span>
+                  </div>
+                  <div>
+                    <span className="text-[10px] font-semibold text-slate-400 uppercase tracking-wider block">Vt (6-8)</span>
+                    <span className="text-sm font-bold font-mono text-sky-400">{anthropometrics.vtMin}–{anthropometrics.vtMax} <span className="text-[10px] text-slate-400 font-normal">ml</span></span>
                   </div>
                 </div>
 
-                {anthropometrics.isObese && (
-                  <Alert
-                    variant="warning"
-                    title={t.obesityWarningTitle || 'Warning (Obesity BMI ≥ 30)'}
-                  >
-                    {t.obesityWarningText || 'Actual weight (TBW) significantly exceeds ideal weight (BMI ≥ 30). Using TBW for Propofol induction or muscle relaxants will cause severe overdose!'}
-                  </Alert>
-                )}
+                {/* Expanded Detailed Matrix */}
+                {showMatrixDetails && (
+                  <div className="space-y-4 pt-3 border-t border-slate-800/60 animate-slide-up" onClick={(e) => e.stopPropagation()}>
+                    <div className="grid grid-cols-2 gap-3.5">
+                      <StatCard 
+                        label={t.tbwMatrixLabel || 'TBW (Actual)'} 
+                        value={anthropometrics.tbw.toFixed(1)} 
+                        unit={t.kg || 'kg'} 
+                      />
+                      <StatCard 
+                        label={t.ibwMatrixLabel || 'IBW (Ideal)'} 
+                        value={anthropometrics.ibw.toFixed(1)} 
+                        unit={t.kg || 'kg'} 
+                      />
+                      <StatCard 
+                        label={t.lbwJanMatrixLabel || 'LBW (Lean)'} 
+                        value={anthropometrics.selectedLbw.toFixed(1)} 
+                        unit={t.kg || 'kg'} 
+                      />
+                      <StatCard 
+                        label={t.abwMatrixLabel || 'ABW (Adjusted)'} 
+                        value={anthropometrics.abw.toFixed(1)} 
+                        unit={t.kg || 'kg'} 
+                      />
+                    </div>
 
-                {anthropometrics.isOverweight && (
-                  <Alert
-                    variant="warning"
-                    title={t.overweightWarningTitle || 'Warning (Overweight: TBW > 120% IBW)'}
-                  >
-                    {t.overweightWarningText || 'Actual weight exceeds ideal weight by more than 20%. Use LBW for Propofol induction and IBW for muscle relaxants to avoid overdose.'}
-                  </Alert>
+                    {/* Tidal Volume Highlight Box */}
+                    <div className="bg-slate-900/90 border border-slate-800 rounded-xl p-4 flex items-center justify-between">
+                      <div>
+                        <span className="text-xs font-semibold text-slate-400 uppercase tracking-wider block">
+                          {t.ventilationVtParamLabel || 'Ventilation Tidal Vol (Vt):'}
+                        </span>
+                        <span className="text-xs text-slate-500 mt-0.5 block">
+                          6–8 {t.unitMl || 'ml'}/kg IBW
+                        </span>
+                      </div>
+                      <div className="text-right">
+                        <span className="text-2xl font-bold font-mono text-sky-400 tracking-tight">
+                          {anthropometrics.vtMin} – {anthropometrics.vtMax}
+                        </span>
+                        <span className="text-xs font-medium text-slate-400 ml-1">{t.unitMl || 'ml'}</span>
+                      </div>
+                    </div>
+
+                    {anthropometrics.isObese && (
+                      <Alert
+                        variant="warning"
+                        title={t.obesityWarningTitle || 'Warning (Obesity BMI ≥ 30)'}
+                      >
+                        {t.obesityWarningText || 'Actual weight (TBW) significantly exceeds ideal weight (BMI ≥ 30). Using TBW for Propofol induction or muscle relaxants will cause severe overdose!'}
+                      </Alert>
+                    )}
+
+                    {anthropometrics.isOverweight && (
+                      <Alert
+                        variant="warning"
+                        title={t.overweightWarningTitle || 'Warning (Overweight: TBW > 120% IBW)'}
+                      >
+                        {t.overweightWarningText || 'Actual weight exceeds ideal weight by more than 20%. Use LBW for Propofol induction and IBW for muscle relaxants to avoid overdose.'}
+                      </Alert>
+                    )}
+                  </div>
                 )}
               </div>
             ) : (
@@ -733,58 +1018,141 @@ export const IntubationDoseCalculator: React.FC = () => {
 
           {showSection2 && (
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-stretch animate-slide-up">
-              {renderSlider(
-                t.propofolInductionSliderLabel || 'Propofol Induction (LBW):',
-                inputs.propofolInductionDosePerKg,
-                1.0, 3.0, 0.1,
+              {/* HYPNOTIC SLIDERS */}
+              {inputs.selectedHypnotic === 'propofol' && (
+                <>
+                  {renderSlider(
+                    t.propofolInductionSliderLabel || 'Propofol Induction (LBW):',
+                    inputs.propofolInductionDosePerKg,
+                    1.0, 3.0, 0.1,
+                    t.unitMgKg || 'mg/kg',
+                    'propofolInductionDosePerKg',
+                    [
+                      { val: 1.0, label: '1.0' },
+                      { val: 2.0, label: `2.0 (${t.standardLabel || 'Standard'})` },
+                      { val: 3.0, label: '3.0' }
+                    ]
+                  )}
+                  {renderSlider(
+                    t.propofolMaintSliderLabel || 'Propofol Infusion (TBW):',
+                    inputs.propofolMaintDosePerKgMin,
+                    50, 200, 5,
+                    t.unitMcgKgMin || 'mcg/kg/min',
+                    'propofolMaintDosePerKgMin',
+                    [
+                      { val: 50, label: '50' },
+                      { val: 100, label: '100' },
+                      { val: 200, label: '200' }
+                    ]
+                  )}
+                </>
+              )}
+
+              {inputs.selectedHypnotic === 'midazolam' && renderSlider(
+                'Midazolam Induction (LBW):',
+                inputs.midazolamInductionDosePerKg,
+                0.1, 0.3, 0.01,
                 t.unitMgKg || 'mg/kg',
-                'propofolInductionDosePerKg',
+                'midazolamInductionDosePerKg',
                 [
-                  { val: 1.0, label: '1.0' },
-                  { val: 2.0, label: `2.0 (${t.standardLabel || 'Standard'})` },
-                  { val: 3.0, label: '3.0' }
+                  { val: 0.1, label: '0.1' },
+                  { val: 0.2, label: `0.2 (${t.standardLabel || 'Standard'})` },
+                  { val: 0.3, label: '0.3' }
                 ]
               )}
 
-              {renderSlider(
-                t.propofolMaintSliderLabel || 'Propofol Infusion (TBW):',
-                inputs.propofolMaintDosePerKgMin,
-                50, 200, 5,
-                t.unitMcgKgMin || 'mcg/kg/min',
-                'propofolMaintDosePerKgMin',
-                [
-                  { val: 50, label: '50' },
-                  { val: 100, label: '100' },
-                  { val: 200, label: '200' }
-                ]
-              )}
-
-              {renderSlider(
-                t.fentanylInductionSliderLabel || 'Fentanyl Induction (LBW):',
-                inputs.fentanylInductionDosePerKg,
-                0.5, 1.0, 0.05,
-                t.unitMcgKg || 'mcg/kg',
-                'fentanylInductionDosePerKg',
-                [
+              {inputs.selectedHypnotic === 'ketamine' && renderSlider(
+                'Ketamine Induction (TBW):',
+                inputs.ketamineInductionDosePerKg,
+                0.5, inputs.hasShock ? 1.0 : 2.0, 0.1,
+                t.unitMgKg || 'mg/kg',
+                'ketamineInductionDosePerKg',
+                inputs.hasShock ? [
                   { val: 0.5, label: '0.5' },
                   { val: 0.75, label: '0.75' },
-                  { val: 1.0, label: '1.0' }
-                ]
-              )}
-
-              {renderSlider(
-                t.fentanylMaintSliderLabel || 'Fentanyl Infusion (LBW):',
-                inputs.fentanylMaintDosePerKgHour,
-                1.0, 2.0, 0.1,
-                t.unitMcgKgHour || 'mcg/kg/h',
-                'fentanylMaintDosePerKgHour',
-                [
+                  { val: 1.0, label: '1.0 (Shock Max)' }
+                ] : [
+                  { val: 0.5, label: '0.5' },
                   { val: 1.0, label: '1.0' },
                   { val: 1.5, label: '1.5' },
                   { val: 2.0, label: '2.0' }
                 ]
               )}
 
+              {inputs.selectedHypnotic === 'thiopental' && renderSlider(
+                'Thiopental Induction (LBW):',
+                inputs.thiopentalInductionDosePerKg,
+                3.0, 5.0, 0.1,
+                t.unitMgKg || 'mg/kg',
+                'thiopentalInductionDosePerKg',
+                [
+                  { val: 3.0, label: '3.0' },
+                  { val: 4.0, label: `4.0 (${t.standardLabel || 'Standard'})` },
+                  { val: 5.0, label: '5.0' }
+                ]
+              )}
+
+              {/* ANALGESIC SLIDERS */}
+              {inputs.selectedAnalgesic === 'fentanyl' && (
+                <>
+                  {renderSlider(
+                    t.fentanylInductionSliderLabel || 'Fentanyl Induction (LBW):',
+                    inputs.fentanylInductionDosePerKg,
+                    0.5, 1.0, 0.05,
+                    t.unitMcgKg || 'mcg/kg',
+                    'fentanylInductionDosePerKg',
+                    [
+                      { val: 0.5, label: '0.5' },
+                      { val: 0.75, label: '0.75' },
+                      { val: 1.0, label: '1.0' }
+                    ]
+                  )}
+                  {renderSlider(
+                    t.fentanylMaintSliderLabel || 'Fentanyl Infusion (LBW):',
+                    inputs.fentanylMaintDosePerKgHour,
+                    1.0, 2.0, 0.1,
+                    t.unitMcgKgHour || 'mcg/kg/h',
+                    'fentanylMaintDosePerKgHour',
+                    [
+                      { val: 1.0, label: '1.0' },
+                      { val: 1.5, label: '1.5' },
+                      { val: 2.0, label: '2.0' }
+                    ]
+                  )}
+                </>
+              )}
+
+              {inputs.selectedAnalgesic === 'remifentanil' && (
+                <>
+                  {renderSlider(
+                    'Remifentanil Continuous Infusion (LBW):',
+                    inputs.remifentanilInductionDosePerKgMin,
+                    0.5, 1.0, 0.05,
+                    t.unitMcgKgMin || 'mcg/kg/min',
+                    'remifentanilInductionDosePerKgMin',
+                    [
+                      { val: 0.5, label: '0.5' },
+                      { val: 0.75, label: '0.75' },
+                      { val: 1.0, label: '1.0' }
+                    ]
+                  )}
+                  {renderSlider(
+                    'Remifentanil Maintenance Infusion (LBW):',
+                    inputs.remifentanilMaintDosePerKgMin,
+                    0.05, 2.0, 0.05,
+                    t.unitMcgKgMin || 'mcg/kg/min',
+                    'remifentanilMaintDosePerKgMin',
+                    [
+                      { val: 0.05, label: '0.05' },
+                      { val: 0.25, label: '0.25 (Propofol)' },
+                      { val: 1.0, label: '1.0' },
+                      { val: 2.0, label: '2.0' }
+                    ]
+                  )}
+                </>
+              )}
+
+              {/* RELAXANT SLIDERS */}
               {(inputs.selectedRelaxant === 'rocuronium' || inputs.selectedRelaxant === 'both') && renderSlider(
                 t.rocuroniumInductionSliderLabel || 'Rocuronium Induction (IBW):',
                 inputs.rocuroniumDosePerKg,

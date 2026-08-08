@@ -388,6 +388,14 @@ export interface Translations {
   fentanylMaintName: string;
   rocuroniumName: string;
   atracuriumName: string;
+  midazolamName: string;
+  ketamineName: string;
+  thiopentalName: string;
+  remifentanilName: string;
+  remifentanilMaintName: string;
+  hypnoticSelectLabel: string;
+  analgesicSelectLabel: string;
+  hasShockLabel: string;
   unitMgKg: string;
   unitMcgKgMin: string;
   unitMcgKg: string;
@@ -832,6 +840,14 @@ export const translations: Record<Language, Translations> = {
     fentanylMaintName: 'Fentanyl (Infusion)',
     rocuroniumName: 'Rocuronium',
     atracuriumName: 'Atracurium',
+    midazolamName: 'Midazolam',
+    ketamineName: 'Ketamine',
+    thiopentalName: 'Thiopental',
+    remifentanilName: 'Remifentanil',
+    remifentanilMaintName: 'Remifentanil (Infusion)',
+    hypnoticSelectLabel: 'Hypnotic / Sedative',
+    analgesicSelectLabel: 'Analgesic / Opioid',
+    hasShockLabel: 'Patient in shock state (dose 0.5–1.0 mg/kg)',
     unitMgKg: 'mg/kg',
     unitMcgKgMin: 'mcg/kg/min',
     unitMcgKg: 'mcg/kg',
@@ -1275,6 +1291,14 @@ export const translations: Record<Language, Translations> = {
     fentanylMaintName: 'Фентанил (Инфузия)',
     rocuroniumName: 'Рокуроний (Rocuronium)',
     atracuriumName: 'Атракуриум (Atracurium)',
+    midazolamName: 'Мидазолам (Midazolam)',
+    ketamineName: 'Кетамин (Ketamine)',
+    thiopentalName: 'Тиопентал натрия (Thiopental)',
+    remifentanilName: 'Ремифентанил (Remifentanil)',
+    remifentanilMaintName: 'Ремифентанил (Инфузия)',
+    hypnoticSelectLabel: 'Гипнотик / Седация',
+    analgesicSelectLabel: 'Анальгетик / Опиоид',
+    hasShockLabel: 'Пациент в состоянии шока (доза 0.5–1.0 мг/кг)',
     unitMgKg: 'мг/кг',
     unitMcgKgMin: 'мкг/кг/мин',
     unitMcgKg: 'мкг/кг',
@@ -1718,6 +1742,14 @@ export const translations: Record<Language, Translations> = {
     fentanylMaintName: 'Фентаніл (Інфузія)',
     rocuroniumName: 'Рокуроній (Rocuronium)',
     atracuriumName: 'Атракуріум (Atracurium)',
+    midazolamName: 'Мідазолам (Midazolam)',
+    ketamineName: 'Кетамін (Ketamine)',
+    thiopentalName: 'Тіопентал натрію (Thiopental)',
+    remifentanilName: 'Реміфентаніл (Remifentanil)',
+    remifentanilMaintName: 'Реміфентаніл (Інфузія)',
+    hypnoticSelectLabel: 'Гіпнотик / Седація',
+    analgesicSelectLabel: 'Анальгетик / Опіоїд',
+    hasShockLabel: 'Пацієнт у стані шоку (доза 0.5–1.0 мг/кг)',
     unitMgKg: 'мг/кг',
     unitMcgKgMin: 'мкг/кг/хв',
     unitMcgKg: 'мкг/кг',
