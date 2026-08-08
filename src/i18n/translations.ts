@@ -416,6 +416,9 @@ export interface Translations {
   remifentanilMaintSliderLabel: string;
   succinylcholineName: string;
   succinylcholineInductionSliderLabel: string;
+  allHypnoticsOption: string;
+  allAnalgesicsOption: string;
+  allRelaxantsOption: string;
 
   // Blood Gas & Infusion therapy additions
   bloodGasTitle: string;
@@ -880,6 +883,9 @@ export const translations: Record<Language, Translations> = {
     remifentanilMaintSliderLabel: 'Remifentanil Maintenance (LBW):',
     succinylcholineName: 'Succinylcholine (Suxamethonium)',
     succinylcholineInductionSliderLabel: 'Succinylcholine Induction (TBW):',
+    allHypnoticsOption: 'Show All Hypnotics',
+    allAnalgesicsOption: 'Show All Analgesics',
+    allRelaxantsOption: 'Show All Muscle Relaxants',
 
     // Blood Gas & Infusion therapy additions
     bloodGasTitle: 'Arterial Blood Gas Analysis & Acid-Base Balance',
@@ -1258,6 +1264,9 @@ export const translations: Record<Language, Translations> = {
     remifentanilMaintSliderLabel: 'Ремифентанил Инфузия (LBW):',
     succinylcholineName: 'Сукцинилхолин / Дитилин (Succinylcholine)',
     succinylcholineInductionSliderLabel: 'Сукцинилхолин Индукция (TBW):',
+    allHypnoticsOption: 'Показать все гипнотики',
+    allAnalgesicsOption: 'Показать все анальгетики',
+    allRelaxantsOption: 'Показать все миорелаксанты',
     unitMgKg: 'мг/кг',
     unitMcgKgMin: 'мкг/кг/мин',
     unitMcgKg: 'мкг/кг',
@@ -1806,6 +1815,9 @@ export const translations: Record<Language, Translations> = {
     remifentanilMaintSliderLabel: 'Реміфентаніл Інфузія (LBW):',
     succinylcholineName: 'Сукцинілхолін / Дитилін (Succinylcholine)',
     succinylcholineInductionSliderLabel: 'Сукцинілхолін Індукція (TBW):',
+    allHypnoticsOption: 'Показати всі гіпнотики',
+    allAnalgesicsOption: 'Показати всі анальгетики',
+    allRelaxantsOption: 'Показати всі міорелаксанти',
 
     // Blood Gas & Infusion therapy additions
     bloodGasTitle: 'Аналіз газів крові та кислотно-основного стану',

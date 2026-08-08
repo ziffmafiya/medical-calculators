@@ -269,9 +269,9 @@ export interface IntubationInputs {
   lbwFormula: 'janmahasatian' | 'james';
   
   // Выбор препаратов
-  selectedHypnotic: 'propofol' | 'midazolam' | 'ketamine' | 'thiopental';
-  selectedAnalgesic: 'fentanyl' | 'remifentanil';
-  selectedRelaxant: 'rocuronium' | 'atracurium' | 'succinylcholine' | 'both';
+  selectedHypnotic: 'propofol' | 'midazolam' | 'ketamine' | 'thiopental' | 'all';
+  selectedAnalgesic: 'fentanyl' | 'remifentanil' | 'all';
+  selectedRelaxant: 'rocuronium' | 'atracurium' | 'succinylcholine' | 'both' | 'all';
 
   // Пропофол
   propofolInductionDosePerKg: number; // mg/kg (1.0 - 3.0)

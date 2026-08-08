@@ -73,7 +73,7 @@ export const IntubationDoseCalculator: React.FC = () => {
 
     selectedHypnotic: 'propofol',
     selectedAnalgesic: 'fentanyl',
-    selectedRelaxant: 'both',
+    selectedRelaxant: 'atracurium',
 
     propofolInductionDosePerKg: 2.0,
     propofolMaintDosePerKgMin: 100,
@@ -186,8 +186,20 @@ export const IntubationDoseCalculator: React.FC = () => {
     const details: DrugDoseDetail[] = [];
     const { tbw, ibw, selectedLbw } = anthropometrics;
 
+    const showPropofol = inputs.selectedHypnotic === 'propofol' || inputs.selectedHypnotic === 'all';
+    const showMidazolam = inputs.selectedHypnotic === 'midazolam' || inputs.selectedHypnotic === 'all';
+    const showKetamine = inputs.selectedHypnotic === 'ketamine' || inputs.selectedHypnotic === 'all';
+    const showThiopental = inputs.selectedHypnotic === 'thiopental' || inputs.selectedHypnotic === 'all';
+
+    const showFentanyl = inputs.selectedAnalgesic === 'fentanyl' || inputs.selectedAnalgesic === 'all';
+    const showRemifentanil = inputs.selectedAnalgesic === 'remifentanil' || inputs.selectedAnalgesic === 'all';
+
+    const showRocuronium = inputs.selectedRelaxant === 'rocuronium' || inputs.selectedRelaxant === 'both' || inputs.selectedRelaxant === 'all';
+    const showAtracurium = inputs.selectedRelaxant === 'atracurium' || inputs.selectedRelaxant === 'both' || inputs.selectedRelaxant === 'all';
+    const showSuccinylcholine = inputs.selectedRelaxant === 'succinylcholine' || inputs.selectedRelaxant === 'all';
+
     // --- 1. HYPNOTIC SELECTOR ---
-    if (inputs.selectedHypnotic === 'propofol') {
+    if (showPropofol) {
       // Propofol Induction (LBW)
       const propIndMinMg = 1.0 * selectedLbw;
       const propIndMaxMg = 3.0 * selectedLbw;
@@ -244,7 +256,9 @@ export const IntubationDoseCalculator: React.FC = () => {
         concentrationStr: `${propConc} mg/ml (${propConc / 10}%)`,
         explanation: t.propofolMaintExp || 'Anesthesia maintenance is calculated on TBW (actual body weight) or TCI target concentration models.',
       });
-    } else if (inputs.selectedHypnotic === 'midazolam') {
+    }
+
+    if (showMidazolam) {
       // Midazolam Induction (LBW)
       const midMinMg = 0.1 * selectedLbw;
       const midMaxMg = 0.3 * selectedLbw;
@@ -271,7 +285,9 @@ export const IntubationDoseCalculator: React.FC = () => {
         concentrationStr: `${midConc} mg/ml`,
         explanation: 'Benzodiazepine hypnotic dosed on LBW. Reduce dose by 50% in elderly, severe shock or hemodynamically compromised patients.',
       });
-    } else if (inputs.selectedHypnotic === 'ketamine') {
+    }
+
+    if (showKetamine) {
       // Ketamine Induction (TBW)
       const maxRange = inputs.hasShock ? 1.0 : 2.0;
       const ketMinMg = 0.5 * tbw;
@@ -301,7 +317,9 @@ export const IntubationDoseCalculator: React.FC = () => {
           ? 'Dissociative anesthetic with sympathetic activation. Reduced to 0.5-1.0 mg/kg in shock state due to potential direct myocardial depression.'
           : 'Dissociative anesthetic. Maintains blood pressure and respiratory drive via sympathetic system stimulation.',
       });
-    } else if (inputs.selectedHypnotic === 'thiopental') {
+    }
+
+    if (showThiopental) {
       // Thiopental Induction (LBW)
       const thioMinMg = 3.0 * selectedLbw;
       const thioMaxMg = 5.0 * selectedLbw;
@@ -331,7 +349,7 @@ export const IntubationDoseCalculator: React.FC = () => {
     }
 
     // --- 2. ANALGESIC SELECTOR ---
-    if (inputs.selectedAnalgesic === 'fentanyl') {
+    if (showFentanyl) {
       // Fentanyl Induction (LBW)
       const fentIndMinMcg = 0.5 * selectedLbw;
       const fentIndMaxMcg = 1.0 * selectedLbw;
@@ -384,7 +402,9 @@ export const IntubationDoseCalculator: React.FC = () => {
         concentrationStr: `${fentConc} mcg/ml (0.005%)`,
         explanation: t.fentanylMaintExp || 'Fentanyl maintenance is dosed on lean body weight (LBW).',
       });
-    } else if (inputs.selectedAnalgesic === 'remifentanil') {
+    }
+
+    if (showRemifentanil) {
       // Remifentanil Continuous Infusion Induction (LBW)
       const remiIndMinMcgMin = 0.5 * selectedLbw;
       const remiIndMaxMcgMin = 1.0 * selectedLbw;
@@ -448,7 +468,7 @@ export const IntubationDoseCalculator: React.FC = () => {
     }
 
     // --- 3. MUSCLE RELAXANT SELECTOR ---
-    if (inputs.selectedRelaxant === 'rocuronium' || inputs.selectedRelaxant === 'both') {
+    if (showRocuronium) {
       const rocMinMg = 0.6 * ibw;
       const rocMaxMg = 1.2 * ibw;
       const rocSelectedMg = inputs.rocuroniumDosePerKg * ibw;
@@ -476,7 +496,7 @@ export const IntubationDoseCalculator: React.FC = () => {
       });
     }
 
-    if (inputs.selectedRelaxant === 'atracurium' || inputs.selectedRelaxant === 'both') {
+    if (showAtracurium) {
       const atrMinMg = 0.4 * ibw;
       const atrMaxMg = 0.5 * ibw;
       const atrSelectedMg = inputs.atracuriumDosePerKg * ibw;
@@ -504,7 +524,7 @@ export const IntubationDoseCalculator: React.FC = () => {
       });
     }
 
-    if (inputs.selectedRelaxant === 'succinylcholine') {
+    if (showSuccinylcholine) {
       const suxMinMg = 0.3 * tbw;
       const suxMaxMg = 1.5 * tbw;
       const suxSelectedMg = inputs.succinylcholineDosePerKg * tbw;
@@ -582,7 +602,7 @@ export const IntubationDoseCalculator: React.FC = () => {
 
       selectedHypnotic: 'propofol',
       selectedAnalgesic: 'fentanyl',
-      selectedRelaxant: 'both',
+      selectedRelaxant: 'atracurium',
 
       propofolInductionDosePerKg: 2.0,
       propofolMaintDosePerKgMin: 100,
@@ -812,6 +832,7 @@ export const IntubationDoseCalculator: React.FC = () => {
                   value={inputs.selectedHypnotic}
                   onChange={(val) => setInputs({ ...inputs, selectedHypnotic: val as any })}
                   options={[
+                    { value: 'all', label: t.allHypnoticsOption || '★ Show All Hypnotics' },
                     { value: 'propofol', label: t.propofolName || 'Propofol' },
                     { value: 'midazolam', label: t.midazolamName || 'Midazolam' },
                     { value: 'ketamine', label: t.ketamineName || 'Ketamine' },
@@ -824,6 +845,7 @@ export const IntubationDoseCalculator: React.FC = () => {
                   value={inputs.selectedAnalgesic}
                   onChange={(val) => setInputs({ ...inputs, selectedAnalgesic: val as any })}
                   options={[
+                    { value: 'all', label: t.allAnalgesicsOption || '★ Show All Analgesics' },
                     { value: 'fentanyl', label: t.fentanylName || 'Fentanyl' },
                     { value: 'remifentanil', label: t.remifentanilName || 'Remifentanil' },
                   ]}
@@ -834,6 +856,7 @@ export const IntubationDoseCalculator: React.FC = () => {
                   value={inputs.selectedRelaxant}
                   onChange={(val) => setInputs({ ...inputs, selectedRelaxant: val as any })}
                   options={[
+                    { value: 'all', label: t.allRelaxantsOption || '★ Show All Muscle Relaxants' },
                     { value: 'both', label: t.showBothRelaxants || 'Rocuronium + Atracurium' },
                     { value: 'rocuronium', label: t.rocuroniumName || 'Rocuronium' },
                     { value: 'atracurium', label: t.atracuriumName || 'Atracurium' },
@@ -842,7 +865,7 @@ export const IntubationDoseCalculator: React.FC = () => {
                 />
               </div>
 
-              {inputs.selectedHypnotic === 'ketamine' && (
+              {(inputs.selectedHypnotic === 'ketamine' || inputs.selectedHypnotic === 'all') && (
                 <div className="p-3 bg-amber-500/10 border border-amber-500/20 rounded-xl">
                   <Checkbox
                     id="ketamine-shock"
@@ -1014,31 +1037,30 @@ export const IntubationDoseCalculator: React.FC = () => {
       {/* SECTION 2: Interactive Target Dosage Tuning (Collapsible) */}
       {anthropometrics && (
         <div className="space-y-4">
-          <button
-            type="button"
+          <div
             onClick={() => setShowSection2(!showSection2)}
-            className="w-full flex items-center justify-between p-4 bg-[#101828] border border-slate-800/80 hover:border-slate-700 rounded-2xl transition-all group cursor-pointer text-left shadow-sm"
+            className="flex items-center justify-between cursor-pointer group select-none"
           >
             <div className="flex items-center gap-3">
               <div className="w-8 h-8 rounded-xl bg-sky-500/10 text-sky-400 flex items-center justify-center font-bold text-sm border border-sky-500/20 group-hover:bg-sky-500/20 transition-colors">
                 2
               </div>
-              <h2 className="text-lg font-bold text-white tracking-tight">
+              <h2 className="text-lg font-bold text-white tracking-tight group-hover:text-sky-400 transition-colors">
                 {t.dosageFineTuningTitle || 'Interactive Target Dosage Tuning'}
               </h2>
             </div>
             <div className="flex items-center gap-2">
               <span className="text-xs font-mono text-slate-400 group-hover:text-slate-200">
-                {showSection2 ? 'Hide Sliders' : 'Configure Sliders'}
+                {showSection2 ? (t.hideLabel || 'Hide Sliders') : (t.configureLabel || 'Configure Sliders')}
               </span>
               <ChevronDownIcon className={`w-5 h-5 text-slate-400 transition-transform duration-200 ${showSection2 ? 'rotate-180 text-sky-400' : ''}`} />
             </div>
-          </button>
+          </div>
 
           {showSection2 && (
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-stretch animate-slide-up">
               {/* HYPNOTIC SLIDERS */}
-              {inputs.selectedHypnotic === 'propofol' && (
+              {(inputs.selectedHypnotic === 'propofol' || inputs.selectedHypnotic === 'all') && (
                 <>
                   {renderSlider(
                     t.propofolInductionSliderLabel || 'Propofol Induction (LBW):',
@@ -1067,7 +1089,7 @@ export const IntubationDoseCalculator: React.FC = () => {
                 </>
               )}
 
-              {inputs.selectedHypnotic === 'midazolam' && renderSlider(
+              {(inputs.selectedHypnotic === 'midazolam' || inputs.selectedHypnotic === 'all') && renderSlider(
                 t.midazolamInductionSliderLabel || 'Midazolam Induction (LBW):',
                 inputs.midazolamInductionDosePerKg,
                 0.1, 0.3, 0.01,
@@ -1080,7 +1102,7 @@ export const IntubationDoseCalculator: React.FC = () => {
                 ]
               )}
 
-              {inputs.selectedHypnotic === 'ketamine' && renderSlider(
+              {(inputs.selectedHypnotic === 'ketamine' || inputs.selectedHypnotic === 'all') && renderSlider(
                 t.ketamineInductionSliderLabel || 'Ketamine Induction (TBW):',
                 inputs.ketamineInductionDosePerKg,
                 0.5, inputs.hasShock ? 1.0 : 2.0, 0.1,
@@ -1098,7 +1120,7 @@ export const IntubationDoseCalculator: React.FC = () => {
                 ]
               )}
 
-              {inputs.selectedHypnotic === 'thiopental' && renderSlider(
+              {(inputs.selectedHypnotic === 'thiopental' || inputs.selectedHypnotic === 'all') && renderSlider(
                 t.thiopentalInductionSliderLabel || 'Thiopental Induction (LBW):',
                 inputs.thiopentalInductionDosePerKg,
                 3.0, 5.0, 0.1,
@@ -1112,7 +1134,7 @@ export const IntubationDoseCalculator: React.FC = () => {
               )}
 
               {/* ANALGESIC SLIDERS */}
-              {inputs.selectedAnalgesic === 'fentanyl' && (
+              {(inputs.selectedAnalgesic === 'fentanyl' || inputs.selectedAnalgesic === 'all') && (
                 <>
                   {renderSlider(
                     t.fentanylInductionSliderLabel || 'Fentanyl Induction (LBW):',
@@ -1141,7 +1163,7 @@ export const IntubationDoseCalculator: React.FC = () => {
                 </>
               )}
 
-              {inputs.selectedAnalgesic === 'remifentanil' && (
+              {(inputs.selectedAnalgesic === 'remifentanil' || inputs.selectedAnalgesic === 'all') && (
                 <>
                   {renderSlider(
                     t.remifentanilInductionSliderLabel || 'Remifentanil Infusion (LBW):',
@@ -1172,7 +1194,7 @@ export const IntubationDoseCalculator: React.FC = () => {
               )}
 
               {/* RELAXANT SLIDERS */}
-              {(inputs.selectedRelaxant === 'rocuronium' || inputs.selectedRelaxant === 'both') && renderSlider(
+              {(inputs.selectedRelaxant === 'rocuronium' || inputs.selectedRelaxant === 'both' || inputs.selectedRelaxant === 'all') && renderSlider(
                 t.rocuroniumInductionSliderLabel || 'Rocuronium Induction (IBW):',
                 inputs.rocuroniumDosePerKg,
                 0.6, 1.2, 0.1,
@@ -1185,7 +1207,7 @@ export const IntubationDoseCalculator: React.FC = () => {
                 ]
               )}
 
-              {(inputs.selectedRelaxant === 'atracurium' || inputs.selectedRelaxant === 'both') && renderSlider(
+              {(inputs.selectedRelaxant === 'atracurium' || inputs.selectedRelaxant === 'both' || inputs.selectedRelaxant === 'all') && renderSlider(
                 t.atracuriumInductionSliderLabel || 'Atracurium Induction (IBW):',
                 inputs.atracuriumDosePerKg,
                 0.4, 0.5, 0.01,
@@ -1198,7 +1220,7 @@ export const IntubationDoseCalculator: React.FC = () => {
                 ]
               )}
 
-              {inputs.selectedRelaxant === 'succinylcholine' && renderSlider(
+              {(inputs.selectedRelaxant === 'succinylcholine' || inputs.selectedRelaxant === 'all') && renderSlider(
                 t.succinylcholineInductionSliderLabel || 'Succinylcholine Induction (TBW):',
                 inputs.succinylcholineDosePerKg,
                 0.3, 1.5, 0.05,
