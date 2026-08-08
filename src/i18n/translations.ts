@@ -409,6 +409,11 @@ export interface Translations {
   drugSelectionTitle: string;
   configureLabel: string;
   hideLabel: string;
+  midazolamInductionSliderLabel: string;
+  ketamineInductionSliderLabel: string;
+  thiopentalInductionSliderLabel: string;
+  remifentanilInductionSliderLabel: string;
+  remifentanilMaintSliderLabel: string;
 
   // Blood Gas & Infusion therapy additions
   bloodGasTitle: string;
@@ -866,6 +871,11 @@ export const translations: Record<Language, Translations> = {
     drugSelectionTitle: 'Intubation Drug Selection (Hypnotic + Analgesic + Relaxant)',
     configureLabel: 'Configure',
     hideLabel: 'Hide',
+    midazolamInductionSliderLabel: 'Midazolam Induction (LBW):',
+    ketamineInductionSliderLabel: 'Ketamine Induction (TBW):',
+    thiopentalInductionSliderLabel: 'Thiopental Induction (LBW):',
+    remifentanilInductionSliderLabel: 'Remifentanil Infusion (LBW):',
+    remifentanilMaintSliderLabel: 'Remifentanil Maintenance (LBW):',
 
     // Blood Gas & Infusion therapy additions
     bloodGasTitle: 'Arterial Blood Gas Analysis & Acid-Base Balance',
@@ -1237,6 +1247,11 @@ export const translations: Record<Language, Translations> = {
     drugSelectionTitle: 'Выбор препаратов для интубации (Гипнотик + Анальгетик + Релаксант)',
     configureLabel: 'Настроить',
     hideLabel: 'Скрыть',
+    midazolamInductionSliderLabel: 'Мидазолам Индукция (LBW):',
+    ketamineInductionSliderLabel: 'Кетамин Индукция (TBW):',
+    thiopentalInductionSliderLabel: 'Тиопентал Индукция (LBW):',
+    remifentanilInductionSliderLabel: 'Ремифентанил Индукция (LBW):',
+    remifentanilMaintSliderLabel: 'Ремифентанил Инфузия (LBW):',
     unitMgKg: 'мг/кг',
     unitMcgKgMin: 'мкг/кг/мин',
     unitMcgKg: 'мкг/кг',
@@ -1778,6 +1793,11 @@ export const translations: Record<Language, Translations> = {
     drugSelectionTitle: 'Вибір препаратів для інтубації (Гіпнотик + Анальгетик + Релаксант)',
     configureLabel: 'Налаштувати',
     hideLabel: 'Сховати',
+    midazolamInductionSliderLabel: 'Мідазолам Індукція (LBW):',
+    ketamineInductionSliderLabel: 'Кетамін Індукція (TBW):',
+    thiopentalInductionSliderLabel: 'Тіопентал Індукція (LBW):',
+    remifentanilInductionSliderLabel: 'Реміфентаніл Індукція (LBW):',
+    remifentanilMaintSliderLabel: 'Реміфентаніл Інфузія (LBW):',
 
     // Blood Gas & Infusion therapy additions
     bloodGasTitle: 'Аналіз газів крові та кислотно-основного стану',

@@ -844,30 +844,14 @@ export const IntubationDoseCalculator: React.FC = () => {
 
               {showAdvancedConc && (
                 <div className="mt-4 p-4 bg-slate-900/80 border border-slate-800 rounded-xl grid grid-cols-2 sm:grid-cols-4 gap-4 animate-slide-up">
-                  {inputs.selectedHypnotic === 'propofol' && (
-                    <NumberInput label={`${t.propofolName || 'Propofol'} (${t.unitMgMl || 'mg/ml'})`} value={inputs.propofolConcMgMl} onChange={(val) => setInputs({ ...inputs, propofolConcMgMl: val || 10 })} />
-                  )}
-                  {inputs.selectedHypnotic === 'midazolam' && (
-                    <NumberInput label={`${t.midazolamName || 'Midazolam'} (${t.unitMgMl || 'mg/ml'})`} value={inputs.midazolamConcMgMl} onChange={(val) => setInputs({ ...inputs, midazolamConcMgMl: val || 5 })} />
-                  )}
-                  {inputs.selectedHypnotic === 'ketamine' && (
-                    <NumberInput label={`${t.ketamineName || 'Ketamine'} (${t.unitMgMl || 'mg/ml'})`} value={inputs.ketamineConcMgMl} onChange={(val) => setInputs({ ...inputs, ketamineConcMgMl: val || 50 })} />
-                  )}
-                  {inputs.selectedHypnotic === 'thiopental' && (
-                    <NumberInput label={`${t.thiopentalName || 'Thiopental'} (${t.unitMgMl || 'mg/ml'})`} value={inputs.thiopentalConcMgMl} onChange={(val) => setInputs({ ...inputs, thiopentalConcMgMl: val || 25 })} />
-                  )}
-                  {inputs.selectedAnalgesic === 'fentanyl' && (
-                    <NumberInput label={`${t.fentanylName || 'Fentanyl'} (${t.unitMcgMl || 'mcg/ml'})`} value={inputs.fentanylConcMcgMl} onChange={(val) => setInputs({ ...inputs, fentanylConcMcgMl: val || 50 })} />
-                  )}
-                  {inputs.selectedAnalgesic === 'remifentanil' && (
-                    <NumberInput label={`${t.remifentanilName || 'Remifentanil'} (${t.unitMcgMl || 'mcg/ml'})`} value={inputs.remifentanilConcMcgMl} onChange={(val) => setInputs({ ...inputs, remifentanilConcMcgMl: val || 50 })} />
-                  )}
-                  {(inputs.selectedRelaxant === 'rocuronium' || inputs.selectedRelaxant === 'both') && (
-                    <NumberInput label={`${t.rocuroniumName || 'Rocuronium'} (${t.unitMgMl || 'mg/ml'})`} value={inputs.rocuroniumConcMgMl} onChange={(val) => setInputs({ ...inputs, rocuroniumConcMgMl: val || 10 })} />
-                  )}
-                  {(inputs.selectedRelaxant === 'atracurium' || inputs.selectedRelaxant === 'both') && (
-                    <NumberInput label={`${t.atracuriumName || 'Atracurium'} (${t.unitMgMl || 'mg/ml'})`} value={inputs.atracuriumConcMgMl} onChange={(val) => setInputs({ ...inputs, atracuriumConcMgMl: val || 10 })} />
-                  )}
+                  <NumberInput label={`${t.propofolName || 'Propofol'} (${t.unitMgMl || 'mg/ml'})`} value={inputs.propofolConcMgMl} onChange={(val) => setInputs({ ...inputs, propofolConcMgMl: val || 10 })} />
+                  <NumberInput label={`${t.midazolamName || 'Midazolam'} (${t.unitMgMl || 'mg/ml'})`} value={inputs.midazolamConcMgMl} onChange={(val) => setInputs({ ...inputs, midazolamConcMgMl: val || 5 })} />
+                  <NumberInput label={`${t.ketamineName || 'Ketamine'} (${t.unitMgMl || 'mg/ml'})`} value={inputs.ketamineConcMgMl} onChange={(val) => setInputs({ ...inputs, ketamineConcMgMl: val || 50 })} />
+                  <NumberInput label={`${t.thiopentalName || 'Thiopental'} (${t.unitMgMl || 'mg/ml'})`} value={inputs.thiopentalConcMgMl} onChange={(val) => setInputs({ ...inputs, thiopentalConcMgMl: val || 25 })} />
+                  <NumberInput label={`${t.fentanylName || 'Fentanyl'} (${t.unitMcgMl || 'mcg/ml'})`} value={inputs.fentanylConcMcgMl} onChange={(val) => setInputs({ ...inputs, fentanylConcMcgMl: val || 50 })} />
+                  <NumberInput label={`${t.remifentanilName || 'Remifentanil'} (${t.unitMcgMl || 'mcg/ml'})`} value={inputs.remifentanilConcMcgMl} onChange={(val) => setInputs({ ...inputs, remifentanilConcMcgMl: val || 50 })} />
+                  <NumberInput label={`${t.rocuroniumName || 'Rocuronium'} (${t.unitMgMl || 'mg/ml'})`} value={inputs.rocuroniumConcMgMl} onChange={(val) => setInputs({ ...inputs, rocuroniumConcMgMl: val || 10 })} />
+                  <NumberInput label={`${t.atracuriumName || 'Atracurium'} (${t.unitMgMl || 'mg/ml'})`} value={inputs.atracuriumConcMgMl} onChange={(val) => setInputs({ ...inputs, atracuriumConcMgMl: val || 10 })} />
                 </div>
               )}
             </div>
@@ -1049,7 +1033,7 @@ export const IntubationDoseCalculator: React.FC = () => {
               )}
 
               {inputs.selectedHypnotic === 'midazolam' && renderSlider(
-                'Midazolam Induction (LBW):',
+                t.midazolamInductionSliderLabel || 'Midazolam Induction (LBW):',
                 inputs.midazolamInductionDosePerKg,
                 0.1, 0.3, 0.01,
                 t.unitMgKg || 'mg/kg',
@@ -1062,7 +1046,7 @@ export const IntubationDoseCalculator: React.FC = () => {
               )}
 
               {inputs.selectedHypnotic === 'ketamine' && renderSlider(
-                'Ketamine Induction (TBW):',
+                t.ketamineInductionSliderLabel || 'Ketamine Induction (TBW):',
                 inputs.ketamineInductionDosePerKg,
                 0.5, inputs.hasShock ? 1.0 : 2.0, 0.1,
                 t.unitMgKg || 'mg/kg',
@@ -1080,7 +1064,7 @@ export const IntubationDoseCalculator: React.FC = () => {
               )}
 
               {inputs.selectedHypnotic === 'thiopental' && renderSlider(
-                'Thiopental Induction (LBW):',
+                t.thiopentalInductionSliderLabel || 'Thiopental Induction (LBW):',
                 inputs.thiopentalInductionDosePerKg,
                 3.0, 5.0, 0.1,
                 t.unitMgKg || 'mg/kg',
@@ -1125,7 +1109,7 @@ export const IntubationDoseCalculator: React.FC = () => {
               {inputs.selectedAnalgesic === 'remifentanil' && (
                 <>
                   {renderSlider(
-                    'Remifentanil Continuous Infusion (LBW):',
+                    t.remifentanilInductionSliderLabel || 'Remifentanil Infusion (LBW):',
                     inputs.remifentanilInductionDosePerKgMin,
                     0.5, 1.0, 0.05,
                     t.unitMcgKgMin || 'mcg/kg/min',
@@ -1137,7 +1121,7 @@ export const IntubationDoseCalculator: React.FC = () => {
                     ]
                   )}
                   {renderSlider(
-                    'Remifentanil Maintenance Infusion (LBW):',
+                    t.remifentanilMaintSliderLabel || 'Remifentanil Maintenance (LBW):',
                     inputs.remifentanilMaintDosePerKgMin,
                     0.05, 2.0, 0.05,
                     t.unitMcgKgMin || 'mcg/kg/min',
