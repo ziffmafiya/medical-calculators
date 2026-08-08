@@ -411,124 +411,121 @@ export const ElectrolyteCorrectionCalculator: React.FC = () => {
 
   const norms = ELECTROLYTE_NORMS[inputs.electrolyteType];
 
-     return (
-     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 p-4 lg:p-8">
-       <div className="max-w-7xl mx-auto">
-         <Card 
-           title={t.electrolyteCorrection} 
-           subtitle={t.electrolyteCorrectionDesc}
-           className="w-full bg-slate-800 border-slate-700 text-slate-100"
-         >
-           <div className="space-y-8">
-                 {/* Выбор электролита и типа коррекции */}
-         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-           <Select
-             label={t.selectElectrolyte}
-             value={inputs.electrolyteType}
-             onChange={(value) => setInputs({ ...inputs, electrolyteType: value as ElectrolyteType })}
-             options={getElectrolyteOptions()}
-             required
-           />
-           <Select
-             label={t.selectCorrectionType}
-             value={inputs.correctionType}
-             onChange={(value) => setInputs({ ...inputs, correctionType: value as CorrectionType })}
-             options={getCorrectionTypeOptions()}
-             required
-           />
-         </div>
-
-                          {/* Основные параметры */}
-         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-           <NumberInput
-             label={`${t.currentLevel} (${norms.min}-${norms.max} ${norms.unit})`}
-             value={inputs.currentLevel}
-             onChange={(value) => setInputs({ ...inputs, currentLevel: value })}
-             min={norms.min * 0.5}
-             max={norms.max * 2}
-             step={0.1}
-             unit={norms.unit}
-             required
-           />
-          <NumberInput
-            label={t.patientWeight}
-            value={inputs.weight}
-            onChange={(value) => setInputs({ ...inputs, weight: value })}
-            min={20}
-            max={200}
-            step={0.5}
-            unit={t.kg}
-            required
-          />
-          <NumberInput
-            label="Возраст (лет)"
-            value={inputs.age}
-            onChange={(value) => setInputs({ ...inputs, age: value })}
-            min={0}
-            max={120}
-            step={1}
-            unit="лет"
-            required
-          />
-          <Select
-            label="Пол"
-            value={inputs.gender}
-            onChange={(value) => setInputs({ ...inputs, gender: value as 'male' | 'female' })}
-            options={[
-              { value: 'male', label: 'Мужской' },
-              { value: 'female', label: 'Женский' },
-            ]}
-            required
-          />
-                     {(inputs.electrolyteType === 'calcium' || inputs.electrolyteType === 'magnesium') && (
-             <NumberInput
-               label={t.albumin}
-               value={inputs.albumin}
-               onChange={(value) => setInputs({ ...inputs, albumin: value })}
-               min={10}
-               max={60}
-               step={1}
-               unit="г/л"
-             />
-           )}
-        </div>
-
-                 {/* Дополнительные параметры для гиперкалиемии */}
-         {inputs.electrolyteType === 'potassium' && inputs.correctionType === 'hyper' && (
-           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            <Checkbox
-              id="hasEcgChanges"
-              checked={inputs.hasEcgChanges}
-              onChange={(checked) => setInputs({ ...inputs, hasEcgChanges: checked })}
-            >
-              {t.hasEcgChanges}
-            </Checkbox>
-            <Checkbox
-              id="hasSymptoms"
-              checked={inputs.hasSymptoms}
-              onChange={(checked) => setInputs({ ...inputs, hasSymptoms: checked })}
-            >
-              {t.hasSymptoms}
-            </Checkbox>
+  return (
+    <div className="space-y-6 max-w-5xl mx-auto pb-12">
+      <Card 
+        title={t.electrolyteCorrection} 
+        subtitle={t.electrolyteCorrectionDesc}
+        className="w-full glass-panel border-slate-800 text-white"
+      >
+        <div className="space-y-6">
+          {/* Выбор электролита и типа коррекции */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
             <Select
-              label={t.renalFunction}
-              value={inputs.renalFunction}
-                             onChange={(value) => setInputs({ ...inputs, renalFunction: value as 'normal' | 'mild' | 'moderate' | 'severe' })}
-              options={getRenalFunctionOptions()}
+              label={t.selectElectrolyte}
+              value={inputs.electrolyteType}
+              onChange={(value) => setInputs({ ...inputs, electrolyteType: value as ElectrolyteType })}
+              options={getElectrolyteOptions()}
+              required
+            />
+            <Select
+              label={t.selectCorrectionType}
+              value={inputs.correctionType}
+              onChange={(value) => setInputs({ ...inputs, correctionType: value as CorrectionType })}
+              options={getCorrectionTypeOptions()}
+              required
             />
           </div>
-        )}
 
-        
+          {/* Основные параметры */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+            <NumberInput
+              label={`${t.currentLevel} (${norms.min}-${norms.max} ${norms.unit})`}
+              value={inputs.currentLevel}
+              onChange={(value) => setInputs({ ...inputs, currentLevel: value })}
+              min={norms.min * 0.5}
+              max={norms.max * 2}
+              step={0.1}
+              unit={norms.unit}
+              required
+            />
+            <NumberInput
+              label={t.patientWeight}
+              value={inputs.weight}
+              onChange={(value) => setInputs({ ...inputs, weight: value })}
+              min={20}
+              max={200}
+              step={0.5}
+              unit={t.kg}
+              required
+            />
+            <NumberInput
+              label="Возраст (лет)"
+              value={inputs.age}
+              onChange={(value) => setInputs({ ...inputs, age: value })}
+              min={0}
+              max={120}
+              step={1}
+              unit="лет"
+              required
+            />
+            <Select
+              label="Пол"
+              value={inputs.gender}
+              onChange={(value) => setInputs({ ...inputs, gender: value as 'male' | 'female' })}
+              options={[
+                { value: 'male', label: 'Мужской (♂)' },
+                { value: 'female', label: 'Женский (♀)' },
+              ]}
+              required
+            />
+            {(inputs.electrolyteType === 'calcium' || inputs.electrolyteType === 'magnesium') && (
+              <NumberInput
+                label={t.albumin}
+                value={inputs.albumin}
+                onChange={(value) => setInputs({ ...inputs, albumin: value })}
+                min={10}
+                max={60}
+                step={1}
+                unit="г/л"
+              />
+            )}
+          </div>
 
-                 <div className="flex flex-col sm:flex-row gap-4 justify-center">
-           <Button onClick={calculateCorrection} variant="primary" className="text-lg px-8 py-3 bg-slate-700 hover:bg-slate-600 border-slate-700">
-             {t.calculate}
-           </Button>
-           <Button onClick={resetCalculator} variant="outline" className="text-lg px-8 py-3 border-slate-600 text-slate-300 hover:bg-slate-700">
-             {t.reset}
-           </Button>
-         </div>
+          {/* Дополнительные параметры для гиперкалиемии */}
+          {inputs.electrolyteType === 'potassium' && inputs.correctionType === 'hyper' && (
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 p-4 bg-slate-900/60 rounded-xl border border-slate-800">
+              <Checkbox
+                id="hasEcgChanges"
+                checked={inputs.hasEcgChanges}
+                onChange={(checked) => setInputs({ ...inputs, hasEcgChanges: checked })}
+              >
+                {t.hasEcgChanges}
+              </Checkbox>
+              <Checkbox
+                id="hasSymptoms"
+                checked={inputs.hasSymptoms}
+                onChange={(checked) => setInputs({ ...inputs, hasSymptoms: checked })}
+              >
+                {t.hasSymptoms}
+              </Checkbox>
+              <Select
+                label={t.renalFunction}
+                value={inputs.renalFunction}
+                onChange={(value) => setInputs({ ...inputs, renalFunction: value as 'normal' | 'mild' | 'moderate' | 'severe' })}
+                options={getRenalFunctionOptions()}
+              />
+            </div>
+          )}
+
+          <div className="flex flex-col sm:flex-row gap-3 justify-center pt-2">
+            <Button onClick={calculateCorrection} variant="primary" size="lg" className="w-full sm:w-auto px-8">
+              {t.calculate}
+            </Button>
+            <Button onClick={resetCalculator} variant="outline" size="lg" className="w-full sm:w-auto px-8">
+              {t.reset}
+            </Button>
+          </div>
 
                  {result && (
            <div className="mt-8 space-y-6">
@@ -686,11 +683,10 @@ export const ElectrolyteCorrectionCalculator: React.FC = () => {
                  </div>
                </div>
              )}
-                     </div>
-         )}
-       </div>
-     </Card>
-       </div>
-     </div>
-   );
-}; 
+          </div>
+        )}
+      </div>
+    </Card>
+  </div>
+);
+};

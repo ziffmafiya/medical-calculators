@@ -217,129 +217,159 @@ export default function Home() {
               </p>
             </div>
 
-            {/* Calculator Cards */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 px-4 md:px-0">
+            {/* Calculator Cards Grid */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 px-4 md:px-0">
+              {/* Intubation Doses Calculator Card (Featured) */}
+              <div 
+                className="glass-panel border border-sky-500/30 rounded-2xl p-6 hover:border-sky-400 transition-all duration-300 cursor-pointer group shadow-xl shadow-sky-950/20 hover:scale-[1.01] flex flex-col justify-between"
+                onClick={() => setActiveCalculator('intubation')}
+              >
+                <div>
+                  <div className="flex items-center justify-between mb-4">
+                    <div className="w-10 h-10 rounded-xl bg-sky-500/20 border border-sky-400/30 flex items-center justify-center text-sky-400 group-hover:scale-110 transition-transform">
+                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" />
+                      </svg>
+                    </div>
+                    <span className="text-[10px] uppercase font-bold tracking-wider px-2.5 py-0.5 rounded-full bg-sky-500/20 text-sky-300 border border-sky-400/30">
+                      NEW
+                    </span>
+                  </div>
+                  <h3 className="text-lg font-bold text-white mb-2 group-hover:text-sky-400 transition-colors">
+                    {t.intubationDoses}
+                  </h3>
+                  <p className="text-slate-400 text-xs leading-relaxed">
+                    {t.intubationDosesDesc}
+                  </p>
+                </div>
+                <div className="mt-4 pt-3 border-t border-slate-800/80 flex items-center text-xs font-semibold text-sky-400 group-hover:translate-x-1 transition-transform">
+                  <span>Открыть калькулятор →</span>
+                </div>
+              </div>
+
               {/* Electrolyte Calculator Card */}
-              <div className="bg-card border border-border rounded-lg p-6 hover:border-primary/50 transition-all duration-200 cursor-pointer group card-hover"
-                   onClick={() => setActiveCalculator('electrolyte')}>
-                <div className="flex items-start justify-between mb-4">
-                  <h3 className="text-xl font-semibold text-primary group-hover:text-primary/80 transition-colors">
+              <div 
+                className="glass-panel border border-slate-800/80 rounded-2xl p-6 hover:border-blue-500/50 transition-all duration-300 cursor-pointer group shadow-xl shadow-slate-950/40 hover:scale-[1.01] flex flex-col justify-between"
+                onClick={() => setActiveCalculator('electrolyte')}
+              >
+                <div>
+                  <div className="flex items-center justify-between mb-4">
+                    <div className="w-10 h-10 rounded-xl bg-blue-500/20 border border-blue-400/30 flex items-center justify-center text-blue-400 group-hover:scale-110 transition-transform">
+                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+                      </svg>
+                    </div>
+                  </div>
+                  <h3 className="text-lg font-bold text-white mb-2 group-hover:text-blue-400 transition-colors">
                     {t.electrolyteCorrection}
                   </h3>
-                  <button className="text-muted-foreground hover:text-foreground transition-colors">
-                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" />
-                    </svg>
-                  </button>
+                  <p className="text-slate-400 text-xs leading-relaxed">
+                    {t.electrolyteCorrectionDesc}
+                  </p>
                 </div>
-                <p className="text-muted-foreground text-sm leading-relaxed">
-                  {t.electrolyteCorrectionDesc}
-                </p>
+                <div className="mt-4 pt-3 border-t border-slate-800/80 flex items-center text-xs font-semibold text-blue-400 group-hover:translate-x-1 transition-transform">
+                  <span>Открыть калькулятор →</span>
+                </div>
               </div>
 
               {/* Antibiotic Calculator Card */}
-              <div className="bg-card border border-border rounded-lg p-6 hover:border-primary/50 transition-all duration-200 cursor-pointer group card-hover"
-                   onClick={() => setActiveCalculator('antibiotic')}>
-                <div className="flex items-start justify-between mb-4">
-                  <h3 className="text-xl font-semibold text-primary group-hover:text-primary/80 transition-colors">
+              <div 
+                className="glass-panel border border-slate-800/80 rounded-2xl p-6 hover:border-amber-500/50 transition-all duration-300 cursor-pointer group shadow-xl shadow-slate-950/40 hover:scale-[1.01] flex flex-col justify-between"
+                onClick={() => setActiveCalculator('antibiotic')}
+              >
+                <div>
+                  <div className="flex items-center justify-between mb-4">
+                    <div className="w-10 h-10 rounded-xl bg-amber-500/20 border border-amber-400/30 flex items-center justify-center text-amber-400 group-hover:scale-110 transition-transform">
+                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                      </svg>
+                    </div>
+                  </div>
+                  <h3 className="text-lg font-bold text-white mb-2 group-hover:text-amber-400 transition-colors">
                     {t.antibioticProphylaxis}
                   </h3>
-                  <button className="text-muted-foreground hover:text-foreground transition-colors">
-                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" />
-                    </svg>
-                  </button>
+                  <p className="text-slate-400 text-xs leading-relaxed">
+                    {t.antibioticProphylaxisDesc}
+                  </p>
                 </div>
-                <p className="text-muted-foreground text-sm leading-relaxed">
-                  {t.antibioticProphylaxisDesc}
-                </p>
+                <div className="mt-4 pt-3 border-t border-slate-800/80 flex items-center text-xs font-semibold text-amber-400 group-hover:translate-x-1 transition-transform">
+                  <span>Открыть калькулятор →</span>
+                </div>
               </div>
 
               {/* Pediatric Doses Calculator Card */}
-              <div className="bg-card border border-border rounded-lg p-6 hover:border-primary/50 transition-all duration-200 cursor-pointer group card-hover"
-                   onClick={() => setActiveCalculator('pediatric')}>
-                <div className="flex items-start justify-between mb-4">
-                  <h3 className="text-xl font-semibold text-primary group-hover:text-primary/80 transition-colors">
+              <div 
+                className="glass-panel border border-slate-800/80 rounded-2xl p-6 hover:border-emerald-500/50 transition-all duration-300 cursor-pointer group shadow-xl shadow-slate-950/40 hover:scale-[1.01] flex flex-col justify-between"
+                onClick={() => setActiveCalculator('pediatric')}
+              >
+                <div>
+                  <div className="flex items-center justify-between mb-4">
+                    <div className="w-10 h-10 rounded-xl bg-emerald-500/20 border border-emerald-400/30 flex items-center justify-center text-emerald-400 group-hover:scale-110 transition-transform">
+                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                      </svg>
+                    </div>
+                  </div>
+                  <h3 className="text-lg font-bold text-white mb-2 group-hover:text-emerald-400 transition-colors">
                     {t.pediatricDoses}
                   </h3>
-                  <button className="text-muted-foreground hover:text-foreground transition-colors">
-                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" />
-                    </svg>
-                  </button>
+                  <p className="text-slate-400 text-xs leading-relaxed">
+                    {t.pediatricDosesDesc}
+                  </p>
                 </div>
-                <p className="text-muted-foreground text-sm leading-relaxed">
-                  {t.pediatricDosesDesc}
-                </p>
+                <div className="mt-4 pt-3 border-t border-slate-800/80 flex items-center text-xs font-semibold text-emerald-400 group-hover:translate-x-1 transition-transform">
+                  <span>Открыть калькулятор →</span>
+                </div>
               </div>
 
               {/* Blood Gas Analysis Calculator Card */}
-              <div className="bg-card border border-border rounded-lg p-6 hover:border-primary/50 transition-all duration-200 cursor-pointer group card-hover"
-                   onClick={() => setActiveCalculator('bloodGas')}>
-                <div className="flex items-start justify-between mb-4">
-                  <h3 className="text-xl font-semibold text-primary group-hover:text-primary/80 transition-colors">
+              <div 
+                className="glass-panel border border-slate-800/80 rounded-2xl p-6 hover:border-rose-500/50 transition-all duration-300 cursor-pointer group shadow-xl shadow-slate-950/40 hover:scale-[1.01] flex flex-col justify-between"
+                onClick={() => setActiveCalculator('bloodGas')}
+              >
+                <div>
+                  <div className="flex items-center justify-between mb-4">
+                    <div className="w-10 h-10 rounded-xl bg-rose-500/20 border border-rose-400/30 flex items-center justify-center text-rose-400 group-hover:scale-110 transition-transform">
+                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                      </svg>
+                    </div>
+                  </div>
+                  <h3 className="text-lg font-bold text-white mb-2 group-hover:text-rose-400 transition-colors">
                     Анализ газов крови
                   </h3>
-                  <button className="text-muted-foreground hover:text-foreground transition-colors">
-                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" />
-                    </svg>
-                  </button>
+                  <p className="text-slate-400 text-xs leading-relaxed">
+                    Расчет анионного промежутка, формулы Винтера, интерпретация кислотно-щелочного баланса
+                  </p>
                 </div>
-                <p className="text-muted-foreground text-sm leading-relaxed">
-                  Расчет анионного промежутка, формулы Винтера, интерпретация кислотно-щелочного баланса
-                </p>
+                <div className="mt-4 pt-3 border-t border-slate-800/80 flex items-center text-xs font-semibold text-rose-400 group-hover:translate-x-1 transition-transform">
+                  <span>Открыть калькулятор →</span>
+                </div>
               </div>
 
               {/* Infusion Therapy Calculator Card */}
-              <div className="bg-card border border-border rounded-lg p-6 hover:border-primary/50 transition-all duration-200 cursor-pointer group card-hover"
-                   onClick={() => setActiveCalculator('infusionTherapy')}>
-                <div className="flex items-start justify-between mb-4">
-                  <h3 className="text-xl font-semibold text-primary group-hover:text-primary/80 transition-colors">
+              <div 
+                className="glass-panel border border-slate-800/80 rounded-2xl p-6 hover:border-cyan-500/50 transition-all duration-300 cursor-pointer group shadow-xl shadow-slate-950/40 hover:scale-[1.01] flex flex-col justify-between"
+                onClick={() => setActiveCalculator('infusionTherapy')}
+              >
+                <div>
+                  <div className="flex items-center justify-between mb-4">
+                    <div className="w-10 h-10 rounded-xl bg-cyan-500/20 border border-cyan-400/30 flex items-center justify-center text-cyan-400 group-hover:scale-110 transition-transform">
+                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" />
+                      </svg>
+                    </div>
+                  </div>
+                  <h3 className="text-lg font-bold text-white mb-2 group-hover:text-cyan-400 transition-colors">
                     Инфузионная терапия
                   </h3>
-                  <button className="text-muted-foreground hover:text-foreground transition-colors">
-                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" />
-                    </svg>
-                  </button>
+                  <p className="text-slate-400 text-xs leading-relaxed">
+                    Расчет потребности в жидкости, коррекция дефицита и рекомендации по инфузии
+                  </p>
                 </div>
-                <p className="text-muted-foreground text-sm leading-relaxed">
-                  Расчет потребности в жидкости, коррекция дефицита и рекомендации по инфузии
-                </p>
-              </div>
-
-              {/* Intubation Doses Calculator Card */}
-              <div className="bg-card border border-border rounded-lg p-6 hover:border-primary/50 transition-all duration-200 cursor-pointer group card-hover"
-                   onClick={() => setActiveCalculator('intubation')}>
-                <div className="flex items-start justify-between mb-4">
-                  <h3 className="text-xl font-semibold text-primary group-hover:text-primary/80 transition-colors">
-                    {t.intubationDoses}
-                  </h3>
-                  <button className="text-muted-foreground hover:text-foreground transition-colors">
-                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" />
-                    </svg>
-                  </button>
+                <div className="mt-4 pt-3 border-t border-slate-800/80 flex items-center text-xs font-semibold text-cyan-400 group-hover:translate-x-1 transition-transform">
+                  <span>Открыть калькулятор →</span>
                 </div>
-                <p className="text-muted-foreground text-sm leading-relaxed">
-                  {t.intubationDosesDesc}
-                </p>
-              </div>
-
-              {/* Coming Soon Card */}
-              <div className="bg-card border border-border rounded-lg p-6 opacity-60">
-                <div className="flex items-start justify-between mb-4">
-                  <h3 className="text-xl font-semibold text-muted-foreground">
-                    {t.glasgowComaScale}
-                  </h3>
-                  <span className="text-xs bg-muted text-muted-foreground px-2 py-1 rounded">
-                    {t.comingSoon}
-                  </span>
-                </div>
-                <p className="text-muted-foreground text-sm leading-relaxed">
-                  {t.glasgowComaScaleDesc}
-                </p>
               </div>
             </div>
 
