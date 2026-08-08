@@ -6,12 +6,13 @@ import { AntibioticProphylaxisCalculator } from '@/calculators/AntibioticProphyl
 import { PediatricDoseCalculator } from '@/calculators/PediatricDoseCalculator';
 import { BloodGasAnalysisCalculator } from '@/calculators/BloodGasAnalysisCalculator';
 import { InfusionTherapyCalculator } from '@/calculators/InfusionTherapyCalculator';
+import { IntubationDoseCalculator } from '@/calculators/IntubationDoseCalculator';
 import { Button } from '@/components/Button';
 import { LanguageSelector } from '@/components/LanguageSelector';
 import { MobileMenu } from '@/components/MobileMenu';
 import { useLanguage } from '@/i18n/LanguageContext';
 
-type CalculatorType = 'home' | 'electrolyte' | 'antibiotic' | 'pediatric' | 'bloodGas' | 'infusionTherapy';
+type CalculatorType = 'home' | 'electrolyte' | 'antibiotic' | 'pediatric' | 'bloodGas' | 'infusionTherapy' | 'intubation';
 
 export default function Home() {
   const [activeCalculator, setActiveCalculator] = useState<CalculatorType>('home');
@@ -93,6 +94,16 @@ export default function Home() {
                   }`}
                 >
                   Инфузионная терапия
+                </button>
+                <button
+                  onClick={() => setActiveCalculator('intubation')}
+                  className={`text-sm font-medium transition-colors ${
+                    activeCalculator === 'intubation' 
+                      ? 'text-primary' 
+                      : 'text-muted-foreground hover:text-foreground'
+                  }`}
+                >
+                  {t.intubationDoses}
                 </button>
               </nav>
             </div>
@@ -221,6 +232,24 @@ export default function Home() {
                 </div>
                 <p className="text-muted-foreground text-sm leading-relaxed">
                   Расчет потребности в жидкости, коррекция дефицита и рекомендации по инфузии
+                </p>
+              </div>
+
+              {/* Intubation Doses Calculator Card */}
+              <div className="bg-card border border-border rounded-lg p-6 hover:border-primary/50 transition-all duration-200 cursor-pointer group card-hover"
+                   onClick={() => setActiveCalculator('intubation')}>
+                <div className="flex items-start justify-between mb-4">
+                  <h3 className="text-xl font-semibold text-primary group-hover:text-primary/80 transition-colors">
+                    {t.intubationDoses}
+                  </h3>
+                  <button className="text-muted-foreground hover:text-foreground transition-colors">
+                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" />
+                    </svg>
+                  </button>
+                </div>
+                <p className="text-muted-foreground text-sm leading-relaxed">
+                  {t.intubationDosesDesc}
                 </p>
               </div>
 
@@ -361,6 +390,28 @@ export default function Home() {
               </p>
             </div>
             <InfusionTherapyCalculator />
+          </div>
+        )}
+
+        {activeCalculator === 'intubation' && (
+          <div>
+            <div className="mb-6 px-4 md:px-0">
+              <Button
+                onClick={() => setActiveCalculator('home')}
+                variant="outline"
+                size="sm"
+                className="mb-4 w-full sm:w-auto"
+              >
+                {t.backToCalculators}
+              </Button>
+              <h2 className="text-xl md:text-2xl font-semibold text-foreground mb-2">
+                {t.intubationDoses}
+              </h2>
+              <p className="text-muted-foreground">
+                {t.intubationDosesDesc}
+              </p>
+            </div>
+            <IntubationDoseCalculator />
           </div>
         )}
 

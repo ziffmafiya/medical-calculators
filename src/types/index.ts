@@ -260,3 +260,68 @@ export interface MonitoringParameter {
   target: string;
   criticalValues: string[];
 }
+
+// Типы для калькулятора дозирования препаратов при интубации
+export interface IntubationInputs {
+  gender: 'male' | 'female';
+  age: number | null; // лет
+  height: number | null; // см
+  weight: number | null; // кг (TBW)
+  lbwFormula: 'janmahasatian' | 'james';
+  selectedRelaxant: 'rocuronium' | 'atracurium' | 'both';
+  propofolInductionDosePerKg: number; // mg/kg (1.0 - 3.0)
+  propofolMaintDosePerKgMin: number; // mcg/kg/min (50 - 200)
+  fentanylInductionDosePerKg: number; // mcg/kg (0.5 - 1.0)
+  fentanylMaintDosePerKgHour: number; // mcg/kg/hour (1.0 - 2.0)
+  atracuriumDosePerKg: number; // mg/kg (0.4 - 0.5)
+  rocuroniumDosePerKg: number; // mg/kg (0.6 - 1.2)
+  propofolConcMgMl: number; // mg/ml (default 10)
+  fentanylConcMcgMl: number; // mcg/ml (default 50)
+  atracuriumConcMgMl: number; // mg/ml (default 10)
+  rocuroniumConcMgMl: number; // mg/ml (default 10)
+}
+
+export interface AnthropometricsResult {
+  tbw: number; // actual body weight (kg)
+  ibw: number; // ideal body weight - Devine (kg)
+  lbwJanmahasatian: number; // lean body weight - Janmahasatian (kg)
+  lbwJames: number; // lean body weight - James (kg)
+  selectedLbw: number; // chosen LBW (kg)
+  abw: number; // adjusted body weight (kg)
+  bmi: number; // body mass index (kg/m²)
+  vtMin: number; // min tidal volume 6 ml/kg IBW (ml)
+  vtMax: number; // max tidal volume 8 ml/kg IBW (ml)
+  isObese: boolean; // TBW > 1.2 * IBW or BMI >= 30
+}
+
+export interface DrugDoseDetail {
+  id: string;
+  drugName: string;
+  category: 'hypnotic' | 'analgesic' | 'relaxant';
+  phase: 'induction' | 'maintenance';
+  weightMetricUsed: 'LBW' | 'IBW' | 'TBW';
+  weightValue: number; // kg
+  dosePerKgRange: string;
+  selectedDosePerKg: number;
+  unitPerKg: string;
+  totalDoseMin: number;
+  totalDoseMax: number;
+  selectedTotalDose: number;
+  totalDoseUnit: string;
+  volumeMinMl?: number;
+  volumeMaxMl?: number;
+  selectedVolumeMl?: number;
+  rateMinMlHour?: number;
+  rateMaxMlHour?: number;
+  selectedRateMlHour?: number;
+  concentrationStr: string;
+  explanation: string;
+}
+
+export interface IntubationResult {
+  anthropometrics: AnthropometricsResult;
+  drugs: DrugDoseDetail[];
+  warnings: string[];
+  recommendations: string[];
+}
+

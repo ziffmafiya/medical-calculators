@@ -13,6 +13,7 @@ interface MobileMenuProps {
     electrolyteCorrection: string;
     wounds: string;
     children: string;
+    intubationDoses?: string;
   };
 }
 
@@ -29,7 +30,8 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({
     { key: 'antibiotic', label: t.wounds },
     { key: 'pediatric', label: t.children },
     { key: 'bloodGas', label: 'Анализ газов крови' },
-    { key: 'infusionTherapy', label: 'Инфузионная терапия' }
+    { key: 'infusionTherapy', label: 'Инфузионная терапия' },
+    { key: 'intubation', label: t.intubationDoses || 'Препараты для интубации' }
   ];
 
   const handleItemClick = (calculatorKey: string) => {
