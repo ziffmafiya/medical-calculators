@@ -5,6 +5,9 @@ import { Card } from '@/components/Card';
 import { NumberInput } from '@/components/NumberInput';
 import { Select } from '@/components/Select';
 import { Button } from '@/components/Button';
+import { StatCard } from '@/components/StatCard';
+import { Alert } from '@/components/Alert';
+import { Badge } from '@/components/Badge';
 import { PediatricDoseInputs, PediatricDoseResult } from '@/types';
 import { pediatricMedicationsDatabase } from '@/data/pediatricMedications';
 import { useLanguage } from '@/i18n/LanguageContext';
@@ -26,7 +29,6 @@ export const PediatricDoseCalculator: React.FC = () => {
   const [showAutocomplete, setShowAutocomplete] = useState(false);
   const [showMedicationsList, setShowMedicationsList] = useState(false);
 
-  // Используем расширенную базу данных препаратов
   const medicationsDatabase = pediatricMedicationsDatabase;
 
   const routeOptions = [
@@ -37,13 +39,11 @@ export const PediatricDoseCalculator: React.FC = () => {
   ];
 
   const calculateDose = () => {
-    // Проверяем, что все необходимые поля заполнены
     if (inputs.age === null || inputs.weight === null || !inputs.medication) {
       alert(t.pleaseFillAllFields);
       return;
     }
 
-    // Находим препарат в базе данных
     const medication = medicationsDatabase.find(med => 
       med.name.toLowerCase().includes(inputs.medication.toLowerCase())
     );
@@ -63,7 +63,6 @@ export const PediatricDoseCalculator: React.FC = () => {
       return;
     }
 
-    // Проверяем возраст и вес
     const isAgeSafe = inputs.age >= medication.minAge;
     const isWeightSafe = inputs.weight >= medication.minWeight;
 
@@ -82,40 +81,32 @@ export const PediatricDoseCalculator: React.FC = () => {
       return;
     }
 
-    // Рассчитываем дозу
-    const dosingMethod = medication.dosingMethods[0]; // Берем первый метод дозирования
+    const dosingMethod = medication.dosingMethods[0];
     let recommendedDose = 0;
     let totalDailyDose = 0;
     let doseRange = '';
 
     switch (dosingMethod.type) {
       case 'weight':
-        // Рассчитываем дозу с учетом пути введения
         let selectedDose = dosingMethod.minDose;
         let routeSpecificDose = null;
         
-        // Парсим примечания для поиска специфичных доз по путям введения
         const notes = dosingMethod.notes;
         
-        // Для парацетамола - специальная логика
         if (medication.name.toLowerCase().includes('парацетамол')) {
           if (inputs.route === 'iv') {
-            // Внутривенно: 15 мг/кг каждые 6 часов для детей 2-12 лет <50 кг
             if (inputs.age >= 2 && inputs.age <= 12 && inputs.weight < 50) {
               selectedDose = 15;
               routeSpecificDose = 15;
             } else if (inputs.age >= 1 && inputs.age < 2) {
-              // Младенцы 1-23 месяца: 7.5-15 мг/кг каждые 6 часов
               selectedDose = 15;
               routeSpecificDose = 15;
             }
           } else if (inputs.route === 'oral') {
-            // Перорально: 10-15 мг/кг каждые 4-6 часов
             selectedDose = 15;
             routeSpecificDose = 15;
           }
         }
-        // Для кеторолака
         else if (medication.name.toLowerCase().includes('кеторолак')) {
           if (inputs.route === 'iv') {
             selectedDose = 0.5;
@@ -125,16 +116,13 @@ export const PediatricDoseCalculator: React.FC = () => {
             routeSpecificDose = 1;
           }
         }
-        // Для ондасетрона
         else if (medication.name.toLowerCase().includes('ондасетрон')) {
           if (inputs.route === 'iv') {
             selectedDose = 0.2;
             routeSpecificDose = 0.2;
           }
         }
-        // Для других препаратов - общая логика
         else {
-          // Проверяем примечания на наличие информации о путях введения
           if (notes.includes('IV:') && notes.includes('IM:')) {
             if (inputs.route === 'iv') {
               const ivMatch = notes.match(/IV:\s*([^,]+)/);
@@ -151,7 +139,6 @@ export const PediatricDoseCalculator: React.FC = () => {
                 routeSpecificDose = imDose;
               }
             } else {
-              // Перорально или подкожно - берем среднюю дозу
               selectedDose = (dosingMethod.minDose + dosingMethod.maxDose) / 2;
             }
           } else if (notes.includes('PO:') && notes.includes('IV:')) {
@@ -171,28 +158,22 @@ export const PediatricDoseCalculator: React.FC = () => {
               }
             }
           } else {
-            // Если нет специфичной информации о путях введения, берем среднюю дозу
             selectedDose = (dosingMethod.minDose + dosingMethod.maxDose) / 2;
           }
         }
         
-        // Рассчитываем дозу на основе веса
         const dosePerWeight = selectedDose * inputs.weight;
         
-        // Проверяем максимальные дозы из примечаний
         let maxSingleDose = Infinity;
         if (notes.includes('макс.') || notes.includes('максимальная доза:')) {
-          // Ищем "макс. 30 мг" или "максимальная доза: 30 мг"
           const maxDoseMatch = notes.match(/(?:макс\.|максимальная доза:)\s*(\d+(?:\.\d+)?)\s*мг/);
           if (maxDoseMatch) {
             maxSingleDose = parseFloat(maxDoseMatch[1]);
           }
         }
         
-        // Ограничиваем дозу максимальным значением
         recommendedDose = Math.min(dosePerWeight, maxSingleDose);
         
-        // Формируем строку диапазона доз с указанием пути введения
         if (routeSpecificDose !== null) {
           doseRange = `${routeSpecificDose} ${dosingMethod.unit} (${inputs.route === 'iv' ? 'IV' : inputs.route === 'im' ? 'IM' : inputs.route === 'oral' ? 'PO' : inputs.route})`;
         } else if (notes.includes('IV:') && notes.includes('IM:')) {
@@ -203,7 +184,6 @@ export const PediatricDoseCalculator: React.FC = () => {
           doseRange = `${dosingMethod.minDose}-${dosingMethod.maxDose} ${dosingMethod.unit}`;
         }
         
-        // Рассчитываем суточную дозу на основе частоты
         const frequencyPerDay = dosingMethod.frequency.includes(t.every4Hours) || dosingMethod.frequency.includes(t.every4to6Hours) ? 6 :
                                dosingMethod.frequency.includes(t.every6Hours) || dosingMethod.frequency.includes(t.every6to8Hours) ? 4 :
                                dosingMethod.frequency.includes(t.every8Hours) || dosingMethod.frequency.includes(t.every8to12Hours) ? 3 :
@@ -225,7 +205,6 @@ export const PediatricDoseCalculator: React.FC = () => {
         break;
       
       case 'bsa':
-        // Расчет площади поверхности тела по формуле Дюбуа
         if (inputs.height) {
           const bsa = Math.sqrt((inputs.weight * inputs.height) / 3600);
           recommendedDose = (dosingMethod.minDose + dosingMethod.maxDose) / 2 * bsa;
@@ -235,7 +214,6 @@ export const PediatricDoseCalculator: React.FC = () => {
         break;
     }
 
-    // Проверяем максимальные дозы
     const maxDailyDose = dosingMethod.maxDose * inputs.weight * 
       (dosingMethod.frequency.includes(t.every4Hours) || dosingMethod.frequency.includes(t.every4to6Hours) ? 6 :
        dosingMethod.frequency.includes(t.every6Hours) || dosingMethod.frequency.includes(t.every6to8Hours) ? 4 :
@@ -252,10 +230,8 @@ export const PediatricDoseCalculator: React.FC = () => {
       totalDailyDose = maxDailyDose;
     }
 
-    // Определяем правильную единицу измерения для отображения
     let displayUnit = dosingMethod.unit;
     if (dosingMethod.type === 'weight' && dosingMethod.unit.includes('/кг')) {
-      // Если доза рассчитана на кг, то итоговая доза будет в мг/мкг/г
       displayUnit = dosingMethod.unit.replace('/кг', '');
     }
 
@@ -292,19 +268,23 @@ export const PediatricDoseCalculator: React.FC = () => {
     setSearchTerm('');
     setSelectedCategory('all');
     setShowAutocomplete(false);
-    setShowMedicationsList(true);
+    setShowMedicationsList(false);
   };
+
+  const categories = Array.from(new Set(medicationsDatabase.map(med => med.category)));
 
   return (
     <Card 
       title={t.pediatricDoses} 
       subtitle={t.pediatricDosesDesc}
       className="max-w-4xl mx-auto"
+      padding="lg"
     >
-      <div className="space-y-6">
-        {/* Основные параметры */}
-        <div className="p-4 bg-accent/20 rounded-lg border border-accent/30">
-          <h3 className="text-lg font-semibold text-accent-foreground mb-4">{t.childAge}</h3>
+      <div className="space-y-8">
+        
+        {/* Basic Parameters */}
+        <div className="space-y-4">
+          <h3 className="text-sm font-semibold text-[var(--foreground)]">{t.childAge}</h3>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <NumberInput
               label={t.childAge}
@@ -338,50 +318,53 @@ export const PediatricDoseCalculator: React.FC = () => {
           </div>
         </div>
 
-        {/* Выбор препарата */}
-        <div className="p-4 bg-accent/20 rounded-lg border border-accent/30">
-          <h3 className="text-lg font-semibold text-accent-foreground mb-4">{t.medicationName}</h3>
+        <div className="h-px bg-[var(--border)] w-full" />
+
+        {/* Medication Selection */}
+        <div className="space-y-4">
+          <h3 className="text-sm font-semibold text-[var(--foreground)]">{t.medicationName}</h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div className="mb-4">
-              <label className="block text-sm font-medium text-foreground mb-2">
-                {t.medicationName} <span className="text-red-500">*</span>
+            <div className="relative">
+              <label className="block text-sm font-medium text-[var(--gray-300)] mb-1.5">
+                {t.medicationName} <span className="text-[var(--error-500)]">*</span>
               </label>
-                             <input
-                 type="text"
-                 value={inputs.medication}
-                 onChange={(e) => {
-                   setInputs({ ...inputs, medication: e.target.value });
-                   setShowAutocomplete(true);
-                 }}
-                 onFocus={() => setShowAutocomplete(true)}
-                 placeholder={t.searchPlaceholder}
-                 className="w-full px-3 py-2 bg-input border border-border rounded-md text-foreground placeholder-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
-               />
-               {/* Автодополнение */}
-               {showAutocomplete && inputs.medication.length > 0 && (
-                 <div className="mt-2 max-h-40 overflow-y-auto border border-border rounded-md bg-card">
-                   {medicationsDatabase
-                     .filter(med => 
-                       med.name.toLowerCase().includes(inputs.medication.toLowerCase()) ||
-                       med.category.toLowerCase().includes(inputs.medication.toLowerCase())
-                     )
-                     .slice(0, 6)
-                     .map((med, index) => (
-                       <div
-                         key={index}
-                         onClick={() => {
-                           setInputs({ ...inputs, medication: med.name });
-                           setShowAutocomplete(false);
-                         }}
-                         className="px-3 py-2 hover:bg-accent cursor-pointer text-sm border-b border-border last:border-b-0"
-                       >
-                         <div className="font-medium text-foreground">{med.name}</div>
-                         <div className="text-xs text-muted-foreground">{med.category}</div>
-                       </div>
-                     ))}
-                 </div>
-               )}              
+              <input
+                type="text"
+                value={inputs.medication}
+                onChange={(e) => {
+                  setInputs({ ...inputs, medication: e.target.value });
+                  setShowAutocomplete(true);
+                }}
+                onFocus={() => setShowAutocomplete(true)}
+                placeholder={t.searchPlaceholder}
+                className="w-full px-3.5 py-2.5 bg-[var(--gray-900)] border border-[var(--input-border)] rounded-lg text-[var(--foreground)] placeholder:text-[var(--gray-500)] text-sm h-11 transition-all duration-200 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[var(--ring)] focus-visible:border-[var(--primary)]"
+              />
+              
+              {showAutocomplete && inputs.medication.length > 0 && (
+                <div className="absolute z-10 w-full mt-1 max-h-48 overflow-y-auto border border-[var(--border)] rounded-lg bg-[var(--card)] shadow-[var(--shadow-lg)]">
+                  {medicationsDatabase
+                    .filter(med => 
+                      med.name.toLowerCase().includes(inputs.medication.toLowerCase()) ||
+                      med.category.toLowerCase().includes(inputs.medication.toLowerCase())
+                    )
+                    .slice(0, 6)
+                    .map((med, index) => (
+                      <div
+                        key={index}
+                        onClick={() => {
+                          setInputs({ ...inputs, medication: med.name });
+                          setShowAutocomplete(false);
+                        }}
+                        className="px-4 py-2 hover:bg-[var(--accent)] cursor-pointer text-sm border-b border-[var(--border)] last:border-b-0 transition-colors"
+                      >
+                        <div className="font-medium text-[var(--foreground)]">{med.name}</div>
+                        <div className="text-xs text-[var(--muted-foreground)] mt-0.5">{med.category}</div>
+                      </div>
+                    ))}
+                </div>
+              )}
             </div>
+            
             <Select
               label={t.routeOfAdministration}
               value={inputs.route}
@@ -390,8 +373,9 @@ export const PediatricDoseCalculator: React.FC = () => {
               required
             />
           </div>
-          <div className="mt-4">
-            <label className="block text-sm font-medium text-foreground mb-2">
+          
+          <div className="pt-2">
+            <label className="block text-sm font-medium text-[var(--gray-300)] mb-1.5">
               {t.indication}
             </label>
             <input
@@ -399,282 +383,234 @@ export const PediatricDoseCalculator: React.FC = () => {
               value={inputs.indication}
               onChange={(e) => setInputs({ ...inputs, indication: e.target.value })}
               placeholder={t.indicationPlaceholder}
-              className="w-full px-3 py-2 bg-input border border-border rounded-md text-foreground placeholder-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+              className="w-full px-3.5 py-2.5 bg-[var(--gray-900)] border border-[var(--input-border)] rounded-lg text-[var(--foreground)] placeholder:text-[var(--gray-500)] text-sm h-11 transition-all duration-200 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[var(--ring)] focus-visible:border-[var(--primary)]"
             />
           </div>
         </div>
 
-                 <div className="flex space-x-4">
-           <Button onClick={calculateDose} variant="primary">
-             {t.calculate}
-           </Button>
-           <Button onClick={resetCalculator} variant="outline">
-             {t.reset}
-           </Button>
-         </div>
+        <div className="flex space-x-4 pt-2">
+          <Button onClick={calculateDose} variant="primary">
+            {t.calculate}
+          </Button>
+          <Button onClick={resetCalculator} variant="outline">
+            {t.reset}
+          </Button>
+        </div>
 
-         {result && (
-           <div className="mt-6 p-4 bg-accent/20 rounded-lg border border-accent/30">
-             <h3 className="text-lg font-semibold text-accent-foreground mb-4">
-               {t.calculationResults}
-             </h3>
-             
-             {/* Основной результат */}
-             <div className="mb-4 p-3 bg-card rounded border border-border">
-               <div className="flex items-center justify-between mb-2">
-                 <span className="font-medium text-card-foreground">{t.safety}:</span>
-                 <span className={`font-bold ${result.isSafe ? 'text-green-500' : 'text-red-500'}`}>
-                   {result.isSafe ? t.safe : t.notSafe}
-                 </span>
-               </div>
-               {result.isContraindicated && (
-                 <div className="text-red-500 text-sm mt-2">
-                   <strong>{t.contraindication}:</strong> {result.contraindicationReason}
-                 </div>
-               )}
-             </div>
+        {/* Calculation Results */}
+        {result && (
+          <div className="mt-8 space-y-6">
+            <h3 className="text-lg font-semibold text-[var(--foreground)] border-b border-[var(--border)] pb-2">
+              {t.calculationResults}
+            </h3>
+            
+            {result.isContraindicated ? (
+              <Alert variant="error" title={t.contraindication}>
+                {result.contraindicationReason}
+              </Alert>
+            ) : (
+              <Alert variant="success" title={t.safe}>
+                The requested dosage and medication are within safe parameters.
+              </Alert>
+            )}
 
-             {/* Рекомендации по дозировке */}
-             {result.isSafe && (
-               <div className="mb-4 p-3 bg-card rounded border border-border">
-                 <h4 className="font-medium text-card-foreground mb-2">{t.dosingRecommendations}:</h4>
-                 <div className="space-y-2 text-sm">
-                   <div className="flex justify-between items-center p-3 bg-blue-50 rounded-lg border border-blue-200">
-                     <span className="font-semibold text-blue-900">{t.recommendedDose}:</span>
-                     <span className="font-bold text-xl text-blue-900">{result.recommendedDose} {result.doseUnit}</span>
-                   </div>
-                   <div className="flex justify-between">
-                     <span>{t.doseRange}:</span>
-                     <span className="font-medium text-blue-500">
-                       {result.notes.find(note => note.includes(`${t.doseRange}:`))?.replace(`${t.doseRange}: `, '') || t.notSpecified}
-                     </span>
-                   </div>
-                   <div className="flex justify-between">
-                     <span>{t.frequency}:</span>
-                     <span className="font-medium">{result.frequency}</span>
-                   </div>
-                   <div className="flex justify-between">
-                     <span>{t.dailyDose}:</span>
-                     <span className="font-medium">{result.totalDailyDose} {result.doseUnit}</span>
-                   </div>
-                   {result.bsa && (
-                     <div className="flex justify-between">
-                       <span>{t.bodySurfaceArea}:</span>
-                       <span className="font-medium">{result.bsa} m²</span>
-                     </div>
-                   )}
-                 </div>
-               </div>
-             )}
-
-             {/* Примечания */}
-             {result.notes.length > 0 && (
-               <div className="mb-4 p-3 bg-card rounded border border-border">
-                 <h4 className="font-medium text-card-foreground mb-2">{t.notes}:</h4>
-                 <ul className="text-xs text-muted-foreground space-y-1">
-                   {result.notes.map((note, index) => (
-                     <li key={index}>• {note}</li>
-                   ))}
-                 </ul>
-               </div>
-             )}
-
-             {/* Предупреждения */}
-             {result.warnings.length > 0 && (
-               <div className="p-3 bg-yellow-900/20 rounded border border-yellow-500/30">
-                 <h4 className="font-medium text-yellow-400 mb-2">⚠️ {t.importantWarnings}:</h4>
-                 <ul className="text-xs text-yellow-300 space-y-1">
-                   {result.warnings.map((warning, index) => (
-                     <li key={index}>• {warning}</li>
-                   ))}
-                 </ul>
-               </div>
-             )}
-
-             {/* Дисклеймер */}
-             <div className="mt-4 p-3 bg-red-900/20 rounded border border-red-500/30">
-               <p className="text-xs text-red-300">
-                 <strong>{t.disclaimer}:</strong> {t.disclaimerText}
-               </p>
-             </div>
-           </div>
-         )}
-
-         {/* Кнопка показа/скрытия списка препаратов */}
-         <div className="flex justify-center mb-4">
-           <Button 
-             onClick={() => setShowMedicationsList(!showMedicationsList)}
-             variant="outline"
-             className="flex items-center gap-2 hover:bg-accent/50 transition-colors"
-           >
-             {showMedicationsList ? (
-               <>
-                 <span>📋 {t.hideMedicationList}</span>
-                 <span className="text-lg transition-transform">▼</span>
-               </>
-             ) : (
-               <>
-                 <span>📋 {t.showMedicationList}</span>
-                 <span className="text-lg transition-transform">▶</span>
-               </>
-             )}
-           </Button>
-         </div>
-
-         {/* Доступные препараты */}
-         {showMedicationsList && (
-           <div className="p-4 bg-card rounded border border-border transition-all duration-300 ease-in-out">
-             <h4 className="font-medium text-card-foreground mb-3">
-               {t.availableMedications} ({medicationsDatabase.length} {t.medications}) ✅ {t.verified}
-             </h4>
-           
-           {/* Статистика по категориям */}
-           <div className="mb-4 p-3 bg-muted/20 rounded-lg">
-             <div className="text-xs text-muted-foreground mb-2">{t.medicationCategories}:</div>
-             <div className="grid grid-cols-2 md:grid-cols-4 gap-2 text-xs">
-               {Array.from(new Set(medicationsDatabase.map(med => med.category))).map(category => {
-                 const count = medicationsDatabase.filter(med => med.category === category).length;
-                 return (
-                   <div key={category} className="flex justify-between">
-                     <span className="text-foreground">{category}:</span>
-                     <span className="text-muted-foreground">{count}</span>
-                   </div>
-                 );
-               })}
-             </div>
-           </div>
-           
-           {/* Специально запрошенные препараты */}
-           <div className="mb-4 p-3 bg-blue-900/20 rounded-lg border border-blue-500/30">
-             <h5 className="font-medium text-blue-400 mb-2 text-sm">⭐ {t.speciallyAdded}:</h5>
-             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2 text-xs">
-               <div className="p-2 bg-blue-900/30 rounded text-blue-300">Кеторолак (НПВС)</div>
-               <div className="p-2 bg-blue-900/30 rounded text-blue-300">Метамизол/Анальгин (Анальгетики)</div>
-               <div className="p-2 bg-blue-900/30 rounded text-blue-300">Метоклопрамид (Противорвотные)</div>
-               <div className="p-2 bg-blue-900/30 rounded text-blue-300">Ондасетрон (Противорвотные) ✅</div>
-             </div>
-           </div>
-           
-           {/* Проверенные дозировки */}
-           <div className="mb-4 p-3 bg-green-900/20 rounded-lg border border-green-500/30">
-             <h5 className="font-medium text-green-400 mb-2 text-sm">✅ {t.verifiedDoses}:</h5>
-             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2 text-xs">
-               <div className="p-2 bg-green-900/30 rounded text-green-300">Парацетамол (15 {t.mgKg})</div>
-               <div className="p-2 bg-green-900/30 rounded text-green-300">Ибупрофен (10 {t.mgKg})</div>
-               <div className="p-2 bg-green-900/30 rounded text-green-300">Дифенгидрамин (1.25 {t.mgKg})</div>
-               <div className="p-2 bg-green-900/30 rounded text-green-300">Хлорфенирамин (0.35 {t.mgKg}) ⭐</div>
-               <div className="p-2 bg-green-900/30 rounded text-green-300">Декстрометорфан (0.5-1 {t.mgKg}) ⭐</div>
-             </div>
-           </div>
-           
-           {/* Препараты неотложной помощи */}
-           <div className="mb-4 p-3 bg-red-900/20 rounded-lg border border-red-500/30">
-             <h5 className="font-medium text-red-400 mb-2 text-sm">🚨 {t.emergencyMedications}:</h5>
-             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2 text-xs">
-               <div className="p-2 bg-red-900/30 rounded text-red-300">Адреналин (10 мкг/кг) ⭐</div>
-               <div className="p-2 bg-red-900/30 rounded text-red-300">Атропин (0.02 {t.mgKg}) ⭐</div>
-               <div className="p-2 bg-red-900/30 rounded text-red-300">Аденозин (0.1 {t.mgKg}) ⭐</div>
-               <div className="p-2 bg-red-900/30 rounded text-red-300">Налоксон (0.01-0.1 {t.mgKg}) ⭐</div>
-             </div>
-           </div>
-         
-                       {/* Поиск и фильтр */}
-            <div className="mb-4 space-y-2">
-              <div className="p-3 bg-blue-900/20 rounded-lg border border-blue-500/30">
-                <h5 className="font-medium text-blue-400 mb-2 text-sm">🔍 {t.quickSearch}:</h5>
-                <div className="flex gap-2">
-                  <input
-                    type="text"
-                    placeholder={t.searchPlaceholder}
-                    value={searchTerm}
-                    className="flex-1 px-3 py-2 bg-input border border-border rounded-md text-foreground text-sm"
-                    onChange={(e) => setSearchTerm(e.target.value)}
+            {result.isSafe && (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                <StatCard 
+                  label={t.recommendedDose}
+                  value={result.recommendedDose}
+                  unit={result.doseUnit}
+                  status="normal"
+                  className="md:col-span-2 lg:col-span-2 bg-[rgba(54,191,250,0.06)] border-[rgba(54,191,250,0.2)]"
+                />
+                <StatCard 
+                  label={t.frequency}
+                  value={result.frequency}
+                />
+                <StatCard 
+                  label={t.dailyDose}
+                  value={result.totalDailyDose}
+                  unit={result.doseUnit}
+                />
+                {result.bsa && (
+                  <StatCard 
+                    label={t.bodySurfaceArea}
+                    value={result.bsa}
+                    unit="m²"
                   />
-                  {searchTerm && (
-                    <button
-                      onClick={() => setSearchTerm('')}
-                      className="px-3 py-2 bg-muted hover:bg-muted/80 rounded-md text-muted-foreground text-sm"
-                    >
-                      ✕
-                    </button>
-                  )}
-                </div>
-                <div className="mt-2 text-xs text-blue-300">
-                  💡 {t.clickToSelect}
+                )}
+                <div className="md:col-span-2 lg:col-span-4 bg-[var(--gray-900)] border border-[var(--border)] rounded-xl p-4 sm:p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                   <span className="text-sm font-medium text-[var(--muted-foreground)]">{t.doseRange}</span>
+                   <span className="text-sm font-semibold text-[var(--primary)]">
+                     {result.notes.find(note => note.includes(`${t.doseRange}:`))?.replace(`${t.doseRange}: `, '') || t.notSpecified}
+                   </span>
                 </div>
               </div>
-             <select 
-               className="px-3 py-2 bg-input border border-border rounded-md text-foreground text-sm"
-               value={selectedCategory}
-               onChange={(e) => setSelectedCategory(e.target.value)}
-             >
-               <option value="all">{t.allCategories}</option>
-               <option value="Анальгетики/Жаропонижающие">Анальгетики/Жаропонижающие</option>
-               <option value="НПВС">НПВС</option>
-               <option value="Антибиотики">Антибиотики</option>
-               <option value="Противорвотные">Противорвотные</option>
-               <option value="Антигистаминные">Антигистаминные</option>
-               <option value="Бронходилататоры">Бронходилататоры</option>
-               <option value="Противокашлевые">Противокашлевые</option>
-               <option value="Неотложная помощь">Неотложная помощь</option>
-               <option value="Опиоиды">Опиоиды</option>
-               <option value="Антидоты">Антидоты</option>
-               <option value="Глюкокортикоиды">Глюкокортикоиды</option>
-               <option value="Противосудорожные">Противосудорожные</option>
-               <option value="Антиаритмические">Антиаритмические</option>
-               <option value="Диуретики">Диуретики</option>
-               <option value="Антикоагулянты">Антикоагулянты</option>
-               <option value="Антигипертензивные">Антигипертензивные</option>
-               <option value="Антидепрессанты">Антидепрессанты</option>
-               <option value="Стимуляторы ЦНС">Стимуляторы ЦНС</option>
-               <option value="Противогрибковые">Противогрибковые</option>
-               <option value="Противовирусные">Противовирусные</option>
-               <option value="Иммунодепрессанты">Иммунодепрессанты</option>
-             </select>
-           </div>
+            )}
 
-           {/* Группировка по категориям */}
-           <div className="space-y-4">
-             {Array.from(new Set(medicationsDatabase.map(med => med.category)))
-               .filter(category => selectedCategory === 'all' || category === selectedCategory)
-               .map(category => {
-                 const categoryMeds = medicationsDatabase
-                   .filter(med => med.category === category)
-                   .filter(med => 
-                     searchTerm === '' || 
-                     med.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                     med.category.toLowerCase().includes(searchTerm.toLowerCase())
-                   );
-                 
-                 if (categoryMeds.length === 0) return null;
-                 
-                 return (
-                   <div key={category} className="border border-border rounded-lg p-3">
-                     <h5 className="font-medium text-card-foreground mb-2 text-sm">
-                       {category} ({categoryMeds.length})
-                     </h5>
-                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-1 text-xs">
-                       {categoryMeds.map((med, index) => (
-                                                   <div 
+            {result.notes.length > 0 && (
+              <Card padding="sm" variant="outlined">
+                <h4 className="text-sm font-semibold text-[var(--foreground)] mb-3">{t.notes}:</h4>
+                <ul className="text-sm text-[var(--muted-foreground)] space-y-2 list-disc pl-5">
+                  {result.notes.map((note, index) => (
+                    <li key={index}>{note}</li>
+                  ))}
+                </ul>
+              </Card>
+            )}
+
+            {result.warnings.length > 0 && (
+              <Alert variant="warning" title={t.importantWarnings}>
+                <ul className="list-disc pl-4 space-y-1 mt-1">
+                  {result.warnings.map((warning, index) => (
+                    <li key={index}>{warning}</li>
+                  ))}
+                </ul>
+              </Alert>
+            )}
+
+            <Alert variant="error" title={t.disclaimer}>
+              {t.disclaimerText}
+            </Alert>
+          </div>
+        )}
+
+        <div className="pt-6 flex justify-center">
+          <Button 
+            onClick={() => setShowMedicationsList(!showMedicationsList)}
+            variant="ghost"
+            className="text-[var(--muted-foreground)]"
+            trailingIcon={
+              <svg 
+                className={`w-4 h-4 transition-transform duration-200 ${showMedicationsList ? 'rotate-180' : ''}`} 
+                fill="none" 
+                stroke="currentColor" 
+                viewBox="0 0 24 24"
+              >
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+              </svg>
+            }
+          >
+            {showMedicationsList ? t.hideMedicationList : t.showMedicationList}
+          </Button>
+        </div>
+
+        {/* Available Medications Dictionary */}
+        {showMedicationsList && (
+          <Card padding="md" variant="outlined" className="mt-4">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-6 gap-4">
+              <div>
+                <h4 className="text-base font-semibold text-[var(--foreground)]">
+                  {t.availableMedications}
+                </h4>
+                <p className="text-sm text-[var(--muted-foreground)] mt-1">
+                  {medicationsDatabase.length} {t.medications}
+                </p>
+              </div>
+              <Badge variant="success">Verified Database</Badge>
+            </div>
+            
+            {/* Search and filter */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+              <div className="relative">
+                <input
+                  type="text"
+                  placeholder={t.searchPlaceholder}
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  className="w-full pl-10 pr-4 py-2 bg-[var(--gray-900)] border border-[var(--input-border)] rounded-lg text-[var(--foreground)] placeholder:text-[var(--gray-500)] text-sm h-10 transition-all focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[var(--ring)] focus-visible:border-[var(--primary)]"
+                />
+                <svg className="absolute left-3 top-2.5 w-5 h-5 text-[var(--gray-500)]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                </svg>
+                {searchTerm && (
+                  <button
+                    onClick={() => setSearchTerm('')}
+                    className="absolute right-3 top-2.5 text-[var(--gray-500)] hover:text-[var(--foreground)] transition-colors"
+                  >
+                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                  </button>
+                )}
+              </div>
+
+              <select 
+                className="w-full px-3.5 py-2 bg-[var(--gray-900)] border border-[var(--input-border)] rounded-lg text-[var(--foreground)] text-sm h-10 transition-all focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[var(--ring)] focus-visible:border-[var(--primary)]"
+                value={selectedCategory}
+                onChange={(e) => setSelectedCategory(e.target.value)}
+              >
+                <option value="all">{t.allCategories}</option>
+                {categories.map(cat => (
+                  <option key={cat} value={cat}>{cat}</option>
+                ))}
+              </select>
+            </div>
+
+            {/* Quick Filter Categories as Badges */}
+            <div className="flex flex-wrap gap-2 mb-8">
+              {categories.map(category => {
+                const count = medicationsDatabase.filter(med => med.category === category).length;
+                const isSelected = selectedCategory === category;
+                return (
+                  <button
+                    key={category}
+                    onClick={() => setSelectedCategory(isSelected ? 'all' : category)}
+                    className="focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--ring)] rounded-full"
+                  >
+                    <Badge 
+                      variant={isSelected ? 'brand' : 'gray'} 
+                      className="cursor-pointer hover:bg-[var(--accent)]"
+                    >
+                      {category} <span className="ml-1.5 opacity-60">{count}</span>
+                    </Badge>
+                  </button>
+                );
+              })}
+            </div>
+
+            {/* Category Groups */}
+            <div className="space-y-6">
+              {categories
+                .filter(category => selectedCategory === 'all' || category === selectedCategory)
+                .map(category => {
+                  const categoryMeds = medicationsDatabase
+                    .filter(med => med.category === category)
+                    .filter(med => 
+                      searchTerm === '' || 
+                      med.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                      med.category.toLowerCase().includes(searchTerm.toLowerCase())
+                    );
+                  
+                  if (categoryMeds.length === 0) return null;
+                  
+                  return (
+                    <div key={category} className="space-y-3">
+                      <h5 className="text-sm font-semibold text-[var(--foreground)] border-b border-[var(--border)] pb-2">
+                        {category} <span className="text-[var(--muted-foreground)] ml-1 font-normal">({categoryMeds.length})</span>
+                      </h5>
+                      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2">
+                        {categoryMeds.map((med, index) => (
+                          <div 
                             key={index} 
-                            className="p-1 bg-muted/10 rounded text-muted-foreground hover:bg-muted/20 cursor-pointer"
+                            className="px-3 py-2 bg-[var(--gray-900)] border border-[var(--border)] rounded-md text-sm text-[var(--gray-300)] hover:border-[var(--primary)] hover:bg-[rgba(54,191,250,0.05)] cursor-pointer transition-colors truncate"
                             onClick={() => {
                               setInputs({ ...inputs, medication: med.name });
-                              setShowAutocomplete(false);
+                              setShowMedicationsList(false);
                             }}
-                            title={`${t.clickToSelect} ${med.name}`}
+                            title={med.name}
                           >
-                           {med.name}
-                         </div>
-                       ))}
-                     </div>
-                   </div>
-                 );
-               })}
-           </div>
-         </div>
-         )}
+                            {med.name}
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  );
+                })}
+            </div>
+          </Card>
+        )}
       </div>
     </Card>
   );
-}; 
+};

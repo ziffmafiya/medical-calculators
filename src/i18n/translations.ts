@@ -21,6 +21,10 @@ export interface Translations {
   pediatricDosesDesc: string;
   intubationDoses: string;
   intubationDosesDesc: string;
+  bloodGas: string;
+  bloodGasDesc: string;
+  infusionTherapy: string;
+  infusionTherapyDesc: string;
   glasgowComaScale: string;
   glasgowComaScaleDesc: string;
   comingSoon: string;
@@ -416,6 +420,10 @@ export const translations: Record<Language, Translations> = {
     pediatricDosesDesc: 'Calculation of pediatric drug doses considering age and weight. Safety check and contraindications.',
     intubationDoses: 'Intubation Drug Doses',
     intubationDosesDesc: 'Dosing calculator for Propofol, Fentanyl, Atracurium, Rocuronium based on TBW, IBW, and LBW (Janmahasatian/James) anthropometrics.',
+    bloodGas: 'Blood Gas Analysis',
+    bloodGasDesc: 'Interpretation of arterial blood gas and acid-base disorders.',
+    infusionTherapy: 'Infusion Therapy',
+    infusionTherapyDesc: 'Calculation of maintenance fluids and deficit correction.',
     glasgowComaScale: 'Glasgow Coma Scale (GCS)',
     glasgowComaScaleDesc: 'Assessment of patient consciousness level using Glasgow scale.',
     comingSoon: 'Coming Soon',
@@ -808,6 +816,10 @@ export const translations: Record<Language, Translations> = {
     pediatricDosesDesc: 'Расчет детских доз препаратов с учетом возраста и веса ребенка. Проверка безопасности и противопоказаний.',
     intubationDoses: 'Препараты для интубации',
     intubationDosesDesc: 'Расчет доз Пропофола, Фентанила, Атракуриума и Рокурония с учетом антропометрических параметров (TBW, IBW, LBW, ABW) и ИВЛ.',
+    bloodGas: 'Анализ газов крови',
+    bloodGasDesc: 'Интерпретация артериальных газов крови и кислотно-основных нарушений.',
+    infusionTherapy: 'Инфузионная терапия',
+    infusionTherapyDesc: 'Расчет поддерживающей инфузии и коррекции дефицита.',
     glasgowComaScale: 'Шкала комы Глазго (ШКГ)',
     glasgowComaScaleDesc: 'Оценка уровня сознания пациента по шкале Глазго.',
     comingSoon: 'Скоро',
@@ -1200,6 +1212,10 @@ export const translations: Record<Language, Translations> = {
     pediatricDosesDesc: 'Розрахунок дитячих доз препаратів з урахуванням віку та ваги дитини. Перевірка безпеки та протипоказань.',
     intubationDoses: 'Препарати для інтубації',
     intubationDosesDesc: 'Розрахунок доз Пропофолу, Фентанілу, Атракуріуму та Рокуронію з урахуванням антропометричних параметрів (TBW, IBW, LBW, ABW) та ШВЛ.',
+    bloodGas: 'Аналіз газів крові',
+    bloodGasDesc: 'Інтерпретація артеріальних газів крові та кислотно-основних порушень.',
+    infusionTherapy: 'Інфузійна терапія',
+    infusionTherapyDesc: 'Розрахунок підтримуючої інфузії та корекції дефіциту.',
     glasgowComaScale: 'Шкала коми Глазго (ШКГ)',
     glasgowComaScaleDesc: 'Оцінка рівня свідомості пацієнта за шкалою Глазго.',
     comingSoon: 'Незабаром',

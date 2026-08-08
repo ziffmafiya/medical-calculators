@@ -1,66 +1,73 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useLanguage } from '@/i18n/LanguageContext';
 
-export const LanguageSelector: React.FC = () => {
+export default function LanguageSelector() {
   const { language, setLanguage } = useLanguage();
   const [isOpen, setIsOpen] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
 
   const languages = [
-    { code: 'en', name: 'English', flag: '🇺🇸' },
-    { code: 'ru', name: 'Русский', flag: '🇷🇺' },
-    { code: 'uk', name: 'Українська', flag: '🇺🇦' },
-  ] as const;
+    { code: 'en', label: 'English', flag: '🇺🇸', id: 'en' },
+    { code: 'ru', label: 'Русский', flag: '🇷🇺', id: 'ru' },
+    { code: 'uk', label: 'Українська', flag: '🇺🇦', id: 'uk' }
+  ];
 
-  const currentLanguage = languages.find(lang => lang.code === language);
+  const currentLang = languages.find(l => l.id === language) || languages[1];
 
-  const handleLanguageChange = (langCode: 'en' | 'ru' | 'uk') => {
-    setLanguage(langCode);
-    setIsOpen(false);
-  };
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setIsOpen(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
 
   return (
-    <div className="relative">
+    <div className="relative" ref={dropdownRef}>
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="flex items-center space-x-2 px-3 py-2 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors rounded-md border border-border hover:border-primary/50 min-h-[44px]"
+        className="inline-flex items-center gap-2 px-3 py-2 text-sm font-medium text-[var(--gray-300)] hover:text-[var(--foreground)] border border-[var(--border)] rounded-lg hover:bg-[var(--accent)] transition-colors duration-150 h-10 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[rgba(54,191,250,0.24)] focus-visible:border-[var(--primary)]"
       >
-        <span className="text-lg">{currentLanguage?.flag}</span>
-        <span className="hidden sm:block">{currentLanguage?.name}</span>
-        <svg
-          className={`w-4 h-4 transition-transform ${isOpen ? 'rotate-180' : ''}`}
-          fill="none"
+        <span className="text-base">{currentLang.flag}</span>
+        <span className="hidden sm:inline uppercase">{currentLang.code}</span>
+        <svg 
+          className={`w-4 h-4 transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`}
+          fill="none" 
+          viewBox="0 0 24 24" 
           stroke="currentColor"
-          viewBox="0 0 24 24"
         >
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
         </svg>
       </button>
 
       {isOpen && (
-        <div className="absolute right-0 mt-2 w-48 bg-card border border-border rounded-md shadow-lg z-50">
-          <div className="py-1">
-            {languages.map((lang) => (
-              <button
-                key={lang.code}
-                onClick={() => handleLanguageChange(lang.code)}
-                className={`w-full flex items-center space-x-3 px-4 py-2 text-sm hover:bg-accent transition-colors ${
-                  language === lang.code ? 'bg-accent text-accent-foreground' : 'text-foreground'
-                }`}
-              >
-                <span className="text-lg">{lang.flag}</span>
-                <span>{lang.name}</span>
-                {language === lang.code && (
-                  <svg className="w-4 h-4 ml-auto" fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                  </svg>
-                )}
-              </button>
-            ))}
-          </div>
+        <div className="absolute right-0 mt-1.5 w-44 bg-[var(--gray-900)] border border-[var(--border)] rounded-lg shadow-[var(--shadow-lg)] z-50 py-1 animate-slide-up">
+          {languages.map((lang) => (
+            <button
+              key={lang.id}
+              onClick={() => {
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                setLanguage(lang.id as any);
+                setIsOpen(false);
+              }}
+              className="w-full flex items-center gap-3 px-3 py-2 text-sm hover:bg-[var(--accent)] transition-colors duration-150 text-[var(--foreground)] focus-visible:outline-none focus-visible:bg-[var(--accent)]"
+            >
+              <span className="text-base">{lang.flag}</span>
+              <span className="flex-1 text-left">{lang.label}</span>
+              {language === lang.id && (
+                <svg className="w-4 h-4 text-[var(--primary)]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                </svg>
+              )}
+            </button>
+          ))}
         </div>
       )}
     </div>
   );
-}; 
+}

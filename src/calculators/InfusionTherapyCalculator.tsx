@@ -4,6 +4,9 @@ import { Button } from '../components/Button';
 import { NumberInput } from '../components/NumberInput';
 import { Select } from '../components/Select';
 import { Checkbox } from '../components/Checkbox';
+import { StatCard } from '../components/StatCard';
+import { Alert } from '../components/Alert';
+import { Badge } from '../components/Badge';
 import { InfusionTherapyInputs, InfusionTherapyResult, RecommendedSolution } from '../types';
 
 export const InfusionTherapyCalculator: React.FC = () => {
@@ -636,181 +639,133 @@ export const InfusionTherapyCalculator: React.FC = () => {
 
           {/* Результаты */}
           {result && (
-            <Card className="p-6">
-              <h2 className="text-xl font-semibold mb-6">Результаты расчета</h2>
-              
-              <div className="space-y-6">
-                {/* Объемы жидкости */}
-                <div>
-                  <h3 className="text-lg font-medium mb-3">Объемы жидкости</h3>
-                  <div className="grid grid-cols-1 gap-3">
-                    <div className="flex justify-between">
-                      <span>Общее количество воды в организме:</span>
-                      <span className="font-semibold">{result.totalBodyWater.toFixed(1)} л</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span>Внеклеточная жидкость:</span>
-                      <span className="font-semibold">{result.extracellularFluid.toFixed(1)} л</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span>Внутриклеточная жидкость:</span>
-                      <span className="font-semibold">{result.intracellularFluid.toFixed(1)} л</span>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Суточные потребности */}
-                <div>
-                  <h3 className="text-lg font-medium mb-3">Суточные потребности</h3>
-                  <div className="grid grid-cols-1 gap-3">
-                    <div className="flex justify-between">
-                      <span>Поддерживающая жидкость:</span>
-                      <span className="font-semibold">{result.maintenanceFluid.toFixed(0)} мл/сут</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span>Скорость поддерживающей инфузии:</span>
-                      <span className="font-semibold">{result.maintenanceRate.toFixed(1)} мл/час</span>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Дефицит жидкости */}
-                {result.fluidDeficit > 0 && (
-                  <div>
-                    <h3 className="text-lg font-medium mb-3">Дефицит жидкости</h3>
-                    <div className="grid grid-cols-1 gap-3">
-                      <div className="flex justify-between">
-                        <span>Объем дефицита:</span>
-                        <span className="font-semibold">{result.fluidDeficit.toFixed(0)} мл</span>
-                      </div>
-                      <div className="flex justify-between">
-                        <span>Скорость коррекции:</span>
-                        <span className="font-semibold">{result.deficitCorrectionRate.toFixed(0)} мл/час</span>
-                      </div>
-                      <div className="flex justify-between">
-                        <span>Время коррекции:</span>
-                        <span className="font-semibold">{result.deficitCorrectionTime.toFixed(1)} часов</span>
-                      </div>
-                    </div>
-                  </div>
-                )}
-
-                {/* Текущие потери */}
-                <div>
-                  <h3 className="text-lg font-medium mb-3">Текущие потери</h3>
-                  <div className="grid grid-cols-1 gap-3">
-                    <div className="flex justify-between">
-                      <span>Суточные потери:</span>
-                      <span className="font-semibold">{result.ongoingLosses.toFixed(0)} мл/сут</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span>Скорость восполнения потерь:</span>
-                      <span className="font-semibold">{result.ongoingLossesRate.toFixed(1)} мл/час</span>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Общий объем инфузии */}
-                <div>
-                  <h3 className="text-lg font-medium mb-3">Общий объем инфузии</h3>
-                  <div className="grid grid-cols-1 gap-3">
-                    <div className="flex justify-between">
-                      <span>Суточный объем:</span>
-                      <span className="font-semibold">{result.totalInfusionVolume.toFixed(0)} мл/сут</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span>Средняя скорость:</span>
-                      <span className="font-semibold">{result.totalInfusionRate.toFixed(1)} мл/час</span>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Рекомендуемые растворы */}
-                <div>
-                  <h3 className="text-lg font-medium mb-3">Рекомендуемые растворы</h3>
-                  <div className="space-y-3">
-                    {result.recommendedSolutions.map((solution, index) => (
-                      <div key={index} className="border rounded-lg p-3">
-                        <div className="font-medium text-primary">{solution.solution}</div>
-                        <div className="text-sm text-muted-foreground mt-1">
-                          Объем: {solution.volume} мл | Скорость: {solution.rate} мл/час | 
-                          Длительность: {solution.duration} ч
-                        </div>
-                        <div className="text-sm mt-1">
-                          <span className="font-medium">Показание:</span> {solution.indication}
-                        </div>
-                        {solution.notes && (
-                          <div className="text-sm text-muted-foreground mt-1">
-                            {solution.notes}
-                          </div>
-                        )}
-                      </div>
-                    ))}
-                  </div>
-                </div>
-
-                {/* Параметры мониторинга */}
-                <div>
-                  <h3 className="text-lg font-medium mb-3">Параметры мониторинга</h3>
-                  <div className="space-y-3">
-                    {result.monitoringParameters.map((param, index) => (
-                      <div key={index} className="border rounded-lg p-3">
-                        <div className="font-medium">{param.parameter}</div>
-                        <div className="text-sm text-muted-foreground mt-1">
-                          Частота: {param.frequency}
-                        </div>
-                        <div className="text-sm mt-1">
-                          <span className="font-medium">Цель:</span> {param.target}
-                        </div>
-                        <div className="text-sm text-red-600 mt-1">
-                          <span className="font-medium">Критические значения:</span> {param.criticalValues.join(', ')}
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-
-                {/* Предупреждения */}
-                {result.warnings.length > 0 && (
-                  <div>
-                    <h3 className="text-lg font-medium mb-3 text-yellow-600">Предупреждения</h3>
-                    <div className="space-y-2">
-                      {result.warnings.map((warning, index) => (
-                        <div key={index} className="text-yellow-700 bg-yellow-50 p-3 rounded-lg">
-                          ⚠️ {warning}
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                )}
-
-                {/* Противопоказания */}
-                {result.contraindications.length > 0 && (
-                  <div>
-                    <h3 className="text-lg font-medium mb-3 text-red-600">Противопоказания</h3>
-                    <div className="space-y-2">
-                      {result.contraindications.map((contraindication, index) => (
-                        <div key={index} className="text-red-700 bg-red-50 p-3 rounded-lg">
-                          🚫 {contraindication}
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                )}
-
-                                 {/* Дополнительные рекомендации */}
-                 <div>
-                   <h3 className="text-lg font-medium mb-3">Дополнительные рекомендации</h3>
-                   <div className="space-y-2">
-                     {result.additionalRecommendations.map((recommendation, index) => (
-                       <div key={index} className="text-sm p-3 rounded-lg border">
-                         💡 {recommendation}
-                       </div>
-                     ))}
-                   </div>
-                 </div>
+            <div className="space-y-6">
+              {/* Key Totals */}
+              <div className="grid grid-cols-1 xl:grid-cols-3 gap-4">
+                <StatCard 
+                  label="Поддерживающая жидкость" 
+                  value={result.maintenanceFluid.toFixed(0)} 
+                  unit="мл/сут" 
+                  sublabel={`${result.maintenanceRate.toFixed(1)} мл/час`}
+                  status="normal"
+                />
+                <StatCard 
+                  label="Дефицит жидкости" 
+                  value={result.fluidDeficit.toFixed(0)} 
+                  unit="мл" 
+                  sublabel={result.fluidDeficit > 0 ? `Коррекция: ${result.deficitCorrectionRate.toFixed(0)} мл/час за ${result.deficitCorrectionTime.toFixed(1)} ч` : 'Нет дефицита'}
+                  status={result.fluidDeficit > 0 ? 'warning' : 'normal'}
+                />
+                <StatCard 
+                  label="Общий объем инфузии" 
+                  value={result.totalInfusionVolume.toFixed(0)} 
+                  unit="мл/сут" 
+                  sublabel={`Средняя скорость: ${result.totalInfusionRate.toFixed(1)} мл/час`}
+                  status="normal"
+                />
               </div>
-            </Card>
+
+              {/* Объемы жидкости */}
+              <Card className="p-6">
+                <h3 className="text-lg font-medium text-foreground mb-4">Объемы жидкости и текущие потери</h3>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div className="flex justify-between items-center py-2 border-b border-border">
+                    <span className="text-muted-foreground">Общая вода тела (ОВТ):</span>
+                    <span className="font-semibold text-foreground">{result.totalBodyWater.toFixed(1)} л</span>
+                  </div>
+                  <div className="flex justify-between items-center py-2 border-b border-border">
+                    <span className="text-muted-foreground">Внеклеточная жидкость:</span>
+                    <span className="font-semibold text-foreground">{result.extracellularFluid.toFixed(1)} л</span>
+                  </div>
+                  <div className="flex justify-between items-center py-2 border-b border-border">
+                    <span className="text-muted-foreground">Внутриклеточная жидкость:</span>
+                    <span className="font-semibold text-foreground">{result.intracellularFluid.toFixed(1)} л</span>
+                  </div>
+                  <div className="flex justify-between items-center py-2 border-b border-border">
+                    <span className="text-muted-foreground">Текущие потери:</span>
+                    <span className="font-semibold text-foreground">{result.ongoingLosses.toFixed(0)} мл/сут</span>
+                  </div>
+                </div>
+              </Card>
+
+              {/* Рекомендуемые растворы */}
+              <Card className="p-6">
+                <h3 className="text-lg font-medium text-foreground mb-4">Рекомендуемые растворы</h3>
+                <div className="space-y-4">
+                  {result.recommendedSolutions.map((solution, index) => (
+                    <div key={index} className="bg-[var(--gray-900)] border border-border rounded-xl p-4">
+                      <div className="flex items-start justify-between mb-3">
+                        <Badge variant="brand" size="lg">{solution.solution}</Badge>
+                        <div className="text-right">
+                          <div className="text-foreground font-semibold text-lg">{solution.volume} мл</div>
+                          <div className="text-sm text-muted-foreground">{solution.rate} мл/час ({solution.duration} ч)</div>
+                        </div>
+                      </div>
+                      <div className="text-sm text-foreground mt-2">
+                        <span className="text-muted-foreground">Показание:</span> {solution.indication}
+                      </div>
+                      {solution.notes && (
+                        <div className="text-sm text-muted-foreground mt-1">
+                          <span className="text-muted-foreground">Примечание:</span> {solution.notes}
+                        </div>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              </Card>
+
+              {/* Параметры мониторинга */}
+              <Card className="p-6">
+                <h3 className="text-lg font-medium text-foreground mb-4">Параметры мониторинга</h3>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  {result.monitoringParameters.map((param, index) => (
+                    <div key={index} className="bg-[var(--gray-900)] border border-border rounded-xl p-4">
+                      <div className="font-medium text-foreground mb-1">{param.parameter}</div>
+                      <div className="text-sm text-muted-foreground mb-2">Частота: {param.frequency}</div>
+                      <div className="text-sm text-foreground mb-1">
+                        <span className="text-muted-foreground">Цель:</span> {param.target}
+                      </div>
+                      <div className="text-sm text-[var(--error-400)]">
+                        <span className="text-muted-foreground">Критично:</span> {param.criticalValues.join(', ')}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </Card>
+
+              {/* Warnings and Recommendations */}
+              <div className="space-y-4">
+                {result.contraindications.length > 0 && (
+                  <Alert variant="error" title="Противопоказания">
+                    <ul className="list-disc pl-4 space-y-1">
+                      {result.contraindications.map((contraindication, index) => (
+                        <li key={index}>{contraindication}</li>
+                      ))}
+                    </ul>
+                  </Alert>
+                )}
+                
+                {result.warnings.length > 0 && (
+                  <Alert variant="warning" title="Предупреждения">
+                    <ul className="list-disc pl-4 space-y-1">
+                      {result.warnings.map((warning, index) => (
+                        <li key={index}>{warning}</li>
+                      ))}
+                    </ul>
+                  </Alert>
+                )}
+
+                {result.additionalRecommendations.length > 0 && (
+                  <Alert variant="info" title="Дополнительные рекомендации">
+                    <ul className="list-disc pl-4 space-y-1">
+                      {result.additionalRecommendations.map((recommendation, index) => (
+                        <li key={index}>{recommendation}</li>
+                      ))}
+                    </ul>
+                  </Alert>
+                )}
+              </div>
+            </div>
           )}
         </div>
       </div>

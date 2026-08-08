@@ -1,21 +1,24 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Inter, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import { LanguageProvider } from "@/i18n/LanguageContext";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
+const inter = Inter({
+  variable: "--font-inter",
+  subsets: ["latin", "cyrillic"],
+  display: "swap",
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
+const jetbrainsMono = JetBrains_Mono({
+  variable: "--font-jetbrains",
+  subsets: ["latin", "cyrillic"],
+  display: "swap",
 });
 
 export const metadata: Metadata = {
-  title: "MDcalc - Medical Calculators",
-  description: "MDcalc - your reliable assistant in medical calculations: potassium correction, wound antibiotic prophylaxis, pediatric drug doses",
+  title: "MDcalc — Медицинские калькуляторы",
+  description: "Профессиональные калькуляторы для анестезиологии, коррекции электролитов, педиатрических доз, анализа газов крови и инфузионной терапии.",
+  keywords: ["медицинский калькулятор", "анестезиология", "электролиты", "педиатрия", "газы крови", "инфузия"],
 };
 
 export default function RootLayout({
@@ -24,9 +27,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="h-full">
+    <html lang="ru" className="h-full">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased h-full`}
+        className={`${inter.variable} ${jetbrainsMono.variable} antialiased h-full`}
+        style={{ fontFamily: "'Inter', system-ui, -apple-system, sans-serif" }}
       >
         <div className="flex flex-col min-h-full">
           <LanguageProvider>

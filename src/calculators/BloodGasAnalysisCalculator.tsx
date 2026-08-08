@@ -4,6 +4,9 @@ import { Button } from '../components/Button';
 import { NumberInput } from '../components/NumberInput';
 import { Select } from '../components/Select';
 import { Checkbox } from '../components/Checkbox';
+import { Alert } from '../components/Alert';
+import { Badge } from '../components/Badge';
+import { StatCard } from '../components/StatCard';
 
 interface BloodGasData {
   ph: number | null;
@@ -1023,1004 +1026,195 @@ ${result.treatmentAdvice.specificAdvice.length > 0 ?
   return (
     <div className="max-w-7xl mx-auto p-4 space-y-6">
       <Card 
-        title="🩸 Калькулятор анализа газов крови"
+        title="Калькулятор анализа газов крови"
         subtitle="Расчет анионного промежутка, формулы Винтера, BE по Zander-van Slyke, интерпретация кислотно-щелочного баланса"
-        className="w-full bg-slate-800 border-slate-700 text-slate-100"
       >
         <div className="space-y-8">
-          {/* Основные параметры */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            <NumberInput
-              label="pH"
-              value={data.ph}
-              onChange={(value) => handleInputChange('ph', value)}
-              min={6.8}
-              max={8.0}
-              step={0.01}
-              precision={2}
-              required
-            />
-            
-            <NumberInput
-              label="PCO2 (mmHg)"
-              value={data.pco2}
-              onChange={(value) => handleInputChange('pco2', value)}
-              min={20}
-              max={100}
-              step={0.1}
-              precision={1}
-              required
-            />
-            
-            <NumberInput
-              label="PaO2 (mmHg)"
-              value={data.pao2}
-              onChange={(value) => handleInputChange('pao2', value)}
-              min={30}
-              max={200}
-              step={1}
-              precision={0}
-              required={false}
-              helperText="Артериальное парциальное давление кислорода"
-            />
-            
-            <NumberInput
-              label="HCO3 (mmol/L)"
-              value={data.hco3}
-              onChange={(value) => handleInputChange('hco3', value)}
-              min={10}
-              max={50}
-              step={0.1}
-              precision={1}
-              required
-            />
-            
-            <NumberInput
-              label="Na (mmol/L)"
-              value={data.na}
-              onChange={(value) => handleInputChange('na', value)}
-              min={120}
-              max={180}
-              step={1}
-              precision={0}
-              required
-            />
-            
-            <NumberInput
-              label="Cl (mmol/L)"
-              value={data.cl}
-              onChange={(value) => handleInputChange('cl', value)}
-              min={80}
-              max={130}
-              step={1}
-              precision={0}
-              required
-            />
-            
-            <NumberInput
-              label="K (mmol/L)"
-              value={data.k}
-              onChange={(value) => handleInputChange('k', value)}
-              min={2.0}
-              max={8.0}
-              step={0.1}
-              precision={1}
-              required={false}
-            />
-            
-            <Select
-              label="Тип образца"
-              value={data.sampleType}
-              onChange={(value) => handleInputChange('sampleType', value as 'arterial' | 'venous')}
-              options={[
-                { value: 'arterial', label: 'Артериальная кровь' },
-                { value: 'venous', label: 'Венозная кровь' },
-              ]}
-              required
-            />
-            
-            <div className="flex items-center space-x-2">
-              <Checkbox
-                id="includeK"
-                checked={data.includeK}
-                onChange={(checked) => handleInputChange('includeK', checked)}
-              >
-                                  <span className="text-sm font-medium">Включить K в расчет AnionGap (AG)</span>
+            <NumberInput label="pH" value={data.ph} onChange={(value) => handleInputChange('ph', value)} min={6.8} max={8.0} step={0.01} precision={2} required />
+            <NumberInput label="PCO2 (mmHg)" value={data.pco2} onChange={(value) => handleInputChange('pco2', value)} min={20} max={100} step={0.1} precision={1} required />
+            <NumberInput label="PaO2 (mmHg)" value={data.pao2} onChange={(value) => handleInputChange('pao2', value)} min={30} max={200} step={1} precision={0} required={false} helperText="Артериальное парциальное давление кислорода" />
+            <NumberInput label="HCO3 (mmol/L)" value={data.hco3} onChange={(value) => handleInputChange('hco3', value)} min={10} max={50} step={0.1} precision={1} required />
+            <NumberInput label="Na (mmol/L)" value={data.na} onChange={(value) => handleInputChange('na', value)} min={120} max={180} step={1} precision={0} required />
+            <NumberInput label="Cl (mmol/L)" value={data.cl} onChange={(value) => handleInputChange('cl', value)} min={80} max={130} step={1} precision={0} required />
+            <NumberInput label="K (mmol/L)" value={data.k} onChange={(value) => handleInputChange('k', value)} min={2.0} max={8.0} step={0.1} precision={1} required={false} />
+            <Select label="Тип образца" value={data.sampleType} onChange={(value) => handleInputChange('sampleType', value)} options={[{ value: 'arterial', label: 'Артериальная кровь' }, { value: 'venous', label: 'Венозная кровь' }]} required />
+            <div className="flex items-center pt-8">
+              <Checkbox id="includeK" checked={data.includeK} onChange={(checked) => handleInputChange('includeK', checked)}>
+                <span className="text-sm font-medium">Включить K в расчет AnionGap (AG)</span>
               </Checkbox>
             </div>
           </div>
 
           <div className="mb-6">
-            <Button
-              onClick={() => setShowAdvanced(!showAdvanced)}
-              variant="outline"
-              className="w-full border-slate-600 text-slate-300 hover:bg-slate-700 font-medium"
-            >
-              {showAdvanced ? '🔽 Скрыть' : '🔼 Показать'} дополнительные параметры
+            <Button onClick={() => setShowAdvanced(!showAdvanced)} variant="outline" className="w-full">
+              {showAdvanced ? 'Скрыть дополнительные параметры' : 'Показать дополнительные параметры'}
             </Button>
           </div>
 
           {showAdvanced && (
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6 p-6 bg-slate-700 rounded-lg border border-slate-600">
-              <NumberInput
-                label="Альбумин (г/л)"
-                value={data.albumin}
-                onChange={(value) => handleInputChange('albumin', value)}
-                min={1.0}
-                max={6.0}
-                step={0.1}
-                precision={1}
-                required={false}
-                helperText="Для коррекции AnionGap (AG) при гипоальбуминемии"
-              />
-              <NumberInput
-                label="FiO2"
-                value={data.fio2}
-                onChange={(value) => handleInputChange('fio2', value)}
-                min={0.1}
-                max={1.0}
-                step={0.01}
-                precision={2}
-                required={false}
-                helperText="Парциальное давление кислорода в дыхательной смеси"
-              />
-              <NumberInput
-                label="Возраст (лет)"
-                value={data.age}
-                onChange={(value) => handleInputChange('age', value)}
-                min={0}
-                max={120}
-                step={1}
-                precision={0}
-                required={false}
-                helperText="Для расчета альвеолярно-артериального градиента O2"
-              />
-              
-              {/* Новые поля согласно алгоритму */}
-              <NumberInput
-                label="Глюкоза (мг/дл)"
-                value={data.glucose}
-                onChange={(value) => handleInputChange('glucose', value)}
-                min={50}
-                max={800}
-                step={1}
-                precision={0}
-                required={false}
-                helperText="Для расчета осмолярного промежутка"
-              />
-              <NumberInput
-                label="BUN (мг/дл)"
-                value={data.bun}
-                onChange={(value) => handleInputChange('bun', value)}
-                min={5}
-                max={100}
-                step={1}
-                precision={0}
-                required={false}
-                helperText="Азот мочевины крови для осмолярного промежутка"
-              />
-              <NumberInput
-                label="Этанол (мг/дл)"
-                value={data.ethanol}
-                onChange={(value) => handleInputChange('ethanol', value)}
-                min={0}
-                max={500}
-                step={1}
-                precision={0}
-                required={false}
-                helperText="Концентрация этанола для осмолярного промежутка"
-              />
-              
-              {/* Мочевые показатели для NAGMA */}
-              <NumberInput
-                label="Моча Na (мэкв/л)"
-                value={data.urineNa}
-                onChange={(value) => handleInputChange('urineNa', value)}
-                min={10}
-                max={200}
-                step={1}
-                precision={0}
-                required={false}
-                helperText="Натрий в моче для расчета мочевого анионного промежутка"
-              />
-              <NumberInput
-                label="Моча K (мэкв/л)"
-                value={data.urineK}
-                onChange={(value) => handleInputChange('urineK', value)}
-                min={5}
-                max={100}
-                step={1}
-                precision={0}
-                required={false}
-                helperText="Калий в моче для расчета мочевого анионного промежутка"
-              />
-              <NumberInput
-                label="Моча Cl (мэкв/л)"
-                value={data.urineCl}
-                onChange={(value) => handleInputChange('urineCl', value)}
-                min={10}
-                max={200}
-                step={1}
-                precision={0}
-                required={false}
-                helperText="Хлорид в моче для расчета мочевого анионного промежутка"
-              />
-              
-              {/* Поля для расчета BE по формуле Siggaard-Andersen */}
-              <NumberInput
-                label="Гемоглобин (г/дл)"
-                value={data.hemoglobin}
-                onChange={(value) => handleInputChange('hemoglobin', value)}
-                min={5.0}
-                max={25.0}
-                step={0.1}
-                precision={1}
-                required={false}
-                helperText="Концентрация гемоглобина для расчета BE по формуле Zander-van Slyke"
-              />
-              <NumberInput
-                label="Насыщение O2 (0.0-1.0)"
-                value={data.oxygenSaturation}
-                onChange={(value) => handleInputChange('oxygenSaturation', value)}
-                min={0.0}
-                max={1.0}
-                step={0.01}
-                precision={2}
-                required={false}
-                helperText="Насыщение кислородом (0.0-1.0) для расчета BE по формуле Zander-van Slyke"
-              />
-            </div>
+            <Card className="grid grid-cols-1 md:grid-cols-2 gap-4 bg-slate-900/50">
+              <NumberInput label="Альбумин (г/л)" value={data.albumin} onChange={(value) => handleInputChange('albumin', value)} min={1.0} max={6.0} step={0.1} precision={1} required={false} helperText="Для коррекции AnionGap (AG) при гипоальбуминемии" />
+              <NumberInput label="FiO2" value={data.fio2} onChange={(value) => handleInputChange('fio2', value)} min={0.1} max={1.0} step={0.01} precision={2} required={false} helperText="Парциальное давление кислорода в дыхательной смеси" />
+              <NumberInput label="Возраст (лет)" value={data.age} onChange={(value) => handleInputChange('age', value)} min={0} max={120} step={1} precision={0} required={false} helperText="Для расчета альвеолярно-артериального градиента O2" />
+              <NumberInput label="Глюкоза (мг/дл)" value={data.glucose} onChange={(value) => handleInputChange('glucose', value)} min={50} max={800} step={1} precision={0} required={false} helperText="Для расчета осмолярного промежутка" />
+              <NumberInput label="BUN (мг/дл)" value={data.bun} onChange={(value) => handleInputChange('bun', value)} min={5} max={100} step={1} precision={0} required={false} helperText="Азот мочевины крови для осмолярного промежутка" />
+              <NumberInput label="Этанол (мг/дл)" value={data.ethanol} onChange={(value) => handleInputChange('ethanol', value)} min={0} max={500} step={1} precision={0} required={false} helperText="Концентрация этанола для осмолярного промежутка" />
+              <NumberInput label="Моча Na (мэкв/л)" value={data.urineNa} onChange={(value) => handleInputChange('urineNa', value)} min={10} max={200} step={1} precision={0} required={false} helperText="Натрий в моче" />
+              <NumberInput label="Моча K (мэкв/л)" value={data.urineK} onChange={(value) => handleInputChange('urineK', value)} min={5} max={100} step={1} precision={0} required={false} helperText="Калий в моче" />
+              <NumberInput label="Моча Cl (мэкв/л)" value={data.urineCl} onChange={(value) => handleInputChange('urineCl', value)} min={10} max={200} step={1} precision={0} required={false} helperText="Хлорид в моче" />
+              <NumberInput label="Гемоглобин (г/дл)" value={data.hemoglobin} onChange={(value) => handleInputChange('hemoglobin', value)} min={5.0} max={25.0} step={0.1} precision={1} required={false} helperText="Концентрация гемоглобина для расчета BE" />
+              <NumberInput label="Насыщение O2 (0.0-1.0)" value={data.oxygenSaturation} onChange={(value) => handleInputChange('oxygenSaturation', value)} min={0.0} max={1.0} step={0.01} precision={2} required={false} helperText="Насыщение кислородом для расчета BE" />
+            </Card>
           )}
 
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button onClick={handleCalculate} variant="primary" className="text-lg px-8 py-3 bg-slate-700 hover:bg-slate-600 border-slate-700">
-              🧮 Рассчитать
-            </Button>
+          <div className="flex justify-center">
+            <Button onClick={handleCalculate} variant="primary" className="text-lg px-8 py-3">Рассчитать</Button>
           </div>
         </div>
       </Card>
 
       {result && (
-        <Card>
-          <div className="space-y-6">
-            {/* Interpretation - MOVED TO THE BEGINNING */}
-            <div className="p-6 bg-gradient-to-br from-slate-800 to-slate-900 rounded-2xl border border-slate-700 shadow-lg">
-              <h3 className="text-xl lg:text-2xl font-bold text-slate-100 mb-4 text-center">
-                🔍 Интерпретация
-              </h3>
-              
-              {/* Critical Status Row */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-                {/* Internal Consistency */}
-                <div className={`p-3 rounded-lg border ${
-                  result.internalConsistency.isValid 
-                    ? 'bg-green-900/20 border-green-600' 
-                    : 'bg-red-900/20 border-red-600'
-                }`}>
-                  <div className="flex items-center justify-between">
-                    <span className="text-sm font-medium text-slate-200">Внутренняя согласованность</span>
-                    <span className={`text-sm font-bold ${
-                      result.internalConsistency.isValid ? 'text-green-400' : 'text-red-400'
-                    }`}>
-                      {result.internalConsistency.isValid ? '✓ Согласован' : '⚠️ Нарушена'}
-                    </span>
-                  </div>
-                  <div className="text-xs text-slate-400 mt-1">
-                    [H+] = (24 × PCO2) / HCO3 = {result.internalConsistency.hydrogenIon.toFixed(1)} nM
-                  </div>
-                </div>
-                
-                {/* Primary Disorder */}
-                <div className="bg-slate-900 p-3 rounded-lg border border-slate-600">
-                  <div className="flex items-center justify-between">
-                    <span className="text-sm font-medium text-slate-200">Основное нарушение</span>
-                    <span className="text-sm font-bold text-slate-100">{result.interpretation.primaryDisorder}</span>
-                  </div>
-                </div>
-              </div>
-              
-              {/* Acid-Base Status Grid */}
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-3 mb-4">
-                {result.interpretation.compensation && (
-                  <div className="bg-slate-900 p-3 rounded-lg border border-slate-600">
-                    <div className="text-xs text-slate-400 mb-1">Компенсация</div>
-                    <div className="text-sm font-medium text-slate-100">{result.interpretation.compensation}</div>
-                  </div>
-                )}
-                
-                {result.interpretation.chronicity && (
-                  <div className="bg-slate-900 p-3 rounded-lg border border-slate-600">
-                    <div className="text-xs text-slate-400 mb-1">Хроничность</div>
-                    <div className="text-sm font-medium text-slate-100">{result.interpretation.chronicity}</div>
-                  </div>
-                )}
-                
-                {result.interpretation.mixedDisorder && (
-                  <div className="bg-slate-900 p-3 rounded-lg border border-slate-600">
-                    <div className="text-xs text-slate-400 mb-1">Смешанное расстройство</div>
-                    <div className="text-sm font-medium text-slate-100">{result.interpretation.mixedDisorderExplanation}</div>
-                  </div>
-                )}
-              </div>
-              
-              {/* Laboratory Values Grid */}
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3 mb-4">
-                <div className="bg-slate-900 p-3 rounded-lg border border-slate-600">
-                  <div className="text-xs text-slate-400 mb-1">AnionGap (AG)</div>
-                  <div className="text-sm font-medium text-slate-100">{result.interpretation.anionGapStatus}</div>
-                </div>
-                
-                <div className="bg-slate-900 p-3 rounded-lg border border-slate-600">
-                  <div className="text-xs text-slate-400 mb-1">Δ/Δ</div>
-                  <div className="text-sm font-medium text-slate-100">{result.interpretation.deltaDeltaInterpretation}</div>
-                </div>
-                
-                {result.interpretation.osmolarGapStatus && (
-                  <div className="bg-slate-900 p-3 rounded-lg border border-slate-600">
-                    <div className="text-xs text-slate-400 mb-1">Осмолярный промежуток</div>
-                    <div className="text-sm font-medium text-slate-100">{result.interpretation.osmolarGapStatus}</div>
-                  </div>
-                )}
-                
-                {result.interpretation.urineAnionGapStatus && (
-                  <div className="bg-slate-900 p-3 rounded-lg border border-slate-600">
-                    <div className="text-xs text-slate-400 mb-1">Мочевой анионный промежуток</div>
-                    <div className="text-sm font-medium text-slate-100">{result.interpretation.urineAnionGapStatus}</div>
-                  </div>
-                )}
-              </div>
-              
-              {/* Critical Warning for Internal Consistency */}
+        <div className="space-y-6">
+          <Card title="Интерпретация">
+            <div className="space-y-6">
               {!result.internalConsistency.isValid && (
-                <div className="bg-red-900/20 p-3 rounded-lg border border-red-600">
-                  <div className="flex items-start">
-                    <span className="text-red-400 mr-2 text-sm">⚠️</span>
-                    <div className="text-xs text-slate-200">
-                      <div className="font-medium text-red-300 mb-1">Нарушена внутренняя согласованность АБГ!</div>
-                      <div className="text-slate-300">
-                        <strong>Действия:</strong> Повторить анализ, проверить технику забора, оценить клиническую картину. 
-                        Данные могут быть недостоверными.
-                      </div>
-                    </div>
-                  </div>
-                </div>
+                <Alert variant="error" title="Нарушена внутренняя согласованность АБГ!">
+                  Повторите анализ, проверьте технику забора, оцените клиническую картину. Данные могут быть недостоверными.
+                  <br />[H+] = (24 × PCO2) / HCO3 = {result.internalConsistency.hydrogenIon.toFixed(1)} nM
+                </Alert>
               )}
-            </div>
-
-            {/* Primary Results */}
-            <div className="p-8 bg-gradient-to-br from-slate-800 to-slate-900 rounded-2xl border border-slate-700 shadow-lg">
-              <h3 className="text-2xl lg:text-3xl font-bold text-slate-100 mb-8 text-center">
-                📊 Основные результаты
-              </h3>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-                <div className="bg-slate-900 p-6 rounded-xl border border-slate-600 shadow-md">
-                  <div className="text-center">
-                    <div className="text-lg text-slate-300 font-medium mb-2">AnionGap (AG)</div>
-                    <div className="text-3xl lg:text-4xl font-bold text-slate-100">{result.anionGap.toFixed(1)}</div>
-                    <div className="text-sm text-slate-400 mt-2">mmol/L</div>
-                    <div className="text-xs text-slate-500 mt-1">Норма: 8-16</div>
-                  </div>
-                </div>
-                
-                <div className="bg-slate-900 p-6 rounded-xl border border-slate-600 shadow-md">
-                  <div className="text-center">
-                    <div className="text-lg text-slate-300 font-medium mb-2">Текущий CO2</div>
-                    <div className="text-3xl lg:text-4xl font-bold text-slate-100">{data.pco2}</div>
-                    <div className="text-sm text-slate-400 mt-2">mmHg</div>
-                    <div className="text-xs text-slate-500 mt-1">Норма: 35-45</div>
-                  </div>
-                </div>
-                
-                <div className="bg-slate-900 p-6 rounded-xl border border-slate-600 shadow-md">
-                  <div className="text-center">
-                    <div className="text-lg text-slate-300 font-medium mb-2">Δ/Δ</div>
-                    <div className="text-3xl lg:text-4xl font-bold text-slate-100">
-                      {result.deltaDelta !== null ? result.deltaDelta.toFixed(2) : 'Н/Д'}
-                    </div>
-                    <div className="text-sm text-slate-400 mt-2">Ratio</div>
-                    <div className="text-xs text-slate-500 mt-1">Норма: 0.8-2.0</div>
-                  </div>
-                </div>
-                
-                <div className="bg-slate-900 p-6 rounded-xl border border-slate-600 shadow-md">
-                  <div className="text-center">
-                    <div className="text-lg text-slate-300 font-medium mb-2">PaO2</div>
-                    <div className="text-3xl lg:text-4xl font-bold text-slate-100">{data.pao2 || 'Н/Д'}</div>
-                    <div className="text-sm text-slate-400 mt-2">mmHg</div>
-                    <div className="text-xs text-slate-500 mt-1">Норма: 80-100</div>
-                  </div>
-                </div>
-                
-                <div className="bg-slate-900 p-6 rounded-xl border border-slate-600 shadow-md">
-                  <div className="text-center">
-                    <div className="text-lg text-slate-300 font-medium mb-2">Ожидаемый PaCO2</div>
-                    <div className="text-3xl lg:text-4xl font-bold text-slate-100">{result.expectedPaCO2Winter.toFixed(1)}</div>
-                    <div className="text-sm text-slate-400 mt-2">± 2 mmHg</div>
-                  </div>
-                </div>
-                
-                {result.anionGapCorrected !== null && (
-                  <div className="bg-slate-900 p-6 rounded-xl border border-slate-600 shadow-md">
-                    <div className="text-center">
-                      <div className="text-base text-slate-300 font-medium mb-2 leading-tight">Скорр. AG</div>
-                      <div className="text-3xl lg:text-4xl font-bold text-slate-100">{result.anionGapCorrected.toFixed(1)}</div>
-                      <div className="text-sm text-slate-400 mt-2">mmol/L</div>
-                      <div className="text-xs text-slate-500 mt-1">Норма: 8-16</div>
-                    </div>
-                  </div>
-                )}
-                
-                {result.osmolarGap !== null && (
-                  <div className="bg-slate-900 p-6 rounded-xl border border-slate-600 shadow-md">
-                    <div className="text-center">
-                      <div className="text-lg text-slate-300 font-medium mb-2">Осмолярный промежуток</div>
-                      <div className="text-3xl lg:text-4xl font-bold text-slate-100">{result.osmolarGap.toFixed(1)}</div>
-                      <div className="text-sm text-slate-400 mt-2">mOsm/kg</div>
-                      <div className="text-xs text-slate-500 mt-1">Норма: -10 до +10</div>
-                    </div>
-                  </div>
-                )}
-                
-                {result.urineAnionGap !== null && (
-                  <div className="bg-slate-900 p-6 rounded-xl border border-slate-600 shadow-md">
-                    <div className="text-center">
-                      <div className="text-lg text-slate-300 font-medium mb-2">Мочевой анионный промежуток</div>
-                      <div className="text-3xl lg:text-4xl font-bold text-slate-100">{result.urineAnionGap.toFixed(1)}</div>
-                      <div className="text-sm text-slate-400 mt-2">мэкв/л</div>
-                      <div className="text-xs text-slate-500 mt-1">Норма: -10 до +10</div>
-                    </div>
-                  </div>
-                )}
-                
-                {/* Base Excess - перемещен в основные результаты */}
-                <div className="bg-slate-900 p-6 rounded-xl border border-slate-600 shadow-md">
-                  <div className="text-center">
-                    <div className="text-lg text-slate-300 font-medium mb-2">Избыток оснований (BE)</div>
-                    <div className="text-3xl lg:text-4xl font-bold text-slate-100">
-                      {result.baseExcess !== null && result.baseExcess !== undefined ? result.baseExcess.toFixed(1) : 'Н/Д'}
-                    </div>
-                    <div className="text-sm text-slate-400 mt-2">mmol/L</div>
-                    <div className="text-xs text-slate-500 mt-1">
-                      По формуле Zander-van Slyke
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Normal Values Reference */}
-            <div className="p-6 bg-gradient-to-br from-slate-700 to-slate-800 rounded-xl border border-slate-600 shadow-md">
-              <h3 className="text-xl font-bold text-slate-100 mb-4 text-center">
-                📋 Нормальные значения
-              </h3>
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
-                <div className="text-center">
-                  <div className="text-slate-300 font-medium">pH</div>
-                  <div className="text-slate-100 font-bold">{NORMAL_VALUES.ph.min}-{NORMAL_VALUES.ph.max}</div>
-                </div>
-                <div className="text-center">
-                  <div className="text-slate-300 font-medium">PCO2</div>
-                  <div className="text-slate-100 font-bold">{NORMAL_VALUES.pco2.min}-{NORMAL_VALUES.pco2.max} {NORMAL_VALUES.pco2.unit}</div>
-                </div>
-                <div className="text-center">
-                  <div className="text-slate-300 font-medium">HCO3</div>
-                  <div className="text-slate-100 font-bold">{NORMAL_VALUES.hco3.min}-{NORMAL_VALUES.hco3.max} {NORMAL_VALUES.hco3.unit}</div>
-                </div>
-                <div className="text-center">
-                  <div className="text-slate-300 font-medium">PaO2</div>
-                  <div className="text-slate-100 font-bold">{NORMAL_VALUES.pao2.min}-{NORMAL_VALUES.pao2.max} {NORMAL_VALUES.pao2.unit}</div>
-                </div>
-                <div className="text-center">
-                  <div className="text-slate-300 font-medium">Na</div>
-                  <div className="text-slate-100 font-bold">{NORMAL_VALUES.na.min}-{NORMAL_VALUES.na.max} {NORMAL_VALUES.na.unit}</div>
-                </div>
-                <div className="text-center">
-                  <div className="text-slate-300 font-medium">Cl</div>
-                  <div className="text-slate-100 font-bold">{NORMAL_VALUES.cl.min}-{NORMAL_VALUES.cl.max} {NORMAL_VALUES.cl.unit}</div>
-                </div>
-                <div className="text-center">
-                  <div className="text-slate-300 font-medium">K</div>
-                  <div className="text-slate-100 font-bold">{NORMAL_VALUES.k.min}-{NORMAL_VALUES.k.max} {NORMAL_VALUES.k.unit}</div>
-                </div>
-                <div className="text-center">
-                  <div className="text-slate-300 font-medium">AnionGap (AG)</div>
-                  <div className="text-slate-100 font-bold">{NORMAL_VALUES.anionGap.min}-{NORMAL_VALUES.anionGap.max} {NORMAL_VALUES.anionGap.unit}</div>
-                </div>
-                <div className="text-center">
-                  <div className="text-slate-300 font-medium">Гемоглобин</div>
-                  <div className="text-slate-100 font-bold">{NORMAL_VALUES.hemoglobin.min}-{NORMAL_VALUES.hemoglobin.max} {NORMAL_VALUES.hemoglobin.unit}</div>
-                </div>
-                <div className="text-center">
-                  <div className="text-slate-300 font-medium">Насыщение O2</div>
-                  <div className="text-slate-100 font-bold">{NORMAL_VALUES.oxygenSaturation.min}-{NORMAL_VALUES.oxygenSaturation.max}</div>
-                </div>
-                
-                {/* Новые нормальные значения согласно алгоритму */}
-                <div className="text-center">
-                  <div className="text-slate-300 font-medium">Глюкоза</div>
-                  <div className="text-slate-100 font-bold">70-100 мг/дл</div>
-                </div>
-                <div className="text-center">
-                  <div className="text-slate-300 font-medium">BUN</div>
-                  <div className="text-slate-100 font-bold">7-20 мг/дл</div>
-                </div>
-                <div className="text-center">
-                  <div className="text-slate-300 font-medium">Осмолярность</div>
-                  <div className="text-slate-100 font-bold">275-295 mOsm/kg</div>
-                </div>
-                <div className="text-center">
-                  <div className="text-slate-300 font-medium">Осмолярный промежуток</div>
-                  <div className="text-slate-100 font-bold">-10 до +10 mOsm/kg</div>
-                </div>
-                <div className="text-center">
-                  <div className="text-slate-300 font-medium">Мочевой анионный промежуток</div>
-                  <div className="text-slate-100 font-bold">-10 до +10 мэкв/л</div>
-                </div>
-              </div>
-            </div>
-
-            {/* PaO2 Analysis */}
-            {data.pao2 && (
-              <div className="p-8 bg-gradient-to-br from-slate-800 to-slate-900 rounded-2xl border border-slate-700 shadow-lg">
-                <h3 className="text-2xl lg:text-3xl font-bold text-slate-100 mb-6 text-center">
-                  🫁 Анализ оксигенации
-                </h3>
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                  <div className="bg-slate-900 p-6 rounded-xl border border-slate-600 shadow-md">
-                    <div className="text-center mb-4">
-                      <div className="text-lg text-slate-300 font-medium mb-2">Статус PaO2</div>
-                      <div className="text-xl text-slate-200 font-semibold">{result.pao2Status}</div>
-                    </div>
-                  </div>
-                  
-                  {result.oxygenationIndex && (
-                    <div className="bg-slate-900 p-6 rounded-xl border border-slate-600 shadow-md">
-                      <div className="text-center mb-4">
-                        <div className="text-lg text-slate-300 font-medium mb-2">Индекс оксигенации</div>
-                        <div className="text-3xl lg:text-4xl font-bold text-slate-200">{result.oxygenationIndex.toFixed(0)}</div>
-                        <div className="text-sm text-slate-400 mt-2">PaO2/FiO2</div>
-                      </div>
-                    </div>
-                  )}
-                </div>
-              </div>
-            )}
-
-            {/* Additional Calculated Parameters */}
-            <div className="p-8 bg-gradient-to-br from-slate-800 to-slate-900 rounded-2xl border border-slate-700 shadow-lg">
-              <h3 className="text-2xl lg:text-3xl font-bold text-slate-100 mb-6 text-center">
-                🧮 Дополнительные расчеты
-              </h3>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                <div className="bg-slate-900 p-6 rounded-xl border border-slate-600 shadow-md">
-                  <div className="text-center">
-                    <div className="text-lg text-slate-300 font-medium mb-2">Общая концентрация CO2</div>
-                    <div className="text-3xl lg:text-4xl font-bold text-slate-100">{result.totalCO2.toFixed(1)}</div>
-                    <div className="text-sm text-slate-400 mt-2">mmol/L</div>
-                    <div className="text-xs text-slate-500 mt-1">Норма: 22-28</div>
-                  </div>
-                </div>
-                
-                <div className="bg-slate-900 p-6 rounded-xl border border-slate-600 shadow-md">
-                  <div className="text-center">
-                    <div className="text-lg text-slate-300 font-medium mb-2">Концентрация [H+]</div>
-                    <div className="text-3xl lg:text-4xl font-bold text-slate-100">{result.hydrogenIon.toFixed(1)}</div>
-                    <div className="text-sm text-slate-400 mt-2">nM</div>
-                    <div className="text-xs text-slate-500 mt-1">Норма: 35-45</div>
-                  </div>
-                </div>
-                
-                <div className="bg-slate-900 p-6 rounded-xl border border-slate-600 shadow-md">
-                  <div className="text-center">
-                    <div className="text-lg text-slate-300 font-medium mb-2">A-a градиент O2</div>
-                    <div className="text-3xl lg:text-4xl font-bold text-slate-100">
-                      {result.aaGradient !== null ? result.aaGradient.toFixed(1) : 'Н/Д'}
-                    </div>
-                    <div className="text-sm text-slate-400 mt-2">mmHg</div>
-                    <div className="text-xs text-slate-500 mt-1">Норма: &lt; 20</div>
-                  </div>
-                </div>
-                
-                {/* Expected Values moved here */}
-                <div className="bg-slate-900 p-6 rounded-xl border border-slate-600 shadow-md">
-                  <div className="text-center">
-                    <div className="text-lg text-slate-300 font-medium mb-2">Ожидаемый PaCO2 (метаб. алкалоз)</div>
-                    <div className="text-3xl lg:text-4xl font-bold text-slate-100">{result.expectedPaCO2Metabolic.toFixed(1)}</div>
-                    <div className="text-sm text-slate-400 mt-2">± 1.5 mmHg</div>
-                    <div className="text-xs text-slate-500 mt-1">Норма: 35-45</div>
-                  </div>
-                </div>
-                
-                {result.anionGapCorrected && (
-                  <div className="bg-slate-900 p-6 rounded-xl border border-slate-600 shadow-md">
-                    <div className="text-center">
-                      <div className="text-base text-slate-300 font-medium mb-2 leading-tight">Скорр. AG</div>
-                      <div className="text-3xl lg:text-4xl font-bold text-slate-100">{result.anionGapCorrected.toFixed(1)}</div>
-                      <div className="text-sm text-slate-400 mt-2">mmol/L</div>
-                      <div className="text-xs text-slate-500 mt-1">Норма: 8-16</div>
-                    </div>
-                  </div>
-                )}
-              </div>
-            </div>
-
-            {/* Detailed Reasoning */}
-            <div className="p-8 bg-gradient-to-br from-slate-800 to-slate-900 rounded-2xl border border-slate-700 shadow-lg">
-              <div className="flex items-center justify-between mb-6">
-                <h3 className="text-2xl lg:text-3xl font-bold text-slate-100">
-                  🧠 Логика принятия решений
-                </h3>
-                <Button
-                  onClick={() => setShowDecisionLogic(!showDecisionLogic)}
-                  variant="outline"
-                  className="border-slate-600 text-slate-300 hover:bg-slate-700"
-                >
-                  {showDecisionLogic ? '🔽 Скрыть' : '🔼 Показать'} логику
-                </Button>
-              </div>
-              
-              {showDecisionLogic && (
-                <div className="space-y-4">
-                  {result.interpretation.reasoning.map((reason, index) => (
-                    <div key={index} className="bg-slate-900 p-4 rounded-xl border border-slate-600 shadow-md">
-                      <div className="flex items-start">
-                        <span className="text-slate-400 mr-4 text-xl">💡</span>
-                        <span className="text-base text-slate-200">{reason}</span>
-                      </div>
-                    </div>
-                  ))}
-                </div>
+              {result.internalConsistency.isValid && (
+                <Alert variant="success" title="АБГ внутренне согласован">
+                  [H+] = (24 × PCO2) / HCO3 = {result.internalConsistency.hydrogenIon.toFixed(1)} nM
+                </Alert>
               )}
-            </div>
-
-
-
-            {/* Warnings */}
-            {result.interpretation.warnings.length > 0 && (
-              <div className="p-8 bg-gradient-to-br from-slate-800 to-slate-900 rounded-2xl border border-slate-700 shadow-lg">
-                <h4 className="text-2xl lg:text-3xl font-bold text-slate-100 mb-6 text-center">
-                  ⚠️ Предупреждения
-                </h4>
-                <div className="space-y-4">
-                  {result.interpretation.warnings.map((warning, index) => (
-                    <div key={index} className="bg-slate-900 p-4 rounded-xl border border-slate-600 shadow-md">
-                      <div className="flex items-start">
-                        <span className="text-slate-400 mr-4 text-xl">⚠️</span>
-                        <span className="text-base text-slate-200 font-medium">{warning}</span>
-                      </div>
-                    </div>
-                  ))}
-                  
-                  {/* Расширенная подсказка о внутренней согласованности */}
-                  {!result.internalConsistency.isValid && (
-                    <div className="bg-slate-900 p-6 rounded-xl border border-red-600 shadow-md">
-                      <div className="flex items-start">
-                        <span className="text-red-400 mr-4 text-xl">🔬</span>
-                        <div className="flex-1">
-                          <h5 className="text-lg font-bold text-red-300 mb-3">Нарушение внутренней согласованности АБГ</h5>
-                          <div className="text-sm text-slate-300 space-y-3">
-                            <div>
-                              <div className="font-medium text-slate-200 mb-2">Что это означает:</div>
-                              <p>Внутренняя согласованность нарушена, когда результаты pH, PCO2 и HCO3 не соответствуют друг другу по уравнению Гендерсона-Гассельбаха. Это может указывать на технические ошибки или проблемы с образцом.</p>
-                            </div>
-                            
-                            <div>
-                              <div className="font-medium text-slate-200 mb-2">Возможные причины:</div>
-                              <ul className="list-disc list-inside space-y-1 ml-4">
-                                <li>Технические ошибки лаборатории (калибровка, транспортировка)</li>
-                                <li>Проблемы с образцом (воздушные пузырьки, долгое хранение)</li>
-                                <li>Ошибки при заборе (смешивание крови, попадание тканевой жидкости)</li>
-                                <li>Экстремальные клинические ситуации</li>
-                              </ul>
-                            </div>
-                            
-                            <div>
-                              <div className="font-medium text-slate-200 mb-2">Рекомендуемые действия:</div>
-                              <ul className="list-disc list-inside space-y-1 ml-4">
-                                <li><strong>Немедленно:</strong> Повторить анализ газов крови</li>
-                                <li><strong>Проверить:</strong> Технику забора и транспортировки образца</li>
-                                <li><strong>Оценить:</strong> Клиническую картину пациента</li>
-                                <li><strong>Рассмотреть:</strong> Альтернативные методы (венозная кровь)</li>
-                              </ul>
-                            </div>
-                            
-                            <div className="bg-red-900/30 p-3 rounded-lg border border-red-500">
-                              <div className="font-medium text-red-300 mb-1">⚠️ Важно помнить:</div>
-                              <p className="text-xs text-red-200">Нарушение внутренней согласованности не исключает наличие кислотно-щелочных нарушений у пациента, но означает, что данные АБГ могут быть недостоверными для принятия клинических решений.</p>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  )}
-                </div>
-              </div>
-            )}
-
-            {/* Причины нарушений согласно алгоритму */}
-            {result.treatmentAdvice.detectedDisorders.length > 0 && (
-              <div className="p-8 bg-gradient-to-br from-slate-800 to-slate-900 rounded-2xl border border-slate-700 shadow-lg">
-                <h4 className="text-2xl lg:text-3xl font-bold text-slate-100 mb-6 text-center">
-                  📚 Причины нарушений согласно алгоритму
-                </h4>
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                  {/* Показываем только релевантные причины для обнаруженных нарушений */}
-                  {(result.treatmentAdvice.detectedDisorders.includes('HAGMA') || result.treatmentAdvice.detectedDisorders.includes('Метаболический ацидоз')) && (
-                    <div className="bg-slate-900 p-6 rounded-xl border border-slate-600 shadow-md">
-                      <h5 className="text-lg font-bold text-slate-100 mb-4">Причины HAGMA (OMUDPILES)</h5>
-                      <ul className="text-sm text-slate-300 space-y-2">
-                        <li>• <strong>O</strong>ксопролин</li>
-                        <li>• <strong>M</strong>етанол</li>
-                        <li>• <strong>U</strong>ремия</li>
-                        <li>• <strong>D</strong>КА (диабетический кетоацидоз)</li>
-                        <li>• <strong>P</strong>аральдегид</li>
-                        <li>• <strong>I</strong>НА (изониазид)</li>
-                        <li>• <strong>L</strong>актат</li>
-                        <li>• <strong>E</strong>тиленгликоль</li>
-                        <li>• <strong>S</strong>алицилаты</li>
-                      </ul>
-                    </div>
-                  )}
-                  
-                  {(result.treatmentAdvice.detectedDisorders.includes('NAGMA') || result.treatmentAdvice.detectedDisorders.includes('Метаболический ацидоз')) && (
-                    <div className="bg-slate-900 p-6 rounded-xl border border-slate-600 shadow-md">
-                      <h5 className="text-lg font-bold text-slate-100 mb-4">Причины NAGMA (HARDUP)</h5>
-                      <ul className="text-sm text-slate-300 space-y-2">
-                        <li>• <strong>H</strong>ипералиментация</li>
-                        <li>• <strong>A</strong>цетазоламид</li>
-                        <li>• <strong>R</strong>ТА (почечный тубулярный ацидоз)</li>
-                        <li>• <strong>D</strong>иарея</li>
-                        <li>• <strong>U</strong>ретеро-кишечные свищи</li>
-                        <li>• <strong>P</strong>анкреатический свищ</li>
-                        <li>• <strong>P</strong>остгипервентиляция</li>
-                      </ul>
-                    </div>
-                  )}
-                  
-                  {result.treatmentAdvice.detectedDisorders.includes('Респираторный ацидоз') && (
-                    <div className="bg-slate-900 p-6 rounded-xl border border-slate-600 shadow-md">
-                      <h5 className="text-lg font-bold text-slate-100 mb-4">Причины респираторного ацидоза</h5>
-                      <ul className="text-sm text-slate-300 space-y-2">
-                        <li>• Обструкция дыхательных путей</li>
-                        <li>• ХОБЛ, астма</li>
-                        <li>• Депрессия ЦНС</li>
-                        <li>• ОАС, ОГС</li>
-                        <li>• Нервно-мышечные нарушения</li>
-                        <li>• Ограничение вентиляции</li>
-                        <li>• Повышенная продукция CO2</li>
-                      </ul>
-                    </div>
-                  )}
-                  
-                  {result.treatmentAdvice.detectedDisorders.includes('Респираторный алкалоз') && (
-                    <div className="bg-slate-900 p-6 rounded-xl border border-slate-600 shadow-md">
-                      <h5 className="text-lg font-bold text-slate-100 mb-4">Причины респираторного алкалоза</h5>
-                      <ul className="text-sm text-slate-300 space-y-2">
-                        <li>• Стимуляция ЦНС (лихорадка, боль, страх)</li>
-                        <li>• Гипоксемия, гипоксия</li>
-                        <li>• Легочные заболевания</li>
-                        <li>• Салицилаты, катехоламины</li>
-                        <li>• Беременность</li>
-                        <li>• Заболевания печени</li>
-                        <li>• Сепсис, гипертиреоз</li>
-                      </ul>
-                    </div>
-                  )}
-                </div>
-              </div>
-            )}
-
-            {/* Советы по лечению обнаруженных расстройств */}
-            <div className="p-8 bg-gradient-to-br from-slate-800 to-slate-900 rounded-2xl border border-slate-700 shadow-lg">
-              <h4 className="text-2xl lg:text-3xl font-bold text-slate-100 mb-6 text-center">
-                💊 Советы по лечению обнаруженных расстройств
-              </h4>
               
-              {/* Обнаруженные нарушения */}
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                <StatCard label="Основное нарушение" value={result.interpretation.primaryDisorder} />
+                {result.interpretation.compensation && <StatCard label="Компенсация" value={result.interpretation.compensation} />}
+                {result.interpretation.chronicity && <StatCard label="Хроничность" value={result.interpretation.chronicity} />}
+                {result.interpretation.mixedDisorder && <StatCard label="Смешанное расстройство" value={result.interpretation.mixedDisorderExplanation} />}
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mt-4">
+                <StatCard label="AnionGap (AG)" value={result.interpretation.anionGapStatus} />
+                <StatCard label="Δ/Δ" value={result.interpretation.deltaDeltaInterpretation} />
+                {result.interpretation.osmolarGapStatus && <StatCard label="Осмолярный промежуток" value={result.interpretation.osmolarGapStatus} />}
+                {result.interpretation.urineAnionGapStatus && <StatCard label="Мочевой анионный промежуток" value={result.interpretation.urineAnionGapStatus} />}
+              </div>
+            </div>
+          </Card>
+
+          <Card title="Основные результаты">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+              <StatCard label="AnionGap (AG)" value={result.anionGap.toFixed(1)} unit="mmol/L" sublabel="Норма: 8-16" />
+              <StatCard label="Текущий CO2" value={data.pco2} unit="mmHg" sublabel="Норма: 35-45" />
+              <StatCard label="Δ/Δ" value={result.deltaDelta !== null ? result.deltaDelta.toFixed(2) : 'Н/Д'} unit="Ratio" sublabel="Норма: 0.8-2.0" />
+              <StatCard label="PaO2" value={data.pao2 || 'Н/Д'} unit="mmHg" sublabel="Норма: 80-100" />
+              <StatCard label="Ожидаемый PaCO2" value={result.expectedPaCO2Winter.toFixed(1)} unit="± 2 mmHg" />
+              {result.anionGapCorrected !== null && <StatCard label="Скорр. AG" value={result.anionGapCorrected.toFixed(1)} unit="mmol/L" sublabel="Норма: 8-16" />}
+              {result.osmolarGap !== null && <StatCard label="Осмолярный промежуток" value={result.osmolarGap.toFixed(1)} unit="mOsm/kg" sublabel="Норма: -10 до +10" />}
+              {result.urineAnionGap !== null && <StatCard label="Мочевой анионный промежуток" value={result.urineAnionGap.toFixed(1)} unit="мэкв/л" sublabel="Норма: -10 до +10" />}
+              <StatCard label="Избыток оснований (BE)" value={result.baseExcess !== null && result.baseExcess !== undefined ? result.baseExcess.toFixed(1) : 'Н/Д'} unit="mmol/L" sublabel="По формуле Zander-van Slyke" />
+            </div>
+          </Card>
+
+          {data.pao2 && (
+            <Card title="Анализ оксигенации">
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                <StatCard label="Статус PaO2" value={result.pao2Status} />
+                {result.oxygenationIndex && <StatCard label="Индекс оксигенации" value={result.oxygenationIndex.toFixed(0)} unit="PaO2/FiO2" />}
+              </div>
+            </Card>
+          )}
+
+          <Card title="Дополнительные расчеты">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              <StatCard label="Общая концентрация CO2" value={result.totalCO2.toFixed(1)} unit="mmol/L" sublabel="Норма: 22-28" />
+              <StatCard label="Концентрация [H+]" value={result.hydrogenIon.toFixed(1)} unit="nM" sublabel="Норма: 35-45" />
+              <StatCard label="A-a градиент O2" value={result.aaGradient !== null ? result.aaGradient.toFixed(1) : 'Н/Д'} unit="mmHg" sublabel="Норма: < 20" />
+              <StatCard label="Ожидаемый PaCO2 (метаб. алкалоз)" value={result.expectedPaCO2Metabolic.toFixed(1)} unit="± 1.5 mmHg" sublabel="Норма: 35-45" />
+            </div>
+          </Card>
+
+          {result.interpretation.warnings.length > 0 && (
+            <Card title="Предупреждения">
+              <div className="space-y-4">
+                {result.interpretation.warnings.map((warning, index) => (
+                  <Alert key={index} variant="warning">{warning}</Alert>
+                ))}
+              </div>
+            </Card>
+          )}
+
+          <Card title="Логика принятия решений">
+             <div className="mb-4">
+              <Button onClick={() => setShowDecisionLogic(!showDecisionLogic)} variant="outline">
+                {showDecisionLogic ? 'Скрыть логику' : 'Показать логику'}
+              </Button>
+            </div>
+            {showDecisionLogic && (
+              <div className="space-y-2">
+                {result.interpretation.reasoning.map((reason, index) => (
+                  <Alert key={index} variant="info">{reason}</Alert>
+                ))}
+              </div>
+            )}
+          </Card>
+
+          <Card title="Советы по лечению">
+            <div className="space-y-6">
               {result.treatmentAdvice.detectedDisorders.length > 0 ? (
-                <div className="bg-slate-900 p-6 rounded-xl border border-slate-600 shadow-md mb-6">
-                  <h5 className="text-lg font-bold text-slate-100 mb-4">🎯 Обнаруженные нарушения:</h5>
-                  <div className="flex flex-wrap gap-2">
-                    {result.treatmentAdvice.detectedDisorders.map((disorder, index) => (
-                      <span key={index} className="px-3 py-1 bg-blue-600 text-white text-sm rounded-full">
-                        {disorder}
-                      </span>
-                    ))}
-                  </div>
+                <div className="flex flex-wrap gap-2 mb-4">
+                  {result.treatmentAdvice.detectedDisorders.map((disorder, index) => (
+                    <Badge key={index} variant="brand">{disorder}</Badge>
+                  ))}
                 </div>
               ) : (
-                <div className="bg-slate-900 p-6 rounded-xl border border-green-600 shadow-md mb-6">
-                  <h5 className="text-lg font-bold text-green-300 mb-2">✅ Нарушений не обнаружено</h5>
-                  <p className="text-slate-300">Все показатели в пределах нормы. Специфическое лечение не требуется.</p>
-                </div>
+                <Alert variant="success" title="Специфическое лечение не требуется">
+                  Все показатели в пределах нормы. Рекомендуется только общий мониторинг.
+                </Alert>
               )}
 
-              {/* Общие принципы лечения */}
-              <div className="bg-slate-900 p-6 rounded-xl border border-slate-600 shadow-md mb-6">
-                <h5 className="text-lg font-bold text-slate-100 mb-4">🎯 Общие принципы лечения</h5>
-                <div className="text-sm text-slate-300 space-y-3">
-                  {result.treatmentAdvice.generalPrinciples.map((principle, index) => (
-                    <p key={index}><strong>{index + 1}.</strong> {principle}</p>
-                  ))}
-                </div>
-              </div>
-
-              {/* Специфические советы по лечению */}
-              {result.treatmentAdvice.specificAdvice.length > 0 ? (
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+              {result.treatmentAdvice.specificAdvice.length > 0 && (
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
                   {result.treatmentAdvice.specificAdvice.map((advice, index) => (
-                    <div key={index} className={`bg-slate-900 p-6 rounded-xl border shadow-md ${
-                      advice.critical ? 'border-red-600 bg-red-900/20' : 'border-slate-600'
-                    }`}>
-                      <div className="flex items-center mb-4">
-                        <h6 className={`text-lg font-bold ${
-                          advice.critical ? 'text-red-300' : 'text-slate-100'
-                        }`}>
-                          {advice.disorder}
-                        </h6>
-                        {advice.critical && (
-                          <span className="ml-2 px-2 py-1 bg-red-600 text-white text-xs rounded-full">
-                            КРИТИЧНО
-                          </span>
-                        )}
-                      </div>
-                      
-                      <ul className="text-sm text-slate-300 space-y-2 mb-4">
-                        {advice.advice.map((item, itemIndex) => (
-                          <li key={itemIndex} className="flex items-start">
-                            <span className="text-slate-400 mr-2 mt-1">•</span>
-                            <span>{item}</span>
-                          </li>
-                        ))}
+                    <Card key={index} title={advice.disorder} className={advice.critical ? "border-[var(--error-500)]" : ""}>
+                      {advice.critical && <Badge variant="error" className="mb-2">КРИТИЧНО</Badge>}
+                      <ul className="list-disc list-inside space-y-1 text-sm text-[var(--gray-300)]">
+                        {advice.advice.map((item, i) => <li key={i}>{item}</li>)}
                       </ul>
-                      
                       {advice.warnings && advice.warnings.length > 0 && (
-                        <div className="bg-yellow-900/20 p-3 rounded-lg border border-yellow-600">
-                          <h6 className="text-sm font-semibold text-yellow-300 mb-2">⚠️ Предупреждения:</h6>
-                          <ul className="text-xs text-slate-300 space-y-1">
-                            {advice.warnings.map((warning, warningIndex) => (
-                              <li key={warningIndex} className="flex items-start">
-                                <span className="text-yellow-400 mr-2 mt-1">•</span>
-                                <span>{warning}</span>
-                              </li>
-                            ))}
-                          </ul>
+                        <div className="mt-4 space-y-2">
+                          {advice.warnings.map((w, i) => <Alert key={i} variant="warning">{w}</Alert>)}
                         </div>
                       )}
-                    </div>
+                    </Card>
                   ))}
-                </div>
-              ) : (
-                <div className="bg-slate-900 p-6 rounded-xl border border-green-600 shadow-md mb-6">
-                  <div className="text-center">
-                    <h5 className="text-lg font-bold text-green-300 mb-2">✅ Специфическое лечение не требуется</h5>
-                    <p className="text-slate-300">Все показатели в пределах нормы. Рекомендуется только общий мониторинг.</p>
-                  </div>
                 </div>
               )}
 
-              {/* Дополнительные рекомендации */}
-              <div className="mt-6 grid grid-cols-1 lg:grid-cols-2 gap-6">
-                {/* Мониторинг и контроль */}
-                <div className="bg-green-900/20 p-6 rounded-xl border border-green-600 shadow-md">
-                  <h5 className="text-lg font-bold text-green-300 mb-4">📊 Мониторинг и контроль</h5>
-                  <div className="text-sm text-slate-300 space-y-3">
-                    <div>
-                      <h6 className="text-base font-semibold text-green-200 mb-2">Частота контроля:</h6>
-                      <ul className="space-y-1 text-xs">
-                        <li>• Критические нарушения: каждые 2-4 часа</li>
-                        <li>• Умеренные нарушения: каждые 6-12 часов</li>
-                        <li>• Легкие нарушения: ежедневно</li>
-                      </ul>
-                    </div>
-                    
-                    <div>
-                      <h6 className="text-base font-semibold text-green-200 mb-2">Дополнительные исследования:</h6>
-                      <ul className="space-y-1 text-xs">
-                        <li>• Электролиты, креатинин</li>
-                        <li>• Лактат, кетоны</li>
-                        <li>• Токсикологический скрининг</li>
-                        <li>• Рентгенография грудной клетки</li>
-                      </ul>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Предупреждения */}
-                <div className="bg-yellow-900/20 p-6 rounded-xl border border-yellow-600 shadow-md">
-                  <h5 className="text-lg font-bold text-yellow-300 mb-4">⚠️ Важные предупреждения</h5>
-                  <div className="text-sm text-slate-300 space-y-3">
-                    <div>
-                      <h6 className="text-base font-semibold text-yellow-200 mb-2">Не применять NaHCO3:</h6>
-                      <ul className="space-y-1 text-xs">
-                        <li>• При респираторном ацидозе</li>
-                        <li>• При pH &gt; 7.5</li>
-                        <li>• Без коррекции основной причины</li>
-                        <li>• При гипернатриемии</li>
-                      </ul>
-                    </div>
-                    
-                    <div>
-                      <h6 className="text-base font-semibold text-yellow-200 mb-2">Осторожность с:</h6>
-                      <ul className="space-y-1 text-xs">
-                        <li>• Быстрой коррекцией pH</li>
-                        <li>• Перекоррекцией</li>
-                        <li>• Игнорированием основной причины</li>
-                        <li>• Самолечением</li>
-                      </ul>
-                    </div>
-                  </div>
-                </div>
+              <div>
+                <h4 className="text-lg font-medium text-[var(--foreground)] mb-2">Общие принципы лечения</h4>
+                <ul className="list-decimal list-inside space-y-1 text-sm text-[var(--gray-300)]">
+                  {result.treatmentAdvice.generalPrinciples.map((principle, index) => (
+                    <li key={index}>{principle}</li>
+                  ))}
+                </ul>
               </div>
 
-              {/* Предупреждение о консультации */}
-              <div className="mt-6 bg-blue-900/20 p-6 rounded-xl border border-blue-600 shadow-md">
-                <div className="text-center">
-                  <p className="text-sm text-blue-200 font-medium">
-                    💡 <strong>Помните:</strong> Данные рекомендации носят информационный характер и не заменяют консультацию врача. 
-                    Всегда консультируйтесь со специалистом для индивидуального подхода к лечению.
-                  </p>
-                </div>
-              </div>
+              <Alert variant="info">
+                Данные рекомендации носят информационный характер и не заменяют консультацию врача. Всегда консультируйтесь со специалистом для индивидуального подхода к лечению.
+              </Alert>
             </div>
+          </Card>
 
-            {/* Action Buttons */}
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button onClick={handleCopyReport} variant="outline" className="text-lg px-8 py-3 border-slate-600 text-slate-300 hover:bg-slate-700">
-                📋 Скопировать отчёт
-              </Button>
-              <Button onClick={handlePrint} variant="outline" className="text-lg px-8 py-3 border-slate-600 text-slate-300 hover:bg-slate-700">
-                🖨️ Печать/Экспорт
-              </Button>
-            </div>
-
-            {/* Новые расчеты согласно алгоритму */}
-            <div className="p-8 bg-gradient-to-br from-slate-800 to-slate-900 rounded-2xl border border-slate-700 shadow-lg">
-              <h3 className="text-2xl lg:text-3xl font-bold text-slate-100 mb-6 text-center">
-                🔬 Новые расчеты согласно алгоритму
-              </h3>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                <div className="bg-slate-900 p-6 rounded-xl border border-slate-600 shadow-md">
-                  <div className="text-center">
-                    <div className="text-lg text-slate-300 font-medium mb-2">Внутренняя согласованность</div>
-                    <div className={`text-3xl lg:text-4xl font-bold ${result.internalConsistency.isValid ? 'text-green-400' : 'text-red-400'}`}>
-                      {result.internalConsistency.isValid ? '✓' : '⚠️'}
-                    </div>
-                    <div className="text-sm text-slate-400 mt-2">
-                      {result.internalConsistency.isValid ? 'Согласован' : 'Нарушена'}
-                    </div>
-                  </div>
-                </div>
-                
-                {result.osmolarGap !== null && (
-                  <div className="bg-slate-900 p-6 rounded-xl border border-slate-600 shadow-md">
-                    <div className="text-center">
-                      <div className="text-lg text-slate-300 font-medium mb-2">Осмолярный промежуток</div>
-                      <div className="text-3xl lg:text-4xl font-bold text-slate-100">{result.osmolarGap.toFixed(1)}</div>
-                      <div className="text-sm text-slate-400 mt-2">mOsm/kg</div>
-                      <div className="text-xs text-slate-500 mt-1">
-                        {result.osmolarGap > 10 ? 'Повышен' : result.osmolarGap < -10 ? 'Снижен' : 'Норма'}
-                      </div>
-                    </div>
-                  </div>
-                )}
-                
-                {result.urineAnionGap !== null && (
-                  <div className="bg-slate-900 p-6 rounded-xl border border-slate-600 shadow-md">
-                    <div className="text-center">
-                      <div className="text-lg text-slate-300 font-medium mb-2">Мочевой анионный промежуток</div>
-                      <div className="text-3xl lg:text-4xl font-bold text-slate-100">{result.urineAnionGap.toFixed(1)}</div>
-                      <div className="text-sm text-slate-400 mt-2">мэкв/л</div>
-                      <div className="text-xs text-slate-500 mt-1">
-                        {result.urineAnionGap > 10 ? 'Почечная причина' : result.urineAnionGap < -10 ? 'Внепочечная причина' : 'Норма'}
-                      </div>
-                    </div>
-                  </div>
-                )}
-              </div>
-            </div>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <Button onClick={handleCopyReport} variant="outline">Скопировать отчёт</Button>
+            <Button onClick={handlePrint} variant="outline">Печать/Экспорт</Button>
           </div>
-        </Card>
+        </div>
       )}
     </div>
   );

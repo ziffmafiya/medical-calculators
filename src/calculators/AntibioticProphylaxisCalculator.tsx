@@ -6,6 +6,9 @@ import { NumberInput } from '@/components/NumberInput';
 import { Select } from '@/components/Select';
 import { Checkbox } from '@/components/Checkbox';
 import { Button } from '@/components/Button';
+import { Badge } from '@/components/Badge';
+import { Alert } from '@/components/Alert';
+import { StatCard } from '@/components/StatCard';
 import { AntibioticProphylaxisInputs, AntibioticProphylaxisResult } from '@/types';
 import { useLanguage } from '@/i18n/LanguageContext';
 import { antibioticOptions } from '@/i18n/antibioticOptions';
@@ -345,30 +348,33 @@ export const AntibioticProphylaxisCalculator: React.FC = () => {
     >
       <div className="space-y-6">
         {/* Шаг 1: Первичная оценка */}
-        <div className="p-4 bg-accent/20 rounded-lg border border-accent/30">
-                      <h3 className="text-lg font-semibold text-accent-foreground mb-4">{t.step1WoundAssessment}</h3>
+        <Card className="p-5 border border-[var(--border)] bg-[var(--background)] shadow-sm">
+          <div className="flex items-center gap-3 mb-4">
+            <Badge variant="brand">Шаг 1</Badge>
+            <h3 className="text-lg font-semibold text-[var(--foreground)]">{t.step1WoundAssessment}</h3>
+          </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                         <Select
-               label={t.woundType}
-               value={inputs.woundType}
-               onChange={(value) => setInputs({ ...inputs, woundType: value as 'clean' | 'open-fracture' | 'contaminated' | 'bite' | 'water-fresh' | 'water-salt' | 'gunshot' | 'abdominal' | 'crush' | 'farm' })}
-               options={options.woundTypeOptions}
-               required
-             />
-             <Select
-               label={t.woundLocation}
-               value={inputs.woundLocation}
-               onChange={(value) => setInputs({ ...inputs, woundLocation: value as 'hand-foot' | 'face' | 'perineum' | 'groin' | 'armpit' | 'joint' | 'bone' | 'other' })}
-               options={options.woundLocationOptions}
-               required
-             />
-             <Select
-               label="Тип загрязнения"
-               value={inputs.contaminationType}
-               onChange={(value) => setInputs({ ...inputs, contaminationType: value as 'none' | 'soil' | 'feces' | 'saliva' | 'foreign-body' | 'high-energy' | 'crush-injury' })}
-               options={options.contaminationTypeOptions}
-               required
-             />
+            <Select
+              label={t.woundType}
+              value={inputs.woundType}
+              onChange={(value) => setInputs({ ...inputs, woundType: value as 'clean' | 'open-fracture' | 'contaminated' | 'bite' | 'water-fresh' | 'water-salt' | 'gunshot' | 'abdominal' | 'crush' | 'farm' })}
+              options={options.woundTypeOptions}
+              required
+            />
+            <Select
+              label={t.woundLocation}
+              value={inputs.woundLocation}
+              onChange={(value) => setInputs({ ...inputs, woundLocation: value as 'hand-foot' | 'face' | 'perineum' | 'groin' | 'armpit' | 'joint' | 'bone' | 'other' })}
+              options={options.woundLocationOptions}
+              required
+            />
+            <Select
+              label="Тип загрязнения"
+              value={inputs.contaminationType}
+              onChange={(value) => setInputs({ ...inputs, contaminationType: value as 'none' | 'soil' | 'feces' | 'saliva' | 'foreign-body' | 'high-energy' | 'crush-injury' })}
+              options={options.contaminationTypeOptions}
+              required
+            />
             <NumberInput
               label={t.timeFromInjury}
               value={inputs.timeFromInjury}
@@ -380,11 +386,14 @@ export const AntibioticProphylaxisCalculator: React.FC = () => {
               required
             />
           </div>
-        </div>
+        </Card>
 
         {/* Шаг 2: Факторы пациента */}
-        <div className="p-4 bg-accent/20 rounded-lg border border-accent/30">
-                      <h3 className="text-lg font-semibold text-accent-foreground mb-4">{t.step2PatientFactors}</h3>
+        <Card className="p-5 border border-[var(--border)] bg-[var(--background)] shadow-sm">
+          <div className="flex items-center gap-3 mb-4">
+            <Badge variant="brand">Шаг 2</Badge>
+            <h3 className="text-lg font-semibold text-[var(--foreground)]">{t.step2PatientFactors}</h3>
+          </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <NumberInput
               label={t.patientAge}
@@ -406,64 +415,61 @@ export const AntibioticProphylaxisCalculator: React.FC = () => {
               unit="кг"
               required
             />
-                         <Select
-               label={t.renalFunction}
-               value={inputs.renalFunction}
-               onChange={(value) => setInputs({ ...inputs, renalFunction: value as 'normal' | 'mild' | 'moderate' | 'severe' })}
-               options={options.renalFunctionOptions}
-               required
-             />
+            <Select
+              label={t.renalFunction}
+              value={inputs.renalFunction}
+              onChange={(value) => setInputs({ ...inputs, renalFunction: value as 'normal' | 'mild' | 'moderate' | 'severe' })}
+              options={options.renalFunctionOptions}
+              required
+            />
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 mt-6">
             <Checkbox
               id="hasDiabetes"
               checked={inputs.hasDiabetes}
               onChange={(checked) => setInputs({ ...inputs, hasDiabetes: checked })}
-            >
-              {t.hasDiabetes}
-            </Checkbox>
+              label={t.hasDiabetes}
+            />
             <Checkbox
               id="hasImmunodeficiency"
               checked={inputs.hasImmunodeficiency}
               onChange={(checked) => setInputs({ ...inputs, hasImmunodeficiency: checked })}
-            >
-              {t.hasImmunodeficiency}
-            </Checkbox>
+              label={t.hasImmunodeficiency}
+            />
             <Checkbox
               id="hasVascularDisease"
               checked={inputs.hasVascularDisease}
               onChange={(checked) => setInputs({ ...inputs, hasVascularDisease: checked })}
-            >
-              Сосудистая болезнь
-            </Checkbox>
+              label="Сосудистая болезнь"
+            />
             <Checkbox
               id="hasMalnutrition"
               checked={inputs.hasMalnutrition}
               onChange={(checked) => setInputs({ ...inputs, hasMalnutrition: checked })}
-            >
-              Недостаточность питания
-            </Checkbox>
+              label="Недостаточность питания"
+            />
           </div>
-        </div>
+        </Card>
 
         {/* Шаг 3: Аллергии и дополнительные параметры */}
-        <div className="p-4 bg-accent/20 rounded-lg border border-accent/30">
-                      <h3 className="text-lg font-semibold text-accent-foreground mb-4">{t.step3AllergiesAndAdditional}</h3>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <Card className="p-5 border border-[var(--border)] bg-[var(--background)] shadow-sm">
+          <div className="flex items-center gap-3 mb-4">
+            <Badge variant="brand">Шаг 3</Badge>
+            <h3 className="text-lg font-semibold text-[var(--foreground)]">{t.step3AllergiesAndAdditional}</h3>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 items-center">
             <Checkbox
               id="hasAllergies"
               checked={inputs.hasAllergies}
               onChange={(checked) => setInputs({ ...inputs, hasAllergies: checked })}
-            >
-              Аллергия на β-лактамы
-            </Checkbox>
+              label="Аллергия на β-лактамы"
+            />
             <Checkbox
               id="isDelayedClosure"
               checked={inputs.isDelayedClosure}
               onChange={(checked) => setInputs({ ...inputs, isDelayedClosure: checked })}
-            >
-              Отсроченное закрытие раны
-            </Checkbox>
+              label="Отсроченное закрытие раны"
+            />
             <NumberInput
               label={t.surgeryDuration}
               value={inputs.surgeryDuration}
@@ -475,112 +481,110 @@ export const AntibioticProphylaxisCalculator: React.FC = () => {
               required
             />
           </div>
-        </div>
+        </Card>
 
         <div className="flex space-x-4">
-                      <Button onClick={calculateProphylaxis} variant="primary">
-              {t.calculate}
-            </Button>
-            <Button onClick={resetCalculator} variant="outline">
-              {t.reset}
-            </Button>
+          <Button onClick={calculateProphylaxis} variant="primary">
+            {t.calculate}
+          </Button>
+          <Button onClick={resetCalculator} variant="outline">
+            {t.reset}
+          </Button>
         </div>
 
         {result && (
-          <div className="mt-6 p-4 bg-accent/20 rounded-lg border border-accent/30">
-            <h3 className="text-lg font-semibold text-accent-foreground mb-4">
+          <div className="mt-8 space-y-6">
+            <h3 className="text-xl font-semibold text-[var(--foreground)]">
               Результаты оценки
             </h3>
             
             {/* Основной результат */}
-            <div className="mb-4 p-3 bg-card rounded border border-border">
-              <div className="flex items-center justify-between mb-2">
-                <span className="font-medium text-card-foreground">Необходимость антибиотиков:</span>
-                <span className={`font-bold ${result.isAntibioticNeeded ? 'text-red-500' : 'text-green-500'}`}>
+            <Card className="p-5">
+              <div className="flex items-center justify-between mb-4 pb-4 border-b border-[var(--border)]">
+                <span className="font-medium text-[var(--foreground)]">Необходимость антибиотиков:</span>
+                <Badge variant={result.isAntibioticNeeded ? 'error' : 'success'}>
                   {result.isAntibioticNeeded ? 'НЕОБХОДИМЫ' : 'НЕ ОБЯЗАТЕЛЬНЫ'}
-                </span>
+                </Badge>
               </div>
               <div className="flex items-center justify-between">
-                <span className="font-medium text-card-foreground">Уровень риска:</span>
-                <span className={`font-bold ${
-                  result.riskLevel === 'high' ? 'text-red-500' : 
-                  result.riskLevel === 'medium' ? 'text-yellow-500' : 'text-green-500'
-                }`}>
+                <span className="font-medium text-[var(--foreground)]">Уровень риска:</span>
+                <Badge variant={
+                  result.riskLevel === 'high' ? 'error' : 
+                  result.riskLevel === 'medium' ? 'warning' : 'success'
+                }>
                   {result.riskLevel === 'high' ? 'ВЫСОКИЙ' : 
                    result.riskLevel === 'medium' ? 'СРЕДНИЙ' : 'НИЗКИЙ'}
-                </span>
+                </Badge>
               </div>
-            </div>
+            </Card>
 
             {/* Домены риска */}
             {result.riskDomains.length > 0 && (
-              <div className="mb-4 p-3 bg-card rounded border border-border">
-                <h4 className="font-medium text-card-foreground mb-2">Домены высокого риска:</h4>
-                <ul className="text-sm text-muted-foreground space-y-1">
+              <Card className="p-5">
+                <h4 className="font-medium text-[var(--foreground)] mb-3">Домены высокого риска:</h4>
+                <div className="flex flex-wrap gap-2">
                   {result.riskDomains.map((domain, index) => (
-                    <li key={index}>• {domain}</li>
+                    <Badge key={index} variant="warning">{domain}</Badge>
                   ))}
-                </ul>
-              </div>
+                </div>
+              </Card>
             )}
 
             {/* Рекомендации по антибиотикам */}
             {result.isAntibioticNeeded && (
-              <div className="mb-4 p-3 bg-card rounded border border-border">
-                <h4 className="font-medium text-card-foreground mb-2">Рекомендации по антибиотикам:</h4>
-                <div className="space-y-2 text-sm">
-                  <div className="flex justify-between">
-                    <span>{t.medication}:</span>
-                    <span className="font-medium">{result.recommendedAntibiotic}</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span>Доза:</span>
-                    <span className="font-medium">{result.dose} мг</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span>Частота:</span>
-                    <span className="font-medium">{result.frequency}</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span>Путь введения:</span>
-                    <span className="font-medium">{result.route}</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span>Длительность:</span>
-                    <span className="font-medium">{result.duration}</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span>Дополнительные дозы:</span>
-                    <span className="font-medium">{result.additionalDoses}</span>
-                  </div>
-                </div>
-              </div>
+              <StatCard
+                 title="Рекомендации по антибиотикам"
+                 value={result.recommendedAntibiotic}
+                 description={
+                   <div className="mt-4 space-y-3 text-sm text-[var(--muted-foreground)]">
+                     <div className="flex justify-between border-b border-[var(--border)] pb-2">
+                       <span>Доза:</span>
+                       <span className="font-medium text-[var(--foreground)]">{result.dose} мг</span>
+                     </div>
+                     <div className="flex justify-between border-b border-[var(--border)] pb-2">
+                       <span>Частота:</span>
+                       <span className="font-medium text-[var(--foreground)]">{result.frequency}</span>
+                     </div>
+                     <div className="flex justify-between border-b border-[var(--border)] pb-2">
+                       <span>Путь введения:</span>
+                       <span className="font-medium text-[var(--foreground)]">{result.route}</span>
+                     </div>
+                     <div className="flex justify-between border-b border-[var(--border)] pb-2">
+                       <span>Длительность:</span>
+                       <span className="font-medium text-[var(--foreground)]">{result.duration}</span>
+                     </div>
+                     <div className="flex justify-between pt-1">
+                       <span>Дополнительные дозы:</span>
+                       <span className="font-medium text-[var(--foreground)]">{result.additionalDoses}</span>
+                     </div>
+                   </div>
+                 }
+              />
             )}
 
             {/* Примечания */}
             {result.notes.length > 0 && (
-              <div className="mb-4 p-3 bg-card rounded border border-border">
-                <h4 className="font-medium text-card-foreground mb-2">Примечания:</h4>
-                <ul className="text-xs text-muted-foreground space-y-1">
+              <Alert variant="info" title="Примечания">
+                <ul className="list-disc pl-5 mt-2 space-y-1 text-sm">
                   {result.notes.map((note, index) => (
-                    <li key={index}>• {note}</li>
+                    <li key={index}>{note}</li>
                   ))}
                 </ul>
-              </div>
+              </Alert>
             )}
 
             {/* Предупреждения */}
-            <div className="p-3 bg-red-900/20 rounded border border-red-500/30">
-              <h4 className="font-medium text-red-400 mb-2">⚠️ Важные предупреждения:</h4>
-              <ul className="text-xs text-red-300 space-y-1">
+            <Alert variant="error" title="Важные предупреждения">
+              <ul className="list-disc pl-5 mt-2 space-y-1 text-sm">
                 {result.warnings.map((warning, index) => (
-                  <li key={index}>• {warning}</li>
+                  <li key={index}>{warning}</li>
                 ))}
               </ul>
-            </div>
+            </Alert>
           </div>
         )}
       </div>
     </Card>
   );
-}; 
+};
+ 

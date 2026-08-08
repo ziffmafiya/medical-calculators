@@ -6,6 +6,9 @@ import { NumberInput } from '@/components/NumberInput';
 import { Select } from '@/components/Select';
 import { Checkbox } from '@/components/Checkbox';
 import { Button } from '@/components/Button';
+import { Badge } from '@/components/Badge';
+import { Alert } from '@/components/Alert';
+import { StatCard } from '@/components/StatCard';
 import { 
   ElectrolyteCorrectionInputs, 
   ElectrolyteCorrectionResult, 
@@ -416,7 +419,6 @@ export const ElectrolyteCorrectionCalculator: React.FC = () => {
       <Card 
         title={t.electrolyteCorrection} 
         subtitle={t.electrolyteCorrectionDesc}
-        className="w-full glass-panel border-slate-800 text-white"
       >
         <div className="space-y-6">
           {/* Выбор электролита и типа коррекции */}
@@ -494,7 +496,7 @@ export const ElectrolyteCorrectionCalculator: React.FC = () => {
 
           {/* Дополнительные параметры для гиперкалиемии */}
           {inputs.electrolyteType === 'potassium' && inputs.correctionType === 'hyper' && (
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 p-4 bg-slate-900/60 rounded-xl border border-slate-800">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 p-4 bg-[var(--card)] rounded-xl border border-[var(--border)]">
               <Checkbox
                 id="hasEcgChanges"
                 checked={inputs.hasEcgChanges}
@@ -527,166 +529,121 @@ export const ElectrolyteCorrectionCalculator: React.FC = () => {
             </Button>
           </div>
 
-                 {result && (
-           <div className="mt-8 space-y-6">
-             {/* Основные результаты */}
-             <div className="p-8 bg-gradient-to-br from-slate-800 to-slate-900 rounded-2xl border border-slate-700 shadow-lg">
-               <h3 className="text-2xl lg:text-3xl font-bold text-slate-100 mb-8 text-center">
-                 📊 {t.calculationResults}
-               </h3>
-               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                 {result.correctedLevel && (
-                   <div className="bg-slate-900 p-6 rounded-xl border border-slate-600 shadow-md">
-                     <div className="text-center">
-                       <div className="text-lg text-slate-300 font-medium mb-2">{t.correctedLevel}</div>
-                       <div className="text-3xl lg:text-4xl font-bold text-slate-100">{result.correctedLevel}</div>
-                       <div className="text-sm text-slate-400 mt-2">{norms.unit}</div>
-                     </div>
-                   </div>
-                 )}
-                 {result.deficit && (
-                   <div className="bg-slate-900 p-6 rounded-xl border border-slate-600 shadow-md">
-                     <div className="text-center">
-                       <div className="text-lg text-slate-300 font-medium mb-2">{t.deficit}</div>
-                       <div className="text-3xl lg:text-4xl font-bold text-slate-100">{Math.round(result.deficit * 100) / 100}</div>
-                       <div className="text-sm text-slate-400 mt-2">{t.mmol}</div>
-                       {/* Добавляем отображение в мг вещества */}
-                       {inputs.electrolyteType === 'potassium' && (
-                         <div className="text-xs text-slate-500 mt-1">
-                           {Math.round(result.deficit * 39.1)} мг K+
-                         </div>
-                       )}
-                       {inputs.electrolyteType === 'sodium' && (
-                         <div className="text-xs text-slate-500 mt-1">
-                           {Math.round(result.deficit * 23)} мг Na+
-                         </div>
-                       )}
-                       {inputs.electrolyteType === 'magnesium' && (
-                         <div className="text-xs text-slate-500 mt-1">
-                           {Math.round(result.deficit * 24.3)} мг Mg2+
-                         </div>
-                       )}
-                       {inputs.electrolyteType === 'calcium' && (
-                         <div className="text-xs text-slate-500 mt-1">
-                           {Math.round(result.deficit * 40.1)} мг Ca2+
-                         </div>
-                       )}
-                       {/* Добавляем отображение коэффициента K для натрия */}
-                       {inputs.electrolyteType === 'sodium' && (
-                         <div className="text-xs text-slate-400 mt-2 border-t border-slate-600 pt-2">
-                           Коэффициент K = {inputs.age && inputs.age <= 17 ? 0.6 : inputs.age && inputs.age <= 59 ? (inputs.gender === 'male' ? 0.6 : 0.5) : (inputs.gender === 'male' ? 0.5 : 0.45)}
-                         </div>
-                       )}
-                     </div>
-                   </div>
-                 )}
-                 {result.excess && (
-                   <div className="bg-slate-900 p-6 rounded-xl border border-slate-600 shadow-md">
-                     <div className="text-center">
-                       <div className="text-lg text-slate-300 font-medium mb-2">{t.excess}</div>
-                       <div className="text-3xl lg:text-4xl font-bold text-slate-100">{Math.round(result.excess * 100) / 100}</div>
-                       <div className="text-sm text-slate-400 mt-2">{t.mmol}</div>
-                     </div>
-                   </div>
-                 )}
-               </div>
-             </div>
+         {result && (
+            <div className="mt-8 space-y-8 border-t border-[var(--border)] pt-8">
+              {/* Основные результаты */}
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                {result.correctedLevel && (
+                  <StatCard
+                    label={t.correctedLevel}
+                    value={result.correctedLevel.toString()}
+                    unit={norms.unit}
+                    status="normal"
+                  />
+                )}
+                {result.deficit && (
+                  <div className="space-y-2">
+                    <StatCard
+                      label={t.deficit}
+                      value={(Math.round(result.deficit * 100) / 100).toString()}
+                      unit={t.mmol}
+                      status="warning"
+                    />
+                    <div className="text-sm text-[var(--muted-foreground)] px-1">
+                      {inputs.electrolyteType === 'potassium' && `${Math.round(result.deficit * 39.1)} мг K+`}
+                      {inputs.electrolyteType === 'sodium' && `${Math.round(result.deficit * 23)} мг Na+`}
+                      {inputs.electrolyteType === 'magnesium' && `${Math.round(result.deficit * 24.3)} мг Mg2+`}
+                      {inputs.electrolyteType === 'calcium' && `${Math.round(result.deficit * 40.1)} мг Ca2+`}
+                      {inputs.electrolyteType === 'sodium' && ` • Коэф. K = ${inputs.age && inputs.age <= 17 ? 0.6 : inputs.age && inputs.age <= 59 ? (inputs.gender === 'male' ? 0.6 : 0.5) : (inputs.gender === 'male' ? 0.5 : 0.45)}`}
+                    </div>
+                  </div>
+                )}
+                {result.excess && (
+                  <StatCard
+                    label={t.excess}
+                    value={(Math.round(result.excess * 100) / 100).toString()}
+                    unit={t.mmol}
+                    status="warning"
+                  />
+                )}
+              </div>
 
-                         {/* Рекомендуемые дозы */}
-             {result.recommendedDoses.length > 0 && (
-               <div className="p-8 bg-gradient-to-br from-slate-800 to-slate-900 rounded-2xl border border-slate-700 shadow-lg">
-                 <h4 className="text-2xl lg:text-3xl font-bold text-slate-100 mb-6 text-center">
-                   💊 {t.recommendedDoses}
-                 </h4>
-                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                   {result.recommendedDoses.map((dose, index) => (
-                     <div key={index} className="bg-slate-900 p-6 rounded-xl border border-slate-600 shadow-md hover:shadow-lg transition-shadow">
-                       <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start mb-4">
-                         <span className="font-bold text-slate-100 text-xl mb-2 sm:mb-0">{dose.medication}</span>
-                         <span className="text-sm bg-slate-800 text-slate-200 px-3 py-1 rounded-full font-medium self-start">
-                           {dose.route}
-                         </span>
-                       </div>
-                       <div className="text-center mb-4">
-                         <div className="text-3xl lg:text-4xl font-bold text-slate-200">{dose.dose}</div>
-                         <div className="text-lg text-slate-300">{dose.unit}</div>
-                       </div>
-                       {dose.frequency && (
-                         <div className="text-base text-slate-200 bg-slate-800 p-3 rounded-lg mb-3 text-center">
-                           <span className="font-medium">⏱️ {dose.frequency}</span>
-                         </div>
-                       )}
-                       {dose.notes && (
-                         <div className="text-sm text-slate-300 bg-slate-800 p-3 rounded-lg border-l-4 border-slate-600">
-                           <span className="font-medium">💡 </span>{dose.notes}
-                         </div>
-                       )}
-                     </div>
-                   ))}
-                 </div>
-               </div>
-             )}
+              {/* Рекомендуемые дозы */}
+              {result.recommendedDoses.length > 0 && (
+                <div className="space-y-4">
+                  <h4 className="text-lg font-medium text-[var(--foreground)]">{t.recommendedDoses}</h4>
+                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                    {result.recommendedDoses.map((dose, index) => (
+                      <Card key={index} padding="md" className="flex flex-col h-full">
+                        <div className="flex justify-between items-start mb-4">
+                          <span className="font-medium text-[var(--foreground)] text-lg">{dose.medication}</span>
+                          <Badge variant="success" size="md">{dose.route}</Badge>
+                        </div>
+                        <div className="mb-4">
+                          <div className="text-3xl font-semibold text-[var(--foreground)]">
+                            {dose.dose} <span className="text-base text-[var(--muted-foreground)] font-normal">{dose.unit}</span>
+                          </div>
+                        </div>
+                        {dose.frequency && (
+                          <div className="text-sm text-[var(--foreground)] bg-[var(--background)] border border-[var(--border)] p-2.5 rounded-md mb-3 flex items-center gap-2">
+                            <span className="text-[var(--primary)] font-medium">⏱</span> {dose.frequency}
+                          </div>
+                        )}
+                        {dose.notes && (
+                          <div className="text-sm text-[var(--muted-foreground)] mt-auto pt-3 border-t border-[var(--border)]">
+                            {dose.notes}
+                          </div>
+                        )}
+                      </Card>
+                    ))}
+                  </div>
+                </div>
+              )}
 
-                         {/* Неотложные действия */}
-             {result.emergencyActions && result.emergencyActions.length > 0 && (
-               <div className="p-8 bg-gradient-to-br from-slate-800 to-slate-900 rounded-2xl border border-slate-700 shadow-lg">
-                 <h4 className="text-2xl lg:text-3xl font-bold text-slate-100 mb-6 text-center">
-                   🚨 {t.emergencyActions}
-                 </h4>
-                 <div className="space-y-4">
-                   {result.emergencyActions.map((action, index) => (
-                     <div key={index} className="bg-slate-900 p-4 rounded-xl border border-slate-600 shadow-md">
-                       <div className="flex items-start">
-                         <span className="text-slate-400 mr-4 text-xl">⚡</span>
-                         <span className="text-base text-slate-200 font-medium">{action}</span>
-                       </div>
-                     </div>
-                   ))}
-                 </div>
-               </div>
-             )}
+              {/* Неотложные действия */}
+              {result.emergencyActions && result.emergencyActions.length > 0 && (
+                <div className="space-y-3">
+                  <h4 className="text-lg font-medium text-[var(--foreground)]">{t.emergencyActions}</h4>
+                  {result.emergencyActions.map((action, index) => (
+                    <Alert key={index} variant="error" title={t.emergencyActions || "Emergency"}>
+                      {action}
+                    </Alert>
+                  ))}
+                </div>
+              )}
 
-             {/* Рекомендации */}
-             {result.recommendations.length > 0 && (
-               <div className="p-8 bg-gradient-to-br from-slate-800 to-slate-900 rounded-2xl border border-slate-700 shadow-lg">
-                 <h4 className="text-2xl lg:text-3xl font-bold text-slate-100 mb-6 text-center">
-                   📋 {t.recommendations}
-                 </h4>
-                 <div className="space-y-4">
-                   {result.recommendations.map((rec, index) => (
-                     <div key={index} className="bg-slate-900 p-4 rounded-xl border border-slate-600 shadow-md">
-                       <div className="flex items-start">
-                         <span className="text-slate-400 mr-4 text-xl">✓</span>
-                         <span className="text-base text-slate-200">{rec}</span>
-                       </div>
-                     </div>
-                   ))}
-                 </div>
-               </div>
-             )}
+              {/* Предупреждения */}
+              {result.warnings.length > 0 && (
+                <div className="space-y-3">
+                  <h4 className="text-lg font-medium text-[var(--foreground)]">{t.warnings}</h4>
+                  {result.warnings.map((warning, index) => (
+                    <Alert key={index} variant="warning" title={t.warnings || "Warning"}>
+                      {warning}
+                    </Alert>
+                  ))}
+                </div>
+              )}
 
-             {/* Предупреждения */}
-             {result.warnings.length > 0 && (
-               <div className="p-8 bg-gradient-to-br from-slate-800 to-slate-900 rounded-2xl border border-slate-700 shadow-lg">
-                 <h4 className="text-2xl lg:text-3xl font-bold text-slate-100 mb-6 text-center">
-                   ⚠️ {t.warnings}
-                 </h4>
-                 <div className="space-y-4">
-                   {result.warnings.map((warning, index) => (
-                     <div key={index} className="bg-slate-900 p-4 rounded-xl border border-slate-600 shadow-md">
-                       <div className="flex items-start">
-                         <span className="text-slate-400 mr-4 text-xl">⚠</span>
-                         <span className="text-base text-slate-200 font-medium">{warning}</span>
-                       </div>
-                     </div>
-                   ))}
-                 </div>
-               </div>
-             )}
-          </div>
-        )}
-      </div>
-    </Card>
+              {/* Рекомендации */}
+              {result.recommendations.length > 0 && (
+                <div className="space-y-3">
+                  <h4 className="text-lg font-medium text-[var(--foreground)]">{t.recommendations}</h4>
+                  <Card padding="md">
+                    <ul className="space-y-2.5">
+                      {result.recommendations.map((rec, index) => (
+                        <li key={index} className="flex items-start gap-2 text-sm text-[var(--muted-foreground)]">
+                          <span className="text-[var(--primary)] mt-0.5">•</span>
+                          <span className="flex-1">{rec}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </Card>
+                </div>
+              )}
+            </div>
+          )}
+        </div>
+      </Card>
   </div>
 );
 };
