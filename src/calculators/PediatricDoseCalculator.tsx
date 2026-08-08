@@ -410,7 +410,7 @@ export const PediatricDoseCalculator: React.FC = () => {
               </Alert>
             ) : (
               <Alert variant="success" title={t.safe}>
-                The requested dosage and medication are within safe parameters.
+                {t.safeParametersMsg || 'The requested dosage and medication are within safe parameters.'}
               </Alert>
             )}
 

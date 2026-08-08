@@ -419,6 +419,44 @@ export interface Translations {
   allHypnoticsOption: string;
   allAnalgesicsOption: string;
   allRelaxantsOption: string;
+  midazolamInductionExp: string;
+  ketamineInductionShockExp: string;
+  ketamineInductionNormExp: string;
+  thiopentalInductionExp: string;
+  remifentanilInductionExp: string;
+  remifentanilMaintExp: string;
+  succinylcholineInductionExp: string;
+  severeHypoxemia: string;
+  moderateHypoxemia: string;
+  normalOxygenation: string;
+  hyperoxemia: string;
+  normalAcidBase: string;
+  respiratoryAcidosis: string;
+  metabolicAcidosis: string;
+  respiratoryAlkalosis: string;
+  metabolicAlkalosis: string;
+  partialMetabolicCompensation: string;
+  uncompensatedAcute: string;
+  adequateRespiratoryCompensation: string;
+  coexistingRespAlkalosis: string;
+  coexistingRespAcidosis: string;
+  normalAnionGapStatus: string;
+  highAnionGapHagma: string;
+  lowAnionGapStatus: string;
+  combinationHagmaNagma: string;
+  pureHagma: string;
+  combinationHagmaMetAlkalosis: string;
+  icuNephrologyTag: string;
+  patientAndElectrolyteParams: string;
+  correctionTypeLabel: string;
+  hypoDeficit: string;
+  hyperExcess: string;
+  calculatedMetricsTitle: string;
+  calculatedDoseLabel: string;
+  yearsUnit: string;
+  maleShort: string;
+  femaleShort: string;
+  safeParametersMsg: string;
 
   // Blood Gas & Infusion therapy additions
   bloodGasTitle: string;
@@ -886,6 +924,44 @@ export const translations: Record<Language, Translations> = {
     allHypnoticsOption: 'Show All Hypnotics',
     allAnalgesicsOption: 'Show All Analgesics',
     allRelaxantsOption: 'Show All Muscle Relaxants',
+    midazolamInductionExp: 'Benzodiazepine hypnotic dosed on LBW. Reduce dose by 50% in elderly, severe shock or hemodynamically compromised patients.',
+    ketamineInductionShockExp: 'Dissociative anesthetic with sympathetic activation. Reduced to 0.5-1.0 mg/kg in shock state due to potential direct myocardial depression.',
+    ketamineInductionNormExp: 'Dissociative anesthetic. Maintains blood pressure and respiratory drive via sympathetic system stimulation.',
+    thiopentalInductionExp: 'Barbiturate hypnotic dosed on LBW to avoid severe vasodilation, myocardial depression, and prolonged awakening.',
+    remifentanilInductionExp: 'Ultra-short acting mu-opioid agonist metabolized by plasma esterases. Induction IV continuous infusion: 0.5–1.0 mcg/kg/min.',
+    remifentanilMaintExp: 'Anesthesia maintenance with propofol: IV 0.25 mcg/kg/min (range: 0.05 to 2.0 mcg/kg/min). Dosed on LBW.',
+    succinylcholineInductionExp: 'Depolarizing muscle relaxant dosed on TBW (actual body weight). Standard intubation: 0.6 mg/kg (0.3-1.1 mg/kg); Rapid-Sequence Intubation (RSI): 1.0-1.5 mg/kg.',
+    severeHypoxemia: 'Severe Hypoxemia (PaO2 < 60 mmHg)',
+    moderateHypoxemia: 'Moderate Hypoxemia (PaO2 60-80 mmHg)',
+    normalOxygenation: 'Normal Oxygenation (PaO2 80-100 mmHg)',
+    hyperoxemia: 'Hyperoxemia (PaO2 > 100 mmHg)',
+    normalAcidBase: 'Normal Acid-Base Balance',
+    respiratoryAcidosis: 'Respiratory Acidosis',
+    metabolicAcidosis: 'Metabolic Acidosis',
+    respiratoryAlkalosis: 'Respiratory Alkalosis',
+    metabolicAlkalosis: 'Metabolic Alkalosis',
+    partialMetabolicCompensation: 'Partial Metabolic Compensation',
+    uncompensatedAcute: 'Uncompensated (Acute)',
+    adequateRespiratoryCompensation: 'Adequate Respiratory Compensation (Winter\'s Formula)',
+    coexistingRespAlkalosis: 'Coexisting Respiratory Alkalosis',
+    coexistingRespAcidosis: 'Coexisting Respiratory Acidosis',
+    normalAnionGapStatus: 'Normal Anion Gap (8-16)',
+    highAnionGapHagma: 'High Anion Gap Metabolic Acidosis (HAGMA)',
+    lowAnionGapStatus: 'Low Anion Gap',
+    combinationHagmaNagma: 'Combination of HAGMA and NAGMA (Mixed Acidosis)',
+    pureHagma: 'Pure HAGMA',
+    combinationHagmaMetAlkalosis: 'Combination of HAGMA and Metabolic Alkalosis',
+    icuNephrologyTag: 'ICU & Nephrology',
+    patientAndElectrolyteParams: 'Patient & Electrolyte Parameters',
+    correctionTypeLabel: 'Correction Type',
+    hypoDeficit: 'Hypo (Deficit)',
+    hyperExcess: 'Hyper (Excess)',
+    calculatedMetricsTitle: 'Calculated Correction Metrics',
+    calculatedDoseLabel: 'Calculated Dose',
+    yearsUnit: 'years',
+    maleShort: 'Male',
+    femaleShort: 'Female',
+    safeParametersMsg: 'The requested dosage and medication are within safe parameters.',
 
     // Blood Gas & Infusion therapy additions
     bloodGasTitle: 'Arterial Blood Gas Analysis & Acid-Base Balance',
@@ -1267,6 +1343,44 @@ export const translations: Record<Language, Translations> = {
     allHypnoticsOption: 'Показать все гипнотики',
     allAnalgesicsOption: 'Показать все анальгетики',
     allRelaxantsOption: 'Показать все миорелаксанты',
+    midazolamInductionExp: 'Бензодиазепиновый гипнотик, дозируемый по тощей массе (LBW). Снижайте дозу на 50% у пожилых, при тяжелом шоке и выраженной гемодинамической нестабильности.',
+    ketamineInductionShockExp: 'Диссоциативный анестетик с симпатической активацией. При шоке доза снижается до 0.5–1.0 мг/кг из-за риска прямой миокардиальной депрессии.',
+    ketamineInductionNormExp: 'Диссоциативный анестетик. Поддерживает АД и дыхательный драйв за счет стимуляции симпатической нервной системы.',
+    thiopentalInductionExp: 'Барбитуровый гипнотик, дозируемый по тощей массе (LBW) во избежание выраженной вазодилатации, депрессии миокарда и затяжного пробуждения.',
+    remifentanilInductionExp: 'Ультракороткий мю-опиоидный агонист, метаболизируемый эстеразами плазмы. Непрерывная инфузия индукции: 0.5–1.0 мкг/кг/мин.',
+    remifentanilMaintExp: 'Поддержание анестезии с пропофолом: в/в 0.25 мкг/кг/мин (диапазон: 0.05–2.0 мкг/кг/мин). Дозируется по LBW.',
+    succinylcholineInductionExp: 'Деполяризующий миорелаксант, дозируемый по фактическому весу (TBW). Стандартная интубация: 0.6 мг/кг (0.3–1.1 мг/кг); Быстрая последовательная индукция (RSI): 1.0–1.5 мг/кг.',
+    severeHypoxemia: 'Тяжелая гипоксемия (PaO2 < 60 мм рт.ст.)',
+    moderateHypoxemia: 'Умеренная гипоксемия (PaO2 60-80 мм рт.ст.)',
+    normalOxygenation: 'Нормальная оксигенация (PaO2 80-100 мм рт.ст.)',
+    hyperoxemia: 'Гипероксемия (PaO2 > 100 мм рт.ст.)',
+    normalAcidBase: 'Нормальный КЩС',
+    respiratoryAcidosis: 'Респираторный ацидоз',
+    metabolicAcidosis: 'Метаболический ацидоз',
+    respiratoryAlkalosis: 'Респираторный алкалоз',
+    metabolicAlkalosis: 'Метаболический алкалоз',
+    partialMetabolicCompensation: 'Частичная метаболическая компенсация',
+    uncompensatedAcute: 'Некомпенсированный (Острый)',
+    adequateRespiratoryCompensation: 'Адекватная дыхательная компенсация (по формуле Винтера)',
+    coexistingRespAlkalosis: 'Сопутствующий респираторный алкалоз',
+    coexistingRespAcidosis: 'Сопутствующий респираторный ацидоз',
+    normalAnionGapStatus: 'Нормальный анионный промежуток (8-16)',
+    highAnionGapHagma: 'Высокий анионный промежуток (HAGMA)',
+    lowAnionGapStatus: 'Низкий анионный промежуток',
+    combinationHagmaNagma: 'Сочетание HAGMA и NAGMA (Смешанный ацидоз)',
+    pureHagma: 'Чистый HAGMA',
+    combinationHagmaMetAlkalosis: 'Сочетание HAGMA и метаболического алкалоза',
+    icuNephrologyTag: 'Интенсивная терапия & Нефрология',
+    patientAndElectrolyteParams: 'Параметры больного и электролита',
+    correctionTypeLabel: 'Тип коррекции',
+    hypoDeficit: 'Гипо (Дефицит)',
+    hyperExcess: 'Гипер (Избыток)',
+    calculatedMetricsTitle: 'Расчетные показатели коррекции',
+    calculatedDoseLabel: 'Рассчитанная доза',
+    yearsUnit: 'лет',
+    maleShort: 'Муж',
+    femaleShort: 'Жен',
+    safeParametersMsg: 'Запрошенная дозировка и препарат находятся в пределах безопасных параметров.',
     unitMgKg: 'мг/кг',
     unitMcgKgMin: 'мкг/кг/мин',
     unitMcgKg: 'мкг/кг',
@@ -1818,6 +1932,44 @@ export const translations: Record<Language, Translations> = {
     allHypnoticsOption: 'Показати всі гіпнотики',
     allAnalgesicsOption: 'Показати всі анальгетики',
     allRelaxantsOption: 'Показати всі міорелаксанти',
+    midazolamInductionExp: 'Бензодіазепіновий гіпнотик, що дозується за тощою масою (LBW). Зменшуйте дозу на 50% у літніх пацієнтів, при важкому шоці та гемодинамічній нестабільності.',
+    ketamineInductionShockExp: 'Диссоціативний анестетик з симпатичною активацією. При шоці доза знижується до 0.5–1.0 мг/кг через ризик прямої міокардіальної депресії.',
+    ketamineInductionNormExp: 'Диссоціативний анестетик. Підтримує АТ та дихальний драйв за рахунок стимуляції симпатичної нервової системи.',
+    thiopentalInductionExp: 'Барбітуровий гіпнотик, що дозується за тощою масою (LBW) для запобігання вираженій вазодилатації, депресії міокарда та тривалому пробудженню.',
+    remifentanilInductionExp: 'Ультракороткий мю-опіоїдний агоніст, який метаболізується естеразами плазми. Безперервна інфузія індукції: 0.5–1.0 мкг/кг/хв.',
+    remifentanilMaintExp: 'Підтримання анестезії з пропофолом: в/в 0.25 мкг/кг/хв (діапазон: 0.05–2.0 мкг/кг/хв). Дозується за LBW.',
+    succinylcholineInductionExp: 'Деполяризуючий міорелаксант, що дозується за фактичною масою (TBW). Стандартна інтубація: 0.6 мг/кг (0.3–1.1 мг/кг); Швидка послідовна індукція (RSI): 1.0–1.5 мг/кг.',
+    severeHypoxemia: 'Важка гіпоксемія (PaO2 < 60 мм рт.ст.)',
+    moderateHypoxemia: 'Помірна гіпоксемія (PaO2 60-80 мм рт.ст.)',
+    normalOxygenation: 'Нормальна оксигенація (PaO2 80-100 мм рт.ст.)',
+    hyperoxemia: 'Гіпероксемія (PaO2 > 100 мм рт.ст.)',
+    normalAcidBase: 'Нормальний КСАН',
+    respiratoryAcidosis: 'Респіраторний ацидоз',
+    metabolicAcidosis: 'Метаболічний ацидоз',
+    respiratoryAlkalosis: 'Респіраторний алкалоз',
+    metabolicAlkalosis: 'Метаболічний алкалоз',
+    partialMetabolicCompensation: 'Часткова метаболічна компенсація',
+    uncompensatedAcute: 'Некомпенсований (Гострий)',
+    adequateRespiratoryCompensation: 'Адекватна дихальна компенсація (за формулою Вінтера)',
+    coexistingRespAlkalosis: 'Супутній респіраторний алкалоз',
+    coexistingRespAcidosis: 'Супутній респіраторний ацидоз',
+    normalAnionGapStatus: 'Нормальний аніонний проміжок (8-16)',
+    highAnionGapHagma: 'Високий аніонний проміжок (HAGMA)',
+    lowAnionGapStatus: 'Низький аніонний проміжок',
+    combinationHagmaNagma: 'Поєднання HAGMA та NAGMA (Змішаний ацидоз)',
+    pureHagma: 'Чистий HAGMA',
+    combinationHagmaMetAlkalosis: 'Поєднання HAGMA та метаболічного алкалозу',
+    icuNephrologyTag: 'Інтенсивна терапія & Нефрологія',
+    patientAndElectrolyteParams: 'Параметри хворого та електроліту',
+    correctionTypeLabel: 'Тип корекції',
+    hypoDeficit: 'Гіпо (Дефіцит)',
+    hyperExcess: 'Гіпер (Надлишок)',
+    calculatedMetricsTitle: 'Розрахункові показники корекції',
+    calculatedDoseLabel: 'Розрахована доза',
+    yearsUnit: 'років',
+    maleShort: 'Чол',
+    femaleShort: 'Жін',
+    safeParametersMsg: 'Запитане дозування та препарат знаходяться в межах безпечних параметрів.',
 
     // Blood Gas & Infusion therapy additions
     bloodGasTitle: 'Аналіз газів крові та кислотно-основного стану',

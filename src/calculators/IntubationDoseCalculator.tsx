@@ -284,7 +284,7 @@ export const IntubationDoseCalculator: React.FC = () => {
         volumeMaxMl: midMaxMg / midConc,
         selectedVolumeMl: midSelectedMg / midConc,
         concentrationStr: `${midConc} mg/ml`,
-        explanation: 'Benzodiazepine hypnotic dosed on LBW. Reduce dose by 50% in elderly, severe shock or hemodynamically compromised patients.',
+        explanation: t.midazolamInductionExp || 'Benzodiazepine hypnotic dosed on LBW. Reduce dose by 50% in elderly, severe shock or hemodynamically compromised patients.',
       });
     }
 
@@ -315,8 +315,8 @@ export const IntubationDoseCalculator: React.FC = () => {
         selectedVolumeMl: ketSelectedMg / ketConc,
         concentrationStr: `${ketConc} mg/ml`,
         explanation: inputs.hasShock 
-          ? 'Dissociative anesthetic with sympathetic activation. Reduced to 0.5-1.0 mg/kg in shock state due to potential direct myocardial depression.'
-          : 'Dissociative anesthetic. Maintains blood pressure and respiratory drive via sympathetic system stimulation.',
+          ? (t.ketamineInductionShockExp || 'Dissociative anesthetic with sympathetic activation. Reduced to 0.5-1.0 mg/kg in shock state due to potential direct myocardial depression.')
+          : (t.ketamineInductionNormExp || 'Dissociative anesthetic. Maintains blood pressure and respiratory drive via sympathetic system stimulation.'),
       });
     }
 
@@ -345,7 +345,7 @@ export const IntubationDoseCalculator: React.FC = () => {
         volumeMaxMl: thioMaxMg / thioConc,
         selectedVolumeMl: thioSelectedMg / thioConc,
         concentrationStr: `${thioConc} mg/ml (2.5%)`,
-        explanation: 'Barbiturate hypnotic dosed on LBW to avoid severe vasodilation, myocardial depression, and prolonged awakening.',
+        explanation: t.thiopentalInductionExp || 'Barbiturate hypnotic dosed on LBW to avoid severe vasodilation, myocardial depression, and prolonged awakening.',
       });
     }
 
@@ -434,7 +434,7 @@ export const IntubationDoseCalculator: React.FC = () => {
         volumeMaxMl: remiIndMaxMcgH / remiConc,
         selectedVolumeMl: remiIndSelectedMcgH / remiConc,
         concentrationStr: `${remiConc} mcg/ml`,
-        explanation: 'Ultra-short acting mu-opioid agonist metabolized by plasma esterases. Induction IV continuous infusion: 0.5–1.0 mcg/kg/min.',
+        explanation: t.remifentanilInductionExp || 'Ultra-short acting mu-opioid agonist metabolized by plasma esterases. Induction IV continuous infusion: 0.5–1.0 mcg/kg/min.',
       });
 
       // Remifentanil Maintenance (LBW)
@@ -464,7 +464,7 @@ export const IntubationDoseCalculator: React.FC = () => {
         rateMaxMlHour: remiMaintMaxMcgH / remiConc,
         selectedRateMlHour: remiMaintSelectedMcgH / remiConc,
         concentrationStr: `${remiConc} mcg/ml`,
-        explanation: 'Anesthesia maintenance with propofol: IV 0.25 mcg/kg/min (range: 0.05 to 2.0 mcg/kg/min). Dosed on LBW.',
+        explanation: t.remifentanilMaintExp || 'Anesthesia maintenance with propofol: IV 0.25 mcg/kg/min (range: 0.05 to 2.0 mcg/kg/min). Dosed on LBW.',
       });
     }
 
@@ -549,7 +549,7 @@ export const IntubationDoseCalculator: React.FC = () => {
         volumeMaxMl: suxMaxMg / suxConc,
         selectedVolumeMl: suxSelectedMg / suxConc,
         concentrationStr: `${suxConc} mg/ml (2%)`,
-        explanation: 'Depolarizing muscle relaxant dosed on TBW (actual body weight). Standard intubation: 0.6 mg/kg (0.3-1.1 mg/kg); Rapid-Sequence Intubation (RSI): 1.0-1.5 mg/kg.',
+        explanation: t.succinylcholineInductionExp || 'Depolarizing muscle relaxant dosed on TBW (actual body weight). Standard intubation: 0.6 mg/kg (0.3-1.1 mg/kg); Rapid-Sequence Intubation (RSI): 1.0-1.5 mg/kg.',
       });
     }
 

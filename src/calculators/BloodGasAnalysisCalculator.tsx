@@ -152,13 +152,13 @@ export const BloodGasAnalysisCalculator: React.FC = () => {
     if (pao2 === null) return { status: 'PaO2 N/A' };
     const oxygenationIndex = fio2 > 0 ? pao2 / fio2 : undefined;
     if (pao2 < 60) {
-      return { status: 'Тяжелая гипоксемия / Severe Hypoxemia (PaO2 < 60 mmHg)', oxygenationIndex };
+      return { status: t.severeHypoxemia || 'Severe Hypoxemia (PaO2 < 60 mmHg)', oxygenationIndex };
     } else if (pao2 < 80) {
-      return { status: 'Умеренная гипоксемия / Moderate Hypoxemia (PaO2 60-80 mmHg)', oxygenationIndex };
+      return { status: t.moderateHypoxemia || 'Moderate Hypoxemia (PaO2 60-80 mmHg)', oxygenationIndex };
     } else if (pao2 <= 100) {
-      return { status: 'Нормальная оксигенация / Normal Oxygenation (PaO2 80-100 mmHg)', oxygenationIndex };
+      return { status: t.normalOxygenation || 'Normal Oxygenation (PaO2 80-100 mmHg)', oxygenationIndex };
     } else {
-      return { status: 'Гипероксемия / Hyperoxemia (PaO2 > 100 mmHg)', oxygenationIndex };
+      return { status: t.hyperoxemia || 'Hyperoxemia (PaO2 > 100 mmHg)', oxygenationIndex };
     }
   };
 
@@ -180,11 +180,11 @@ export const BloodGasAnalysisCalculator: React.FC = () => {
     const deviation = Math.abs(hydrogenIon - expectedHydrogenIon);
     const isValid = deviation < 5;
 
-    let primaryDisorder = 'Нормальный КЩС / Normal Acid-Base';
+    let primaryDisorder = t.normalAcidBase || 'Normal Acid-Base Balance';
     let compensation = '';
     let mixedDisorder = false;
     let mixedDisorderExplanation = '';
-    let anionGapStatus = 'Нормальный AG / Normal AG (8-16)';
+    let anionGapStatus = t.normalAnionGapStatus || 'Normal Anion Gap (8-16)';
     let deltaDeltaInterpretation = '';
     let chronicity = '';
     const reasoning: string[] = [];
@@ -192,51 +192,51 @@ export const BloodGasAnalysisCalculator: React.FC = () => {
 
     if (data.ph < 7.35) {
       if (data.pco2 > 45) {
-        primaryDisorder = 'Респираторный ацидоз / Respiratory Acidosis';
+        primaryDisorder = t.respiratoryAcidosis || 'Respiratory Acidosis';
         if (data.hco3 > 26) {
-          compensation = 'Частичная метаболическая компенсация / Partial Metabolic Compensation';
+          compensation = t.partialMetabolicCompensation || 'Partial Metabolic Compensation';
         } else {
-          compensation = 'Без компенсации (Острый) / Uncompensated (Acute)';
+          compensation = t.uncompensatedAcute || 'Uncompensated (Acute)';
         }
       } else if (data.hco3 < 22) {
-        primaryDisorder = 'Метаболический ацидоз / Metabolic Acidosis';
+        primaryDisorder = t.metabolicAcidosis || 'Metabolic Acidosis';
         if (Math.abs(data.pco2 - expectedPaCO2Winter) <= 2) {
-          compensation = 'Адекватная дыхательная компенсация (По формуле Винтера)';
+          compensation = t.adequateRespiratoryCompensation || 'Adequate Respiratory Compensation (Winter\'s Formula)';
         } else if (data.pco2 < expectedPaCO2Winter - 2) {
           mixedDisorder = true;
-          mixedDisorderExplanation = 'Сопутствующий респираторный алкалоз / Coexisting Respiratory Alkalosis';
+          mixedDisorderExplanation = t.coexistingRespAlkalosis || 'Coexisting Respiratory Alkalosis';
         } else {
           mixedDisorder = true;
-          mixedDisorderExplanation = 'Сопутствующий респираторный ацидоз / Coexisting Respiratory Acidosis';
+          mixedDisorderExplanation = t.coexistingRespAcidosis || 'Coexisting Respiratory Acidosis';
         }
       }
     } else if (data.ph > 7.45) {
       if (data.pco2 < 35) {
-        primaryDisorder = 'Респираторный алкалоз / Respiratory Alkalosis';
+        primaryDisorder = t.respiratoryAlkalosis || 'Respiratory Alkalosis';
         if (data.hco3 < 22) {
-          compensation = 'Частичная метаболическая компенсация / Partial Metabolic Compensation';
+          compensation = t.partialMetabolicCompensation || 'Partial Metabolic Compensation';
         }
       } else if (data.hco3 > 26) {
-        primaryDisorder = 'Метаболический алкалоз / Metabolic Alkalosis';
+        primaryDisorder = t.metabolicAlkalosis || 'Metabolic Alkalosis';
         if (Math.abs(data.pco2 - expectedPaCO2Metabolic) <= 1.5) {
-          compensation = 'Адекватная дыхательная компенсация';
+          compensation = t.adequateRespiratoryCompensation || 'Adequate Respiratory Compensation';
         }
       }
     }
 
     if (anionGapCorrected > 16) {
-      anionGapStatus = 'Высокий AG (HAGMA) / High Anion Gap Metabolic Acidosis';
+      anionGapStatus = t.highAnionGapHagma || 'High Anion Gap Metabolic Acidosis (HAGMA)';
     } else if (anionGapCorrected < 8) {
-      anionGapStatus = 'Низкий AG / Low Anion Gap';
+      anionGapStatus = t.lowAnionGapStatus || 'Low Anion Gap';
     }
 
     if (deltaDelta !== null) {
       if (deltaDelta < 0.8) {
-        deltaDeltaInterpretation = 'Сочетание HAGMA и NAGMA (Сочетанный ацидоз)';
+        deltaDeltaInterpretation = t.combinationHagmaNagma || 'Combination of HAGMA and NAGMA';
       } else if (deltaDelta <= 2.0) {
-        deltaDeltaInterpretation = 'Чистый HAGMA / Pure HAGMA';
+        deltaDeltaInterpretation = t.pureHagma || 'Pure HAGMA';
       } else {
-        deltaDeltaInterpretation = 'Сочетание HAGMA и метаболического алкалоза';
+        deltaDeltaInterpretation = t.combinationHagmaMetAlkalosis || 'Combination of HAGMA and Metabolic Alkalosis';
       }
     }
 

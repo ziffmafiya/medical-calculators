@@ -393,7 +393,7 @@ export const ElectrolyteCorrectionCalculator: React.FC = () => {
       <div className="space-y-3">
         <div className="flex items-center gap-3 flex-wrap">
           <Badge variant="brand" dot className="px-3 py-1 text-xs uppercase tracking-wider font-semibold">
-            Интенсивная терапия & Нефрология
+            {t.icuNephrologyTag || 'ICU & Nephrology'}
           </Badge>
           <span className="text-xs text-slate-500 font-mono">v2.1 • Adrogué-Madias & Devine</span>
         </div>
@@ -413,7 +413,7 @@ export const ElectrolyteCorrectionCalculator: React.FC = () => {
               1
             </div>
             <h2 className="text-lg font-bold text-white tracking-tight">
-              Параметры больного и электролита
+              {t.patientAndElectrolyteParams || 'Patient & Electrolyte Parameters'}
             </h2>
           </div>
           <Button onClick={resetCalculator} variant="outline" size="xs" className="text-slate-400 hover:text-white">
@@ -433,7 +433,7 @@ export const ElectrolyteCorrectionCalculator: React.FC = () => {
           
           <div>
             <label className="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-2">
-              Тип коррекции
+              {t.correctionTypeLabel || 'Correction Type'}
             </label>
             <div className="bg-slate-900/90 border border-slate-800 rounded-xl p-1 grid grid-cols-2 gap-1">
               <button
@@ -445,7 +445,7 @@ export const ElectrolyteCorrectionCalculator: React.FC = () => {
                     : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/50'
                 }`}
               >
-                <span>Гипо (Дефицит)</span>
+                <span>{t.hypoDeficit || 'Hypo (Deficit)'}</span>
               </button>
               <button
                 type="button"
@@ -456,7 +456,7 @@ export const ElectrolyteCorrectionCalculator: React.FC = () => {
                     : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/50'
                 }`}
               >
-                <span>Гипер (Избыток)</span>
+                <span>{t.hyperExcess || 'Hyper (Excess)'}</span>
               </button>
             </div>
           </div>
@@ -485,19 +485,19 @@ export const ElectrolyteCorrectionCalculator: React.FC = () => {
             required
           />
           <NumberInput
-            label="Возраст (лет)"
+            label={`${t.patientAge || 'Age'} (${t.yearsUnit || 'years'})`}
             value={inputs.age}
             onChange={(value) => setInputs({ ...inputs, age: value })}
             min={0}
             max={120}
             step={1}
-            unit="лет"
+            unit={t.yearsUnit || 'years'}
             required
           />
           
           <div>
             <label className="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-2">
-              Пол
+              {t.genderLabel || 'Gender'}
             </label>
             <div className="bg-slate-900/90 border border-slate-800 rounded-xl p-1 grid grid-cols-2 gap-1">
               <button
@@ -510,7 +510,7 @@ export const ElectrolyteCorrectionCalculator: React.FC = () => {
                 }`}
               >
                 <MaleIcon />
-                <span>Муж</span>
+                <span>{t.maleShort || 'Male'}</span>
               </button>
               <button
                 type="button"
@@ -522,7 +522,7 @@ export const ElectrolyteCorrectionCalculator: React.FC = () => {
                 }`}
               >
                 <FemaleIcon />
-                <span>Жен</span>
+                <span>{t.femaleShort || 'Female'}</span>
               </button>
             </div>
           </div>
@@ -587,7 +587,7 @@ export const ElectrolyteCorrectionCalculator: React.FC = () => {
                 2
               </div>
               <h2 className="text-lg font-bold text-white tracking-tight">
-                Расчетные показатели коррекции
+                {t.calculatedMetricsTitle || 'Calculated Correction Metrics'}
               </h2>
             </div>
 
@@ -656,7 +656,7 @@ export const ElectrolyteCorrectionCalculator: React.FC = () => {
 
                     <div className="bg-slate-900/80 border border-slate-800/80 rounded-xl p-3.5 space-y-1">
                       <span className="text-[11px] font-semibold uppercase tracking-wider text-slate-400 block">
-                        Рассчитанная доза
+                        {t.calculatedDoseLabel || 'Calculated Dose'}
                       </span>
                       <div className="text-2xl font-bold font-mono text-white tracking-tight">
                         {dose.dose}{' '}
