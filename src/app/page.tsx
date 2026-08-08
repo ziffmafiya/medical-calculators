@@ -359,21 +359,13 @@ export default function Home() {
 
         {activeCalculator === 'electrolyte' && (
           <div>
-            <div className="mb-6 px-4 md:px-0">
-              <Button
+            <div className="mb-4">
+              <button
                 onClick={() => setActiveCalculator('home')}
-                variant="outline"
-                size="sm"
-                className="mb-4 w-full sm:w-auto"
+                className="inline-flex items-center gap-1.5 text-xs font-semibold text-muted-foreground hover:text-primary transition-colors py-1 px-2.5 rounded-lg bg-card/60 border border-border/50"
               >
                 {t.backToCalculators}
-              </Button>
-              <h2 className="text-xl md:text-2xl font-semibold text-foreground mb-2">
-                {t.electrolyteCorrection}
-              </h2>
-              <p className="text-muted-foreground">
-                {t.electrolyteCorrectionDesc}
-              </p>
+              </button>
             </div>
             <ElectrolyteCorrectionCalculator />
           </div>
@@ -381,21 +373,13 @@ export default function Home() {
 
         {activeCalculator === 'antibiotic' && (
           <div>
-            <div className="mb-6 px-4 md:px-0">
-              <Button
+            <div className="mb-4">
+              <button
                 onClick={() => setActiveCalculator('home')}
-                variant="outline"
-                size="sm"
-                className="mb-4 w-full sm:w-auto"
+                className="inline-flex items-center gap-1.5 text-xs font-semibold text-muted-foreground hover:text-primary transition-colors py-1 px-2.5 rounded-lg bg-card/60 border border-border/50"
               >
                 {t.backToCalculators}
-              </Button>
-              <h2 className="text-xl md:text-2xl font-semibold text-foreground mb-2">
-                {t.antibioticProphylaxis}
-              </h2>
-              <p className="text-muted-foreground">
-                {t.antibioticProphylaxisDesc}
-              </p>
+              </button>
             </div>
             <AntibioticProphylaxisCalculator />
           </div>
@@ -403,21 +387,13 @@ export default function Home() {
 
         {activeCalculator === 'pediatric' && (
           <div>
-            <div className="mb-6 px-4 md:px-0">
-              <Button
+            <div className="mb-4">
+              <button
                 onClick={() => setActiveCalculator('home')}
-                variant="outline"
-                size="sm"
-                className="mb-4 w-full sm:w-auto"
+                className="inline-flex items-center gap-1.5 text-xs font-semibold text-muted-foreground hover:text-primary transition-colors py-1 px-2.5 rounded-lg bg-card/60 border border-border/50"
               >
                 {t.backToCalculators}
-              </Button>
-              <h2 className="text-xl md:text-2xl font-semibold text-foreground mb-2">
-                {t.pediatricDoses}
-              </h2>
-              <p className="text-muted-foreground">
-                {t.pediatricDosesDesc}
-              </p>
+              </button>
             </div>
             <PediatricDoseCalculator />
           </div>
@@ -425,21 +401,13 @@ export default function Home() {
 
         {activeCalculator === 'bloodGas' && (
           <div>
-            <div className="mb-6 px-4 md:px-0">
-              <Button
+            <div className="mb-4">
+              <button
                 onClick={() => setActiveCalculator('home')}
-                variant="outline"
-                size="sm"
-                className="mb-4 w-full sm:w-auto"
+                className="inline-flex items-center gap-1.5 text-xs font-semibold text-muted-foreground hover:text-primary transition-colors py-1 px-2.5 rounded-lg bg-card/60 border border-border/50"
               >
                 {t.backToCalculators}
-              </Button>
-              <h2 className="text-xl md:text-2xl font-semibold text-foreground mb-2">
-                Анализ газов крови
-              </h2>
-              <p className="text-muted-foreground">
-                Расчет анионного промежутка, формулы Винтера, интерпретация кислотно-щелочного баланса
-              </p>
+              </button>
             </div>
             <BloodGasAnalysisCalculator />
           </div>
@@ -447,21 +415,13 @@ export default function Home() {
 
         {activeCalculator === 'infusionTherapy' && (
           <div>
-            <div className="mb-6 px-4 md:px-0">
-              <Button
+            <div className="mb-4">
+              <button
                 onClick={() => setActiveCalculator('home')}
-                variant="outline"
-                size="sm"
-                className="mb-4 w-full sm:w-auto"
+                className="inline-flex items-center gap-1.5 text-xs font-semibold text-muted-foreground hover:text-primary transition-colors py-1 px-2.5 rounded-lg bg-card/60 border border-border/50"
               >
                 {t.backToCalculators}
-              </Button>
-              <h2 className="text-xl md:text-2xl font-semibold text-foreground mb-2">
-                Инфузионная терапия
-              </h2>
-              <p className="text-muted-foreground">
-                Расчет потребности в жидкости, коррекция дефицита и рекомендации по инфузии
-              </p>
+              </button>
             </div>
             <InfusionTherapyCalculator />
           </div>
@@ -469,21 +429,13 @@ export default function Home() {
 
         {activeCalculator === 'intubation' && (
           <div>
-            <div className="mb-6 px-4 md:px-0">
-              <Button
+            <div className="mb-4">
+              <button
                 onClick={() => setActiveCalculator('home')}
-                variant="outline"
-                size="sm"
-                className="mb-4 w-full sm:w-auto"
+                className="inline-flex items-center gap-1.5 text-xs font-semibold text-muted-foreground hover:text-primary transition-colors py-1 px-2.5 rounded-lg bg-card/60 border border-border/50"
               >
                 {t.backToCalculators}
-              </Button>
-              <h2 className="text-xl md:text-2xl font-semibold text-foreground mb-2">
-                {t.intubationDoses}
-              </h2>
-              <p className="text-muted-foreground">
-                {t.intubationDosesDesc}
-              </p>
+              </button>
             </div>
             <IntubationDoseCalculator />
           </div>
