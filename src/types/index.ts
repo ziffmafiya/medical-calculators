@@ -271,7 +271,7 @@ export interface IntubationInputs {
   // Выбор препаратов
   selectedHypnotic: 'propofol' | 'midazolam' | 'ketamine' | 'thiopental';
   selectedAnalgesic: 'fentanyl' | 'remifentanil';
-  selectedRelaxant: 'rocuronium' | 'atracurium' | 'both';
+  selectedRelaxant: 'rocuronium' | 'atracurium' | 'succinylcholine' | 'both';
 
   // Пропофол
   propofolInductionDosePerKg: number; // mg/kg (1.0 - 3.0)
@@ -298,6 +298,7 @@ export interface IntubationInputs {
   // Миорелаксанты
   atracuriumDosePerKg: number; // mg/kg (0.4 - 0.5)
   rocuroniumDosePerKg: number; // mg/kg (0.6 - 1.2)
+  succinylcholineDosePerKg: number; // mg/kg (0.3 - 1.5)
 
   // Концентрации
   propofolConcMgMl: number; // mg/ml (default 10)
@@ -308,6 +309,7 @@ export interface IntubationInputs {
   remifentanilConcMcgMl: number; // mcg/ml (default 50)
   atracuriumConcMgMl: number; // mg/ml (default 10)
   rocuroniumConcMgMl: number; // mg/ml (default 10)
+  succinylcholineConcMgMl: number; // mg/ml (default 20)
 }
 
 export interface AnthropometricsResult {

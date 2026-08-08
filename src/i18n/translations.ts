@@ -414,6 +414,8 @@ export interface Translations {
   thiopentalInductionSliderLabel: string;
   remifentanilInductionSliderLabel: string;
   remifentanilMaintSliderLabel: string;
+  succinylcholineName: string;
+  succinylcholineInductionSliderLabel: string;
 
   // Blood Gas & Infusion therapy additions
   bloodGasTitle: string;
@@ -876,6 +878,8 @@ export const translations: Record<Language, Translations> = {
     thiopentalInductionSliderLabel: 'Thiopental Induction (LBW):',
     remifentanilInductionSliderLabel: 'Remifentanil Infusion (LBW):',
     remifentanilMaintSliderLabel: 'Remifentanil Maintenance (LBW):',
+    succinylcholineName: 'Succinylcholine (Suxamethonium)',
+    succinylcholineInductionSliderLabel: 'Succinylcholine Induction (TBW):',
 
     // Blood Gas & Infusion therapy additions
     bloodGasTitle: 'Arterial Blood Gas Analysis & Acid-Base Balance',
@@ -1252,6 +1256,8 @@ export const translations: Record<Language, Translations> = {
     thiopentalInductionSliderLabel: 'Тиопентал Индукция (LBW):',
     remifentanilInductionSliderLabel: 'Ремифентанил Индукция (LBW):',
     remifentanilMaintSliderLabel: 'Ремифентанил Инфузия (LBW):',
+    succinylcholineName: 'Сукцинилхолин / Дитилин (Succinylcholine)',
+    succinylcholineInductionSliderLabel: 'Сукцинилхолин Индукция (TBW):',
     unitMgKg: 'мг/кг',
     unitMcgKgMin: 'мкг/кг/мин',
     unitMcgKg: 'мкг/кг',
@@ -1798,6 +1804,8 @@ export const translations: Record<Language, Translations> = {
     thiopentalInductionSliderLabel: 'Тіопентал Індукція (LBW):',
     remifentanilInductionSliderLabel: 'Реміфентаніл Індукція (LBW):',
     remifentanilMaintSliderLabel: 'Реміфентаніл Інфузія (LBW):',
+    succinylcholineName: 'Сукцинілхолін / Дитилін (Succinylcholine)',
+    succinylcholineInductionSliderLabel: 'Сукцинілхолін Індукція (TBW):',
 
     // Blood Gas & Infusion therapy additions
     bloodGasTitle: 'Аналіз газів крові та кислотно-основного стану',

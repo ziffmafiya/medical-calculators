@@ -93,6 +93,7 @@ export const IntubationDoseCalculator: React.FC = () => {
 
     atracuriumDosePerKg: 0.45,
     rocuroniumDosePerKg: 0.6,
+    succinylcholineDosePerKg: 0.6,
 
     propofolConcMgMl: 10,
     midazolamConcMgMl: 5,
@@ -102,6 +103,7 @@ export const IntubationDoseCalculator: React.FC = () => {
     remifentanilConcMcgMl: 50,
     atracuriumConcMgMl: 10,
     rocuroniumConcMgMl: 10,
+    succinylcholineConcMgMl: 20,
   });
 
   const [showAdvancedConc, setShowAdvancedConc] = useState(false);
@@ -502,6 +504,34 @@ export const IntubationDoseCalculator: React.FC = () => {
       });
     }
 
+    if (inputs.selectedRelaxant === 'succinylcholine') {
+      const suxMinMg = 0.3 * tbw;
+      const suxMaxMg = 1.5 * tbw;
+      const suxSelectedMg = inputs.succinylcholineDosePerKg * tbw;
+      const suxConc = inputs.succinylcholineConcMgMl > 0 ? inputs.succinylcholineConcMgMl : 20;
+
+      details.push({
+        id: 'succinylcholine-induction',
+        drugName: t.succinylcholineName || 'Succinylcholine',
+        category: 'relaxant',
+        phase: 'induction',
+        weightMetricUsed: 'TBW',
+        weightValue: tbw,
+        dosePerKgRange: `0.3 – 1.5 ${t.unitMgKg || 'mg/kg'} (RSI 1.0–1.5)`,
+        selectedDosePerKg: inputs.succinylcholineDosePerKg,
+        unitPerKg: t.unitMgKg || 'mg/kg',
+        totalDoseMin: suxMinMg,
+        totalDoseMax: suxMaxMg,
+        selectedTotalDose: suxSelectedMg,
+        totalDoseUnit: 'mg',
+        volumeMinMl: suxMinMg / suxConc,
+        volumeMaxMl: suxMaxMg / suxConc,
+        selectedVolumeMl: suxSelectedMg / suxConc,
+        concentrationStr: `${suxConc} mg/ml (2%)`,
+        explanation: 'Depolarizing muscle relaxant dosed on TBW (actual body weight). Standard intubation: 0.6 mg/kg (0.3-1.1 mg/kg); Rapid-Sequence Intubation (RSI): 1.0-1.5 mg/kg.',
+      });
+    }
+
     return details;
   }, [anthropometrics, inputs, t]);
 
@@ -524,7 +554,8 @@ export const IntubationDoseCalculator: React.FC = () => {
                 d.id.includes('thiopental') ? 'thiopental' :
                 d.id.includes('fentanyl') ? 'fentanyl' :
                 d.id.includes('remifentanil') ? 'remifentanil' :
-                d.id.includes('rocuronium') ? 'rocuronium' : 'atracurium';
+                d.id.includes('rocuronium') ? 'rocuronium' :
+                d.id.includes('succinylcholine') ? 'succinylcholine' : 'atracurium';
       
       if (!map[key]) {
         map[key] = {
@@ -571,6 +602,7 @@ export const IntubationDoseCalculator: React.FC = () => {
 
       atracuriumDosePerKg: 0.45,
       rocuroniumDosePerKg: 0.6,
+      succinylcholineDosePerKg: 0.6,
 
       propofolConcMgMl: 10,
       midazolamConcMgMl: 5,
@@ -580,6 +612,7 @@ export const IntubationDoseCalculator: React.FC = () => {
       remifentanilConcMcgMl: 50,
       atracuriumConcMgMl: 10,
       rocuroniumConcMgMl: 10,
+      succinylcholineConcMgMl: 20,
     });
   };
 
@@ -804,6 +837,7 @@ export const IntubationDoseCalculator: React.FC = () => {
                     { value: 'both', label: t.showBothRelaxants || 'Rocuronium + Atracurium' },
                     { value: 'rocuronium', label: t.rocuroniumName || 'Rocuronium' },
                     { value: 'atracurium', label: t.atracuriumName || 'Atracurium' },
+                    { value: 'succinylcholine', label: t.succinylcholineName || 'Succinylcholine' },
                   ]}
                 />
               </div>
@@ -852,6 +886,7 @@ export const IntubationDoseCalculator: React.FC = () => {
                   <NumberInput label={`${t.remifentanilName || 'Remifentanil'} (${t.unitMcgMl || 'mcg/ml'})`} value={inputs.remifentanilConcMcgMl} onChange={(val) => setInputs({ ...inputs, remifentanilConcMcgMl: val || 50 })} />
                   <NumberInput label={`${t.rocuroniumName || 'Rocuronium'} (${t.unitMgMl || 'mg/ml'})`} value={inputs.rocuroniumConcMgMl} onChange={(val) => setInputs({ ...inputs, rocuroniumConcMgMl: val || 10 })} />
                   <NumberInput label={`${t.atracuriumName || 'Atracurium'} (${t.unitMgMl || 'mg/ml'})`} value={inputs.atracuriumConcMgMl} onChange={(val) => setInputs({ ...inputs, atracuriumConcMgMl: val || 10 })} />
+                  <NumberInput label={`${t.succinylcholineName || 'Succinylcholine'} (${t.unitMgMl || 'mg/ml'})`} value={inputs.succinylcholineConcMgMl} onChange={(val) => setInputs({ ...inputs, succinylcholineConcMgMl: val || 20 })} />
                 </div>
               )}
             </div>
@@ -1160,6 +1195,19 @@ export const IntubationDoseCalculator: React.FC = () => {
                   { val: 0.4, label: '0.4' },
                   { val: 0.45, label: '0.45' },
                   { val: 0.5, label: '0.5' }
+                ]
+              )}
+
+              {inputs.selectedRelaxant === 'succinylcholine' && renderSlider(
+                t.succinylcholineInductionSliderLabel || 'Succinylcholine Induction (TBW):',
+                inputs.succinylcholineDosePerKg,
+                0.3, 1.5, 0.05,
+                t.unitMgKg || 'mg/kg',
+                'succinylcholineDosePerKg',
+                [
+                  { val: 0.6, label: '0.6 (Std)' },
+                  { val: 1.0, label: '1.0 (RSI)' },
+                  { val: 1.5, label: '1.5 (RSI Max)' }
                 ]
               )}
             </div>
