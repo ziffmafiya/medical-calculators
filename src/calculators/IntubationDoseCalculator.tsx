@@ -815,7 +815,7 @@ export const IntubationDoseCalculator: React.FC = () => {
         </div>
       )}
 
-      {/* SECTION 3: Summary Dosing Cards (Compact & Expandable) */}
+      {/* SECTION 3: Summary Dosing Cards (Ultra-Compact & Expandable) */}
       {groupedDrugs.length > 0 && anthropometrics && (
         <div className="space-y-4">
           <div className="flex items-center gap-3">
@@ -827,7 +827,7 @@ export const IntubationDoseCalculator: React.FC = () => {
             </h2>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-5 items-start">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5 items-start">
             {groupedDrugs.map((group) => {
               const isExpanded = !!expandedCards[group.id];
               const ind = group.induction;
@@ -836,73 +836,57 @@ export const IntubationDoseCalculator: React.FC = () => {
               return (
                 <div 
                   key={group.id} 
-                  className="bg-[#101828] border border-slate-800/80 hover:border-slate-700/80 rounded-2xl p-5 space-y-4 shadow-sm transition-all text-left"
+                  className="bg-[#101828] border border-slate-800/80 hover:border-slate-700/80 rounded-2xl p-4 transition-all shadow-sm cursor-pointer group/card text-left"
+                  onClick={() => toggleExpandCard(group.id)}
                 >
-                  {/* Top Bar (Header) */}
-                  <div 
-                    onClick={() => toggleExpandCard(group.id)}
-                    className="flex items-start justify-between gap-3 cursor-pointer group/header"
-                  >
-                    <div>
-                      <div className="flex items-center gap-2.5 flex-wrap">
-                        <h3 className="font-bold text-white text-lg tracking-tight group-hover/header:text-sky-400 transition-colors">
-                          {group.name}
-                        </h3>
-                        <Badge variant={group.category === 'hypnotic' ? 'brand' : group.category === 'analgesic' ? 'warning' : 'gray'}>
-                          {group.category}
-                        </Badge>
-                      </div>
-                      <span className="text-xs font-mono text-slate-400 block mt-1">
-                        {group.concentrationStr}
-                      </span>
+                  {/* Ultra-Compact Top Row (Name, Category & Dose in mg/mcg) */}
+                  <div className="flex items-center justify-between gap-3">
+                    <div className="flex items-center gap-2.5 min-w-0">
+                      <h3 className="font-bold text-white text-base tracking-tight truncate group-hover/card:text-sky-400 transition-colors">
+                        {group.name}
+                      </h3>
+                      <Badge variant={group.category === 'hypnotic' ? 'brand' : group.category === 'analgesic' ? 'warning' : 'gray'} className="capitalize shrink-0">
+                        {group.category}
+                      </Badge>
                     </div>
 
-                    <div className="flex items-center gap-2">
-                      {ind && (
-                        <Badge variant="gray" className="font-mono text-xs">
-                          {ind.weightMetricUsed} ({ind.weightValue.toFixed(1)} {t.kg || 'kg'})
-                        </Badge>
-                      )}
-                      <ChevronDownIcon className={`w-5 h-5 text-slate-400 transition-transform duration-200 ${isExpanded ? 'rotate-180 text-sky-400' : ''}`} />
-                    </div>
+                    {ind && (
+                      <div className="flex items-center gap-3 shrink-0">
+                        <div className="text-right">
+                          <span className="text-lg font-bold font-mono text-white tracking-tight">
+                            {ind.selectedTotalDose.toFixed(1)} <span className="text-xs font-normal text-slate-400">{ind.totalDoseUnit}</span>
+                          </span>
+                          <span className="text-xs text-sky-400 font-mono block -mt-0.5">
+                            ({ind.selectedVolumeMl?.toFixed(1)} {t.unitMl || 'ml'})
+                          </span>
+                        </div>
+                        <div className="w-8 h-8 rounded-lg bg-slate-900 border border-slate-800 flex items-center justify-center text-slate-400 group-hover/card:text-white transition-colors">
+                          <ChevronDownIcon className={`w-4 h-4 transition-transform duration-200 ${isExpanded ? 'rotate-180 text-sky-400' : ''}`} />
+                        </div>
+                      </div>
+                    )}
                   </div>
 
-                  {/* Compact Hero Induction Callout (Always Visible) */}
-                  {ind && (
-                    <div 
-                      onClick={() => toggleExpandCard(group.id)}
-                      className="bg-slate-900/90 border border-slate-800/80 rounded-xl p-4 cursor-pointer hover:bg-slate-800/40 transition-colors"
-                    >
-                      <div className="flex items-center justify-between">
-                        <div>
-                          <span className="text-[11px] font-semibold uppercase tracking-wider text-slate-400 block">
-                            {t.inductionDoseLabel || 'Induction Dose'} ({ind.weightMetricUsed})
-                          </span>
-                          <div className="text-2xl font-bold font-mono text-white tracking-tight mt-0.5">
-                            {ind.selectedTotalDose.toFixed(1)} <span className="text-xs font-normal text-slate-400">{ind.totalDoseUnit}</span>
-                            <span className="text-slate-500 font-normal mx-1.5 font-sans text-sm">/</span>
-                            <span className="text-sky-400 font-bold">{ind.selectedVolumeMl?.toFixed(1)} <span className="text-xs font-normal text-slate-400">{t.unitMl || 'ml'}</span></span>
-                          </div>
-                        </div>
-
-                        <div className="text-right shrink-0">
-                          <span className="text-xs font-mono text-slate-400 block">
-                            {ind.selectedDosePerKg} {ind.unitPerKg}
-                          </span>
-                          <span className="text-[11px] text-sky-400 block mt-1 font-medium group-hover/header:underline">
-                            {isExpanded ? (t.clickToCollapseLabel || 'Hide Details') : (t.clickToExpandLabel || 'Details & Infusion ▾')}
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-                  )}
-
-                  {/* Expanded Content (Details & Infusion) */}
+                  {/* Expanded Detailed Breakdown */}
                   {isExpanded && (
-                    <div className="space-y-4 pt-3 border-t border-slate-800/60 animate-slide-up">
+                    <div className="space-y-4 pt-4 mt-3 border-t border-slate-800/60 animate-slide-up" onClick={(e) => e.stopPropagation()}>
+                      {/* Concentration & Weight Metric Banner */}
+                      <div className="flex items-center justify-between text-xs bg-slate-900/80 p-2.5 rounded-xl border border-slate-800/80">
+                        <span className="font-mono text-slate-400">{group.concentrationStr}</span>
+                        {ind && (
+                          <Badge variant="gray" className="font-mono">
+                            {t.colBaseWeight || 'Base Weight'}: {ind.weightMetricUsed} ({ind.weightValue.toFixed(1)} {t.kg || 'kg'})
+                          </Badge>
+                        )}
+                      </div>
+
                       {/* Induction Details Breakdown */}
                       {ind && (
                         <div className="space-y-2">
+                          <div className="flex justify-between items-center text-xs">
+                            <span className="text-slate-400 font-medium">{t.inductionDoseLabel || 'Induction Dose'}:</span>
+                            <span className="font-mono text-slate-200">{ind.selectedDosePerKg} {ind.unitPerKg}</span>
+                          </div>
                           <div className="flex justify-between items-center text-xs">
                             <span className="text-slate-400 font-medium">{t.colDoseRange || 'Dose Range'}:</span>
                             <span className="font-mono text-slate-200">{ind.dosePerKgRange}</span>
