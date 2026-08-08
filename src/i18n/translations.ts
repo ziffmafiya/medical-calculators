@@ -439,6 +439,10 @@ export interface Translations {
   overweightWarningTitle: string;
   overweightWarningText: string;
   enterHeightWeightPrompt: string;
+  inductionDoseLabel: string;
+  maintenanceInfusionLabel: string;
+  clickToExpandLabel: string;
+  clickToCollapseLabel: string;
 }
 
 export const translations: Record<Language, Translations> = {
@@ -879,6 +883,10 @@ export const translations: Record<Language, Translations> = {
     overweightWarningTitle: 'Warning (Overweight: TBW > 120% IBW)',
     overweightWarningText: 'Actual weight exceeds ideal weight by more than 20%. Use LBW for Propofol induction and IBW for muscle relaxants to avoid overdose.',
     enterHeightWeightPrompt: 'Enter height & weight to calculate matrix.',
+    inductionDoseLabel: 'Induction Dose',
+    maintenanceInfusionLabel: 'Maintenance Infusion',
+    clickToExpandLabel: 'Details & Infusion',
+    clickToCollapseLabel: 'Hide Details',
   },
   
   ru: {
@@ -1318,6 +1326,10 @@ export const translations: Record<Language, Translations> = {
     overweightWarningTitle: 'Внимание (Избыточный вес: TBW > 120% IBW)',
     overweightWarningText: 'Фактическая масса превышает идеальную более чем на 20%. Используйте LBW для индукции пропофола и IBW для миорелаксантов во избежание передозировки.',
     enterHeightWeightPrompt: 'Введите рост и вес пациента для расчета матрицы.',
+    inductionDoseLabel: 'Доза индукции',
+    maintenanceInfusionLabel: 'Поддерживающая инфузия',
+    clickToExpandLabel: 'Детали и инфузия',
+    clickToCollapseLabel: 'Свернуть',
   },
   
   uk: {
@@ -1757,5 +1769,9 @@ export const translations: Record<Language, Translations> = {
     overweightWarningTitle: 'Увага (Надмірна вага: TBW > 120% IBW)',
     overweightWarningText: 'Фактична маса перевищує ідеальну більше ніж на 20%. Використовуйте LBW для індукції пропофолу та IBW для міорелаксантів для запобігання передозуванню.',
     enterHeightWeightPrompt: 'Введіть зріст та вагу пацієнта для розрахунку матриці.',
+    inductionDoseLabel: 'Доза індукції',
+    maintenanceInfusionLabel: 'Підтримуюча інфузія',
+    clickToExpandLabel: 'Деталі та інфузія',
+    clickToCollapseLabel: 'Згорнути',
   },
 }; 

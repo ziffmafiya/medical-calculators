@@ -85,6 +85,11 @@ export const IntubationDoseCalculator: React.FC = () => {
 
   const [showAdvancedConc, setShowAdvancedConc] = useState(false);
   const [showSection2, setShowSection2] = useState(false);
+  const [expandedCards, setExpandedCards] = useState<Record<string, boolean>>({});
+
+  const toggleExpandCard = (id: string) => {
+    setExpandedCards(prev => ({ ...prev, [id]: !prev[id] }));
+  };
 
   // Anthro calculations
   const anthropometrics = useMemo<AnthropometricsResult | null>(() => {
@@ -327,6 +332,38 @@ export const IntubationDoseCalculator: React.FC = () => {
 
     return details;
   }, [anthropometrics, inputs, t]);
+
+  const groupedDrugs = useMemo(() => {
+    if (!drugDetails.length) return [];
+
+    const map: Record<string, {
+      id: string;
+      name: string;
+      category: 'hypnotic' | 'analgesic' | 'relaxant';
+      concentrationStr: string;
+      induction?: DrugDoseDetail;
+      maintenance?: DrugDoseDetail;
+    }> = {};
+
+    drugDetails.forEach(d => {
+      let key = d.id.includes('propofol') ? 'propofol' :
+                d.id.includes('fentanyl') ? 'fentanyl' :
+                d.id.includes('rocuronium') ? 'rocuronium' : 'atracurium';
+      
+      if (!map[key]) {
+        map[key] = {
+          id: key,
+          name: d.drugName.replace(' (Infusion)', '').replace(' (Инфузия)', '').replace(' (Інфузія)', ''),
+          category: d.category,
+          concentrationStr: d.concentrationStr,
+        };
+      }
+      if (d.phase === 'induction') map[key].induction = d;
+      if (d.phase === 'maintenance') map[key].maintenance = d;
+    });
+
+    return Object.values(map);
+  }, [drugDetails]);
 
   const handleReset = () => {
     setInputs({
@@ -778,8 +815,8 @@ export const IntubationDoseCalculator: React.FC = () => {
         </div>
       )}
 
-      {/* SECTION 3: Summary Dosing Cards */}
-      {drugDetails.length > 0 && anthropometrics && (
+      {/* SECTION 3: Summary Dosing Cards (Compact & Expandable) */}
+      {groupedDrugs.length > 0 && anthropometrics && (
         <div className="space-y-4">
           <div className="flex items-center gap-3">
             <div className="w-8 h-8 rounded-xl bg-sky-500/10 text-sky-400 flex items-center justify-center font-bold text-sm border border-sky-500/20">
@@ -790,82 +827,145 @@ export const IntubationDoseCalculator: React.FC = () => {
             </h2>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-stretch">
-            {drugDetails.map((drug) => (
-              <div 
-                key={drug.id} 
-                className="bg-[#101828] border border-slate-800/80 rounded-2xl p-6 flex flex-col justify-between space-y-5 shadow-sm hover:border-slate-700/80 transition-all h-full"
-              >
-                {/* Header */}
-                <div className="flex items-start justify-between gap-3 min-h-[52px]">
-                  <div>
-                    <h3 className="font-bold text-white text-lg tracking-tight leading-snug">{drug.drugName}</h3>
-                    <div className="flex items-center gap-2 mt-1.5">
-                      <Badge variant={drug.phase === 'induction' ? 'brand' : 'gray'}>
-                        {drug.phase === 'induction' ? 'Induction' : 'Maintenance'}
-                      </Badge>
-                      <span className="text-xs font-mono text-slate-400">{drug.concentrationStr}</span>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-5 items-start">
+            {groupedDrugs.map((group) => {
+              const isExpanded = !!expandedCards[group.id];
+              const ind = group.induction;
+              const maint = group.maintenance;
+
+              return (
+                <div 
+                  key={group.id} 
+                  className="bg-[#101828] border border-slate-800/80 hover:border-slate-700/80 rounded-2xl p-5 space-y-4 shadow-sm transition-all text-left"
+                >
+                  {/* Top Bar (Header) */}
+                  <div 
+                    onClick={() => toggleExpandCard(group.id)}
+                    className="flex items-start justify-between gap-3 cursor-pointer group/header"
+                  >
+                    <div>
+                      <div className="flex items-center gap-2.5 flex-wrap">
+                        <h3 className="font-bold text-white text-lg tracking-tight group-hover/header:text-sky-400 transition-colors">
+                          {group.name}
+                        </h3>
+                        <Badge variant={group.category === 'hypnotic' ? 'brand' : group.category === 'analgesic' ? 'warning' : 'gray'}>
+                          {group.category}
+                        </Badge>
+                      </div>
+                      <span className="text-xs font-mono text-slate-400 block mt-1">
+                        {group.concentrationStr}
+                      </span>
+                    </div>
+
+                    <div className="flex items-center gap-2">
+                      {ind && (
+                        <Badge variant="gray" className="font-mono text-xs">
+                          {ind.weightMetricUsed} ({ind.weightValue.toFixed(1)} {t.kg || 'kg'})
+                        </Badge>
+                      )}
+                      <ChevronDownIcon className={`w-5 h-5 text-slate-400 transition-transform duration-200 ${isExpanded ? 'rotate-180 text-sky-400' : ''}`} />
                     </div>
                   </div>
 
-                  <div className="text-right shrink-0">
-                    <span className="text-[11px] font-semibold uppercase tracking-wider text-slate-400 block mb-1">
-                      {t.colBaseWeight || 'Base Weight'}
-                    </span>
-                    <Badge variant="gray" className="font-mono">
-                      {drug.weightMetricUsed} ({drug.weightValue.toFixed(1)} {t.kg || 'kg'})
-                    </Badge>
-                  </div>
-                </div>
+                  {/* Compact Hero Induction Callout (Always Visible) */}
+                  {ind && (
+                    <div 
+                      onClick={() => toggleExpandCard(group.id)}
+                      className="bg-slate-900/90 border border-slate-800/80 rounded-xl p-4 cursor-pointer hover:bg-slate-800/40 transition-colors"
+                    >
+                      <div className="flex items-center justify-between">
+                        <div>
+                          <span className="text-[11px] font-semibold uppercase tracking-wider text-slate-400 block">
+                            {t.inductionDoseLabel || 'Induction Dose'} ({ind.weightMetricUsed})
+                          </span>
+                          <div className="text-2xl font-bold font-mono text-white tracking-tight mt-0.5">
+                            {ind.selectedTotalDose.toFixed(1)} <span className="text-xs font-normal text-slate-400">{ind.totalDoseUnit}</span>
+                            <span className="text-slate-500 font-normal mx-1.5 font-sans text-sm">/</span>
+                            <span className="text-sky-400 font-bold">{ind.selectedVolumeMl?.toFixed(1)} <span className="text-xs font-normal text-slate-400">{t.unitMl || 'ml'}</span></span>
+                          </div>
+                        </div>
 
-                {/* Calculation Numbers Grid */}
-                <div className="grid grid-cols-2 gap-4 bg-slate-900/80 border border-slate-800/80 rounded-xl p-4">
-                  <div className="space-y-1">
-                    <span className="text-[11px] font-semibold uppercase tracking-wider text-slate-400 block">
-                      {t.colCalculatedDose || 'Calculated Dose'}
-                    </span>
-                    <div className="text-2xl font-bold font-mono text-white tracking-tight">
-                      {drug.selectedTotalDose.toFixed(1)}{' '}
-                      <span className="text-xs font-normal text-slate-400">{drug.totalDoseUnit}</span>
+                        <div className="text-right shrink-0">
+                          <span className="text-xs font-mono text-slate-400 block">
+                            {ind.selectedDosePerKg} {ind.unitPerKg}
+                          </span>
+                          <span className="text-[11px] text-sky-400 block mt-1 font-medium group-hover/header:underline">
+                            {isExpanded ? (t.clickToCollapseLabel || 'Hide Details') : (t.clickToExpandLabel || 'Details & Infusion ▾')}
+                          </span>
+                        </div>
+                      </div>
                     </div>
-                    <div className="text-xs font-mono text-slate-500">
-                      [{drug.totalDoseMin.toFixed(1)} – {drug.totalDoseMax.toFixed(1)}]
-                    </div>
-                  </div>
+                  )}
 
-                  <div className="space-y-1">
-                    <span className="text-[11px] font-semibold uppercase tracking-wider text-slate-400 block">
-                      {t.colVolumeOrSpeed || 'Volume / Rate'}
-                    </span>
-                    <div className="text-2xl font-bold font-mono text-sky-400 tracking-tight">
-                      {drug.phase === 'induction' ? (
-                        <>
-                          {drug.selectedVolumeMl?.toFixed(1)}{' '}
-                          <span className="text-xs font-normal text-slate-400">{t.unitMl || 'ml'}</span>
-                        </>
-                      ) : (
-                        <>
-                          {drug.selectedRateMlHour?.toFixed(1)}{' '}
-                          <span className="text-xs font-normal text-slate-400">{t.unitMlHour || 'ml/h'}</span>
-                        </>
+                  {/* Expanded Content (Details & Infusion) */}
+                  {isExpanded && (
+                    <div className="space-y-4 pt-3 border-t border-slate-800/60 animate-slide-up">
+                      {/* Induction Details Breakdown */}
+                      {ind && (
+                        <div className="space-y-2">
+                          <div className="flex justify-between items-center text-xs">
+                            <span className="text-slate-400 font-medium">{t.colDoseRange || 'Dose Range'}:</span>
+                            <span className="font-mono text-slate-200">{ind.dosePerKgRange}</span>
+                          </div>
+                          <div className="flex justify-between items-center text-xs">
+                            <span className="text-slate-400 font-medium">Calculated Range:</span>
+                            <span className="font-mono text-slate-200">[{ind.totalDoseMin.toFixed(1)} – {ind.totalDoseMax.toFixed(1)} {ind.totalDoseUnit}]</span>
+                          </div>
+                          <div className="flex justify-between items-center text-xs">
+                            <span className="text-slate-400 font-medium">Volume Range:</span>
+                            <span className="font-mono text-sky-400">[{ind.volumeMinMl?.toFixed(1)} – {ind.volumeMaxMl?.toFixed(1)} ml]</span>
+                          </div>
+                          <p className="text-[11px] text-slate-400 bg-slate-900/40 p-2.5 rounded-lg border border-slate-800/60 leading-relaxed">
+                            {ind.explanation}
+                          </p>
+                        </div>
+                      )}
+
+                      {/* Maintenance Infusion Section */}
+                      {maint && (
+                        <div className="space-y-2 pt-3 border-t border-slate-800/60">
+                          <div className="flex items-center justify-between">
+                            <span className="text-xs font-bold uppercase tracking-wider text-slate-300">
+                              {t.maintenanceInfusionLabel || 'Maintenance Infusion'} ({maint.weightMetricUsed})
+                            </span>
+                            <Badge variant="gray" className="font-mono text-[11px]">
+                              {maint.weightValue.toFixed(1)} {t.kg || 'kg'}
+                            </Badge>
+                          </div>
+
+                          <div className="bg-slate-900/90 border border-slate-800/80 rounded-xl p-3.5 flex items-center justify-between">
+                            <div>
+                              <span className="text-[11px] text-slate-400 block">Rate / Hour</span>
+                              <span className="text-xl font-bold font-mono text-sky-400">
+                                {maint.selectedRateMlHour?.toFixed(1)} <span className="text-xs text-slate-400">{t.unitMlHour || 'ml/h'}</span>
+                              </span>
+                            </div>
+                            <div className="text-right">
+                              <span className="text-[11px] text-slate-400 block">Calculated Rate</span>
+                              <span className="text-sm font-bold font-mono text-white">
+                                {maint.selectedTotalDose.toFixed(1)} <span className="text-xs text-slate-400">{maint.totalDoseUnit}</span>
+                              </span>
+                            </div>
+                          </div>
+
+                          <div className="flex justify-between items-center text-xs">
+                            <span className="text-slate-400 font-medium">Infusion Range:</span>
+                            <span className="font-mono text-slate-200">{maint.dosePerKgRange}</span>
+                          </div>
+                          <div className="flex justify-between items-center text-xs">
+                            <span className="text-slate-400 font-medium">Rate Range:</span>
+                            <span className="font-mono text-sky-400">[{maint.rateMinMlHour?.toFixed(1)} – {maint.rateMaxMlHour?.toFixed(1)} ml/h]</span>
+                          </div>
+                          <p className="text-[11px] text-slate-400 bg-slate-900/40 p-2.5 rounded-lg border border-slate-800/60 leading-relaxed">
+                            {maint.explanation}
+                          </p>
+                        </div>
                       )}
                     </div>
-                    <div className="text-xs font-mono text-slate-500">
-                      {drug.phase === 'induction' 
-                        ? `[${drug.volumeMinMl?.toFixed(1)}–${drug.volumeMaxMl?.toFixed(1)}]`
-                        : `[${drug.rateMinMlHour?.toFixed(1)}–${drug.rateMaxMlHour?.toFixed(1)}]`
-                      }
-                    </div>
-                  </div>
+                  )}
                 </div>
-
-                {/* Explanation */}
-                <div className="pt-3 flex items-start gap-2.5 text-xs text-slate-400 leading-relaxed border-t border-slate-800/60 mt-auto min-h-[52px]">
-                  <InfoIcon />
-                  <span className="flex-1">{drug.explanation}</span>
-                </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </div>
       )}
