@@ -65,7 +65,7 @@ export default function MobileMenu({ isOpen, onClose, onCalculatorSelect, active
           </div>
           <button 
             onClick={onClose}
-            className="p-2 rounded-lg text-[var(--muted-foreground)] hover:text-[var(--foreground)] hover:bg-[var(--accent)] transition-colors duration-200 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[rgba(54,191,250,0.24)]"
+            className="p-2 rounded-lg text-[var(--muted-foreground)] hover:text-[var(--foreground)] hover:bg-[var(--accent)] transition-colors duration-200 focus-visible:outline-hidden focus-visible:ring-4 focus-visible:ring-[rgba(54,191,250,0.24)]"
           >
             <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -86,7 +86,7 @@ export default function MobileMenu({ isOpen, onClose, onCalculatorSelect, active
                 )}
                 <button
                   onClick={() => handleSelect(item.id)}
-                  className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors duration-150 mx-2 w-[calc(100%-16px)] focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[rgba(54,191,250,0.24)] ${
+                  className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors duration-150 mx-2 w-[calc(100%-16px)] focus-visible:outline-hidden focus-visible:ring-4 focus-visible:ring-[rgba(54,191,250,0.24)] ${
                     isActive 
                       ? 'bg-[rgba(54,191,250,0.08)] text-[var(--primary)] border-l-2 border-[var(--primary)] rounded-l-none'
                       : 'text-[var(--gray-300)] hover:bg-[var(--accent)] hover:text-[var(--foreground)]'

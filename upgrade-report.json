@@ -1,0 +1,18 @@
+{
+  "version": "8",
+  "status": "success",
+  "filesScanned": 26,
+  "filesModified": 8,
+  "classChanges": 19,
+  "propChanges": 0,
+  "importChanges": 0,
+  "manualReview": [],
+  "orphanedTokens": [],
+  "typeErrors": [],
+  "structuralPatterns": [],
+  "notes": [
+    "Default size for Select, ComboBox, and Input changed from 'sm' to 'md'. Review component usage.",
+    "Avatar size 'xxs' removed. Use 'xs' instead.",
+    "Dropdown no longer defaults to selectionMode='single'. Set explicitly if needed."
+  ]
+}

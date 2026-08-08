@@ -63,7 +63,7 @@ export const NumberInput: React.FC<NumberInputProps> = ({
           placeholder={placeholder}
           disabled={disabled}
           required={required}
-          className={`w-full px-3.5 py-2.5 bg-[var(--gray-900)] border rounded-lg text-[var(--foreground)] placeholder:text-[var(--gray-500)] text-sm h-11 transition-all duration-200 focus-visible:outline-none focus-visible:ring-4 ${
+          className={`w-full px-3.5 py-2.5 bg-[var(--gray-900)] border rounded-lg text-[var(--foreground)] placeholder:text-[var(--gray-500)] text-sm h-11 transition-all duration-200 focus-visible:outline-hidden focus-visible:ring-4 ${
             error
               ? 'border-[var(--error-500)] focus-visible:ring-[var(--shadow-ring-error)]'
               : 'border-[var(--input-border)] focus-visible:ring-[var(--ring)] focus-visible:border-[var(--primary)]'

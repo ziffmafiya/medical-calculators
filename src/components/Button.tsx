@@ -28,8 +28,8 @@ export const Button: React.FC<ButtonProps> = ({
   fullWidth = false,
 }) => {
   const baseStyles = variant !== 'link'
-    ? 'rounded-lg font-semibold transition-all duration-200 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[var(--ring)] inline-flex items-center justify-center gap-2'
-    : 'inline-flex items-center justify-center gap-2 font-semibold transition-all duration-200 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[var(--ring)]';
+    ? 'rounded-lg font-semibold transition-all duration-200 focus-visible:outline-hidden focus-visible:ring-4 focus-visible:ring-[var(--ring)] inline-flex items-center justify-center gap-2'
+    : 'inline-flex items-center justify-center gap-2 font-semibold transition-all duration-200 focus-visible:outline-hidden focus-visible:ring-4 focus-visible:ring-[var(--ring)]';
 
   const variants = {
     primary: 'bg-[var(--primary)] hover:bg-[var(--primary-hover)] text-[var(--primary-foreground)] shadow-[var(--shadow-xs)]',

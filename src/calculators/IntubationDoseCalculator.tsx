@@ -17,24 +17,24 @@ import {
 } from '@/types';
 
 const MaleIcon = () => (
-  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-    <path d="M10 14a4 4 0 1 0 0-8 4 4 0 0 0 0 8Z" />
-    <path d="M14 10h6" />
-    <path d="M20 10v-4" />
-    <path d="M17 7l3 3" />
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+    <circle cx="10" cy="14" r="5" />
+    <path d="M19 5L13.5 10.5" />
+    <path d="M19 5H14" />
+    <path d="M19 5V10" />
   </svg>
 );
 
 const FemaleIcon = () => (
-  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-    <path d="M12 16a4 4 0 1 0 0-8 4 4 0 0 0 0 8Z" />
-    <path d="M12 16v6" />
-    <path d="M9 19h6" />
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+    <circle cx="12" cy="9" r="5" />
+    <path d="M12 14v7" />
+    <path d="M9 18h6" />
   </svg>
 );
 
 const InfoIcon = () => (
-  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="shrink-0 text-sky-400 mt-0.5">
     <circle cx="12" cy="12" r="10" />
     <path d="M12 16v-4" />
     <path d="M12 8h.01" />
@@ -158,7 +158,7 @@ export const IntubationDoseCalculator: React.FC = () => {
       volumeMaxMl: propIndMaxMg / propConc,
       selectedVolumeMl: propIndSelectedMg / propConc,
       concentrationStr: `${propConc} mg/ml (${propConc / 10}%)`,
-      explanation: t.propofolInductionExp || 'Доза рассчитывается по LBW (тощей массе) во избежание гипотензии.',
+      explanation: t.propofolInductionExp || 'Доза рассчитывается по LBW (тощей массе) во избежание тяжелой гипотензии.',
     });
 
     // 2. Propofol Maintenance (TBW)
@@ -269,7 +269,7 @@ export const IntubationDoseCalculator: React.FC = () => {
         volumeMaxMl: rocMaxMg / rocConc,
         selectedVolumeMl: rocSelectedMg / rocConc,
         concentrationStr: `${rocConc} mg/ml`,
-        explanation: t.rocuroniumExp || 'Доза миорелаксанта рассчитывается по идеальной массе (IBW).',
+        explanation: t.rocuroniumExp || 'Доза миорелаксанта рассчитывается по идеальной массе (IBW) для предотвращения блок-эффекта.',
       });
     }
 
@@ -336,254 +336,308 @@ export const IntubationDoseCalculator: React.FC = () => {
     field: keyof IntubationInputs,
     presets: { val: number; label: string }[]
   ) => (
-    <Card className="p-4 space-y-4">
+    <div className="bg-[#101828] border border-slate-800/80 rounded-2xl p-5 space-y-4 hover:border-slate-700/80 transition-all shadow-xs">
       <div className="flex justify-between items-center">
-        <span className="text-sm font-medium text-gray-300">{label}</span>
-        <Badge variant="brand">{value.toFixed(step >= 1 ? 0 : step >= 0.1 ? 1 : 2)} {unit}</Badge>
+        <span className="text-sm font-semibold text-slate-200">{label}</span>
+        <Badge variant="brand" className="font-mono text-xs">
+          {value.toFixed(step >= 1 ? 0 : step >= 0.1 ? 1 : 2)} {unit}
+        </Badge>
       </div>
 
       <div className="flex items-center gap-3">
-        <Button
+        <button
           type="button"
-          variant="outline"
-          size="sm"
           onClick={() => setInputs({ ...inputs, [field]: Math.max(min, +(value - step).toFixed(2)) })}
-          className="w-8 h-8 p-0 flex items-center justify-center shrink-0"
+          className="w-8 h-8 rounded-lg bg-slate-900 border border-slate-800 text-slate-300 hover:text-white hover:bg-slate-800 transition-colors flex items-center justify-center font-bold text-sm shrink-0"
         >
-          -
-        </Button>
-        <input
-          type="range"
-          min={min}
-          max={max}
-          step={step}
-          value={value}
-          onChange={(e) => setInputs({ ...inputs, [field]: parseFloat(e.target.value) })}
-          className="flex-1 accent-primary bg-[var(--gray-700)] h-1.5 rounded-lg appearance-none cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[rgba(54,191,250,0.24)]"
-        />
-        <Button
+          −
+        </button>
+        <div className="relative flex-1 flex items-center">
+          <input
+            type="range"
+            min={min}
+            max={max}
+            step={step}
+            value={value}
+            onChange={(e) => setInputs({ ...inputs, [field]: parseFloat(e.target.value) })}
+            className="w-full h-2 bg-slate-900 border border-slate-800 rounded-lg appearance-none cursor-pointer accent-sky-400 focus:outline-hidden"
+          />
+        </div>
+        <button
           type="button"
-          variant="outline"
-          size="sm"
           onClick={() => setInputs({ ...inputs, [field]: Math.min(max, +(value + step).toFixed(2)) })}
-          className="w-8 h-8 p-0 flex items-center justify-center shrink-0"
+          className="w-8 h-8 rounded-lg bg-slate-900 border border-slate-800 text-slate-300 hover:text-white hover:bg-slate-800 transition-colors flex items-center justify-center font-bold text-sm shrink-0"
         >
           +
-        </Button>
+        </button>
       </div>
 
-      <div className="flex justify-between text-xs text-gray-400">
-        {presets.map((p, i) => (
-          <button
-            key={i}
-            type="button"
-            onClick={() => setInputs({ ...inputs, [field]: p.val })}
-            className={`transition-colors duration-200 hover:text-[var(--primary)] ${value === p.val ? 'text-[var(--primary)] font-medium' : ''}`}
-          >
-            {p.label}
-          </button>
-        ))}
+      <div className="flex justify-between items-center pt-1">
+        <div className="flex gap-2">
+          {presets.map((p, i) => {
+            const isActive = Math.abs(value - p.val) < 0.001;
+            return (
+              <button
+                key={i}
+                type="button"
+                onClick={() => setInputs({ ...inputs, [field]: p.val })}
+                className={`px-2.5 py-1 rounded-md text-xs font-medium transition-all ${
+                  isActive
+                    ? 'bg-sky-500/20 text-sky-300 border border-sky-500/40 shadow-xs'
+                    : 'bg-slate-900/60 text-slate-400 border border-slate-800 hover:text-slate-200 hover:bg-slate-800/50'
+                }`}
+              >
+                {p.label}
+              </button>
+            );
+          })}
+        </div>
+        <span className="text-[11px] font-mono text-slate-500">
+          [{min} – {max}]
+        </span>
       </div>
-    </Card>
+    </div>
   );
 
   return (
-    <div className="space-y-6 max-w-5xl mx-auto pb-12">
-      <div>
-        <h1 className="text-2xl font-bold text-[var(--foreground)]">
-          {t.intubationTitle || 'Калькулятор доз препаратов для интубации'}
+    <div className="space-y-10 max-w-6xl mx-auto pb-16">
+      {/* Hero Title Section */}
+      <div className="space-y-3">
+        <div className="flex items-center gap-3 flex-wrap">
+          <Badge variant="brand" dot className="px-3 py-1 text-xs uppercase tracking-wider font-semibold">
+            Анестезиология & Реанимация
+          </Badge>
+          <span className="text-xs text-slate-500 font-mono">v2.4 • Janmahasatian / Devine</span>
+        </div>
+        <h1 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
+          {t.intubationTitle || 'Калькулятор доз препаратов для интубации и параметров масс тела'}
         </h1>
-        <p className="text-sm text-[var(--muted-foreground)] mt-2">
-          {t.intubationSubtitle || 'Расчет дозировок гипнотиков, анальгетиков и миорелаксантов на основе антропометрических масс (TBW, IBW, LBW, ABW) и параметров ШВЛ ($V_t$).'}
+        <p className="text-sm text-slate-400 max-w-3xl leading-relaxed">
+          {t.intubationSubtitle || 'Точный расчет дозировок гипнотиков (Пропофол), анальгетиков (Фентанил) и миорелаксантов (Рокуроний / Атракуриум) для индукции и поддержания анестезии с учетом антропометрических показателей (TBW, IBW, LBW Жанмахасатиан/Джеймс, ABW) и параметров ИВЛ ($V_t$).'}
         </p>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-        <Card className="lg:col-span-7 p-6 space-y-6">
-          <div className="flex items-center justify-between border-b border-[var(--border)] pb-4">
-            <h2 className="text-lg font-semibold text-[var(--foreground)]">
+      {/* SECTION 1: Patient Data & Anthropometrics */}
+      <div className="space-y-4">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <div className="w-8 h-8 rounded-xl bg-sky-500/10 text-sky-400 flex items-center justify-center font-bold text-sm border border-sky-500/20">
+              1
+            </div>
+            <h2 className="text-lg font-bold text-white tracking-tight">
               {t.patientDataSection || '1. Данные пациента'}
             </h2>
-            <Button onClick={handleReset} variant="outline" size="sm">
-              {t.reset || 'Сброс'}
-            </Button>
           </div>
+          <Button onClick={handleReset} variant="outline" size="xs" className="text-slate-400 hover:text-white">
+            {t.reset || 'Сбросить данные'}
+          </Button>
+        </div>
 
-          <div>
-            <label className="block text-sm font-medium text-gray-300 mb-2">
-              {t.genderLabel || 'Стать'}
-            </label>
-            <div className="grid grid-cols-2 gap-3">
-              <Button
-                type="button"
-                variant={inputs.gender === 'male' ? 'primary' : 'outline'}
-                onClick={() => setInputs({ ...inputs, gender: 'male' })}
-                className="w-full flex items-center justify-center gap-2"
-              >
-                <MaleIcon />
-                <span>{t.maleGender || 'Мужской'}</span>
-              </Button>
-              <Button
-                type="button"
-                variant={inputs.gender === 'female' ? 'primary' : 'outline'}
-                onClick={() => setInputs({ ...inputs, gender: 'female' })}
-                className="w-full flex items-center justify-center gap-2"
-              >
-                <FemaleIcon />
-                <span>{t.femaleGender || 'Женский'}</span>
-              </Button>
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+          {/* Patient Form Input Card */}
+          <div className="lg:col-span-6 bg-[#101828] border border-slate-800/80 rounded-2xl p-6 space-y-6 shadow-sm">
+            <div>
+              <label className="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-2.5">
+                {t.genderLabel || 'Пол пациента'}
+              </label>
+              {/* Segmented Toggle Control */}
+              <div className="bg-slate-900/90 border border-slate-800 rounded-xl p-1 grid grid-cols-2 gap-1">
+                <button
+                  type="button"
+                  onClick={() => setInputs({ ...inputs, gender: 'male' })}
+                  className={`py-2.5 px-4 rounded-lg text-sm font-semibold transition-all flex items-center justify-center gap-2 ${
+                    inputs.gender === 'male'
+                      ? 'bg-sky-500 text-slate-950 shadow-md'
+                      : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/50'
+                  }`}
+                >
+                  <MaleIcon />
+                  <span>{t.maleGender || 'Мужской'}</span>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setInputs({ ...inputs, gender: 'female' })}
+                  className={`py-2.5 px-4 rounded-lg text-sm font-semibold transition-all flex items-center justify-center gap-2 ${
+                    inputs.gender === 'female'
+                      ? 'bg-sky-500 text-slate-950 shadow-md'
+                      : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/50'
+                  }`}
+                >
+                  <FemaleIcon />
+                  <span>{t.femaleGender || 'Женский'}</span>
+                </button>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+              <NumberInput
+                label={t.ageYearsLabel || 'Возраст (лет)'}
+                value={inputs.age}
+                onChange={(val) => setInputs({ ...inputs, age: val })}
+                min={1}
+                max={120}
+                placeholder="45"
+              />
+              <NumberInput
+                label={t.heightCmLabel || 'Рост (см)'}
+                value={inputs.height}
+                onChange={(val) => setInputs({ ...inputs, height: val })}
+                min={50}
+                max={250}
+                placeholder="175"
+              />
+              <NumberInput
+                label={t.actualWeightTbwLabel || 'Вес TBW (кг)'}
+                value={inputs.weight}
+                onChange={(val) => setInputs({ ...inputs, weight: val })}
+                min={10}
+                max={300}
+                placeholder="85"
+              />
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <Select
+                label={t.lbwFormulaLabel || 'Формула LBW'}
+                value={inputs.lbwFormula}
+                onChange={(val) => setInputs({ ...inputs, lbwFormula: val as 'janmahasatian' | 'james' })}
+                options={[
+                  { value: 'janmahasatian', label: t.janmahasatianGoldStandard || 'Janmahasatian (2005) — Золотой стандарт' },
+                  { value: 'james', label: t.jamesClassic || 'James (1976) — Классическая' },
+                ]}
+              />
+              <Select
+                label={t.relaxantForIntubationLabel || 'Миорелаксант'}
+                value={inputs.selectedRelaxant}
+                onChange={(val) => setInputs({ ...inputs, selectedRelaxant: val as 'rocuronium' | 'atracurium' | 'both' })}
+                options={[
+                  { value: 'both', label: t.showBothRelaxants || 'Рокуроний + Атракуриум' },
+                  { value: 'rocuronium', label: t.rocuroniumDoseRangeOption || 'Рокуроний (0.6 - 1.2 мг/кг)' },
+                  { value: 'atracurium', label: t.atracuriumDoseRangeOption || 'Атракуриум (0.4 - 0.5 мг/кг)' },
+                ]}
+              />
+            </div>
+
+            <div className="pt-1 border-t border-slate-800/60">
+              <Checkbox
+                id="advanced-conc"
+                label={t.showConcSettings || 'Настройки концентраций растворов (мг/мл)'}
+                checked={showAdvancedConc}
+                onChange={(checked) => setShowAdvancedConc(checked)}
+              />
+
+              {showAdvancedConc && (
+                <div className="mt-4 p-4 bg-slate-900/80 border border-slate-800 rounded-xl grid grid-cols-2 sm:grid-cols-4 gap-4 animate-slide-up">
+                  <NumberInput
+                    label={t.propofolConcLabel || 'Пропофол (мг/мл)'}
+                    value={inputs.propofolConcMgMl}
+                    onChange={(val) => setInputs({ ...inputs, propofolConcMgMl: val || 10 })}
+                  />
+                  <NumberInput
+                    label={t.fentanylConcLabel || 'Фентанил (мкг/мл)'}
+                    value={inputs.fentanylConcMcgMl}
+                    onChange={(val) => setInputs({ ...inputs, fentanylConcMcgMl: val || 50 })}
+                  />
+                  <NumberInput
+                    label={t.rocuroniumConcLabel || 'Рокуроний (мг/мл)'}
+                    value={inputs.rocuroniumConcMgMl}
+                    onChange={(val) => setInputs({ ...inputs, rocuroniumConcMgMl: val || 10 })}
+                  />
+                  <NumberInput
+                    label={t.atracuriumConcLabel || 'Атракуриум (мг/мл)'}
+                    value={inputs.atracuriumConcMgMl}
+                    onChange={(val) => setInputs({ ...inputs, atracuriumConcMgMl: val || 10 })}
+                  />
+                </div>
+              )}
             </div>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-            <NumberInput
-              label={t.ageYearsLabel || 'Возраст (лет)'}
-              value={inputs.age}
-              onChange={(val) => setInputs({ ...inputs, age: val })}
-              min={1}
-              max={120}
-              placeholder="45"
-            />
-            <NumberInput
-              label={t.heightCmLabel || 'Рост (см)'}
-              value={inputs.height}
-              onChange={(val) => setInputs({ ...inputs, height: val })}
-              min={50}
-              max={250}
-              placeholder="175"
-            />
-            <NumberInput
-              label={t.actualWeightTbwLabel || 'Вес TBW (кг)'}
-              value={inputs.weight}
-              onChange={(val) => setInputs({ ...inputs, weight: val })}
-              min={10}
-              max={300}
-              placeholder="85"
-            />
-          </div>
+          {/* Anthropometric Matrix Stat Cards */}
+          <div className="lg:col-span-6 space-y-4">
+            {anthropometrics ? (
+              <div className="bg-[#101828] border border-slate-800/80 rounded-2xl p-6 space-y-4 shadow-sm">
+                <div className="flex items-center justify-between border-b border-slate-800 pb-3">
+                  <h3 className="text-sm font-bold text-white uppercase tracking-wider">
+                    {t.anthropometricMatrixTitle || 'Антропометрическая матрица'}
+                  </h3>
+                  <span className="text-xs font-mono text-slate-400">
+                    ИМТ (BMI): <strong className="text-white font-bold">{anthropometrics.bmi.toFixed(1)}</strong> кг/м²
+                  </span>
+                </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <Select
-              label={t.lbwFormulaLabel || 'Формула LBW'}
-              value={inputs.lbwFormula}
-              onChange={(val) => setInputs({ ...inputs, lbwFormula: val as 'janmahasatian' | 'james' })}
-              options={[
-                { value: 'janmahasatian', label: t.janmahasatianGoldStandard || 'Janmahasatian (2005)' },
-                { value: 'james', label: t.jamesClassic || 'James (1976)' },
-              ]}
-            />
-            <Select
-              label={t.relaxantForIntubationLabel || 'Миорелаксант'}
-              value={inputs.selectedRelaxant}
-              onChange={(val) => setInputs({ ...inputs, selectedRelaxant: val as 'rocuronium' | 'atracurium' | 'both' })}
-              options={[
-                { value: 'both', label: t.showBothRelaxants || 'Рокуроний + Атракуриум' },
-                { value: 'rocuronium', label: t.rocuroniumDoseRangeOption || 'Рокуроний' },
-                { value: 'atracurium', label: t.atracuriumDoseRangeOption || 'Атракуриум' },
-              ]}
-            />
-          </div>
+                <div className="grid grid-cols-2 gap-3.5">
+                  <StatCard 
+                    label="TBW (Фактический)" 
+                    value={anthropometrics.tbw.toFixed(1)} 
+                    unit={t.kg || 'кг'} 
+                  />
+                  <StatCard 
+                    label="IBW (Идеальный)" 
+                    value={anthropometrics.ibw.toFixed(1)} 
+                    unit={t.kg || 'кг'} 
+                  />
+                  <StatCard 
+                    label="LBW (Тощая)" 
+                    value={anthropometrics.selectedLbw.toFixed(1)} 
+                    unit={t.kg || 'кг'} 
+                  />
+                  <StatCard 
+                    label="ABW (Скоригован)" 
+                    value={anthropometrics.abw.toFixed(1)} 
+                    unit={t.kg || 'кг'} 
+                  />
+                </div>
 
-          <div className="pt-2">
-            <Checkbox
-              id="advanced-conc"
-              label={t.showConcSettings || 'Настройки концентрации растворов'}
-              checked={showAdvancedConc}
-              onChange={(checked) => setShowAdvancedConc(checked)}
-            />
+                {/* Tidal Volume Highlight Box */}
+                <div className="bg-slate-900/90 border border-slate-800 rounded-xl p-4 flex items-center justify-between">
+                  <div>
+                    <span className="text-xs font-semibold text-slate-400 uppercase tracking-wider block">
+                      {t.ventilationVtParamLabel || 'ИВЛ Параметр ДО (Vt)'}
+                    </span>
+                    <span className="text-xs text-slate-500 mt-0.5 block">
+                      6–8 {t.unitMl || 'мл'}/кг IBW
+                    </span>
+                  </div>
+                  <div className="text-right">
+                    <span className="text-2xl font-bold font-mono text-sky-400 tracking-tight">
+                      {anthropometrics.vtMin} – {anthropometrics.vtMax}
+                    </span>
+                    <span className="text-xs font-medium text-slate-400 ml-1">мл</span>
+                  </div>
+                </div>
 
-            {showAdvancedConc && (
-              <div className="mt-4 p-4 bg-[var(--background)] border border-[var(--border)] rounded-xl grid grid-cols-2 sm:grid-cols-4 gap-4 animate-in fade-in slide-in-from-top-2 duration-200">
-                <NumberInput
-                  label={t.propofolConcLabel || 'Пропофол (мг/мл)'}
-                  value={inputs.propofolConcMgMl}
-                  onChange={(val) => setInputs({ ...inputs, propofolConcMgMl: val || 10 })}
-                />
-                <NumberInput
-                  label={t.fentanylConcLabel || 'Фентанил (мкг/мл)'}
-                  value={inputs.fentanylConcMcgMl}
-                  onChange={(val) => setInputs({ ...inputs, fentanylConcMcgMl: val || 50 })}
-                />
-                <NumberInput
-                  label={t.rocuroniumConcLabel || 'Рокуроний (мг/мл)'}
-                  value={inputs.rocuroniumConcMgMl}
-                  onChange={(val) => setInputs({ ...inputs, rocuroniumConcMgMl: val || 10 })}
-                />
-                <NumberInput
-                  label={t.atracuriumConcLabel || 'Атракуриум (мг/мл)'}
-                  value={inputs.atracuriumConcMgMl}
-                  onChange={(val) => setInputs({ ...inputs, atracuriumConcMgMl: val || 10 })}
-                />
+                {anthropometrics.isObese && (
+                  <Alert
+                    variant="warning"
+                    title={t.obesityWarningText || 'Внимание (Ожирение ИМТ ≥ 30)'}
+                  >
+                    Фактическая масса (TBW) значительно превосходит идеальную. Использование TBW для индукции пропофола или миорелаксантов приведет к тяжелой передозировке!
+                  </Alert>
+                )}
+              </div>
+            ) : (
+              <div className="bg-[#101828] border border-slate-800 rounded-2xl p-12 text-center text-slate-400 text-sm">
+                Введите рост и вес пациента для расчета матрицы.
               </div>
             )}
           </div>
-        </Card>
-
-        <Card className="lg:col-span-5 p-6 flex flex-col">
-          <div className="border-b border-[var(--border)] pb-4 mb-4">
-            <h2 className="text-lg font-semibold text-[var(--foreground)]">
-              {t.anthropometricMatrixTitle || 'Антропометрическая матрица'}
-            </h2>
-          </div>
-
-          {anthropometrics ? (
-            <div className="space-y-4 flex-1">
-              <div className="grid grid-cols-2 gap-4">
-                <StatCard 
-                  title="TBW (Фактический)" 
-                  value={anthropometrics.tbw.toFixed(1)} 
-                  unit={t.kg || 'кг'} 
-                />
-                <StatCard 
-                  title="IBW (Идеальный)" 
-                  value={anthropometrics.ibw.toFixed(1)} 
-                  unit={t.kg || 'кг'} 
-                />
-                <StatCard 
-                  title="LBW (Тощий)" 
-                  value={anthropometrics.selectedLbw.toFixed(1)} 
-                  unit={t.kg || 'кг'} 
-                />
-                <StatCard 
-                  title="ABW (Скоригован)" 
-                  value={anthropometrics.abw.toFixed(1)} 
-                  unit={t.kg || 'кг'} 
-                />
-              </div>
-
-              <StatCard
-                title={`${t.ventilationVtParamLabel || 'ИВЛ Параметр ДО (Vt)'} (BMI: ${anthropometrics.bmi.toFixed(1)})`}
-                value={`${anthropometrics.vtMin} - ${anthropometrics.vtMax}`}
-                unit={t.unitMl || 'мл'}
-                helpText={`6–8 ${t.unitMl || 'мл'}/kg IBW`}
-              />
-
-              {anthropometrics.isObese && (
-                <Alert
-                  variant="warning"
-                  title={t.obesityWarningText || 'Ожирение (ИМТ ≥ 30)'}
-                >
-                  Фактическая масса значительно превосходит идеальную. Не используйте TBW для индукции!
-                </Alert>
-              )}
-            </div>
-          ) : (
-            <div className="flex items-center justify-center h-full text-[var(--muted-foreground)] text-sm">
-              Enter weight & height.
-            </div>
-          )}
-        </Card>
+        </div>
       </div>
 
+      {/* SECTION 2: Interactive Target Dosage Tuning */}
       {anthropometrics && (
-        <Card className="p-6 space-y-6">
-          <div className="border-b border-[var(--border)] pb-4">
-            <h2 className="text-lg font-semibold text-[var(--foreground)]">
-              {t.dosageFineTuningTitle || '2. Настройка целевых дозировок'}
+        <div className="space-y-4">
+          <div className="flex items-center gap-3">
+            <div className="w-8 h-8 rounded-xl bg-sky-500/10 text-sky-400 flex items-center justify-center font-bold text-sm border border-sky-500/20">
+              2
+            </div>
+            <h2 className="text-lg font-bold text-white tracking-tight">
+              {t.dosageFineTuningTitle || '2. Интерактивная настройка целевых дозировок'}
             </h2>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {renderSlider(
               t.propofolInductionSliderLabel || 'Пропофол Индукция (LBW):',
               inputs.propofolInductionDosePerKg,
@@ -662,69 +716,82 @@ export const IntubationDoseCalculator: React.FC = () => {
               ]
             )}
           </div>
-        </Card>
+        </div>
       )}
 
+      {/* SECTION 3: Summary Dosing Cards */}
       {drugDetails.length > 0 && anthropometrics && (
-        <Card className="p-6 space-y-6">
-          <div className="border-b border-[var(--border)] pb-4">
-            <h2 className="text-lg font-semibold text-[var(--foreground)]">
-              {t.summaryTableTitle || '3. Сводные дозировки препаратов'}
+        <div className="space-y-4">
+          <div className="flex items-center gap-3">
+            <div className="w-8 h-8 rounded-xl bg-sky-500/10 text-sky-400 flex items-center justify-center font-bold text-sm border border-sky-500/20">
+              3
+            </div>
+            <h2 className="text-lg font-bold text-white tracking-tight">
+              {t.summaryTableTitle || '3. Сводная таблица дозирования препаратов'}
             </h2>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {drugDetails.map((drug) => (
-              <Card key={drug.id} className="p-5 flex flex-col space-y-4">
-                <div className="flex items-start justify-between">
+              <div 
+                key={drug.id} 
+                className="bg-[#101828] border border-slate-800/80 rounded-2xl p-6 flex flex-col justify-between space-y-5 shadow-sm hover:border-slate-700/80 transition-all"
+              >
+                {/* Header */}
+                <div className="flex items-start justify-between gap-3">
                   <div>
-                    <h3 className="font-semibold text-[var(--foreground)] text-lg">{drug.drugName}</h3>
-                    <div className="flex items-center gap-2 mt-1.5">
+                    <h3 className="font-bold text-white text-lg tracking-tight">{drug.drugName}</h3>
+                    <div className="flex items-center gap-2 mt-2">
                       <Badge variant={drug.phase === 'induction' ? 'brand' : 'gray'}>
                         {drug.phase === 'induction' ? 'Induction' : 'Maintenance'}
                       </Badge>
-                      <span className="text-xs text-[var(--muted-foreground)]">{drug.concentrationStr}</span>
+                      <span className="text-xs font-mono text-slate-400">{drug.concentrationStr}</span>
                     </div>
                   </div>
-                  <div className="text-right">
-                    <span className="text-xs font-medium text-[var(--muted-foreground)] block mb-1">
+
+                  <div className="text-right shrink-0">
+                    <span className="text-[11px] font-semibold uppercase tracking-wider text-slate-400 block mb-1">
                       {t.colBaseWeight || 'Базовый вес'}
                     </span>
-                    <Badge variant="gray">
+                    <Badge variant="gray" className="font-mono">
                       {drug.weightMetricUsed} ({drug.weightValue.toFixed(1)} {t.kg || 'кг'})
                     </Badge>
                   </div>
                 </div>
 
-                <div className="grid grid-cols-2 gap-4">
+                {/* Calculation Numbers Grid */}
+                <div className="grid grid-cols-2 gap-4 bg-slate-900/80 border border-slate-800/80 rounded-xl p-4">
                   <div className="space-y-1">
-                    <span className="text-xs font-medium text-[var(--muted-foreground)] uppercase">
+                    <span className="text-[11px] font-semibold uppercase tracking-wider text-slate-400 block">
                       {t.colCalculatedDose || 'Рассчитанная доза'}
                     </span>
-                    <div className="text-xl font-bold text-[var(--foreground)]">
-                      {drug.selectedTotalDose.toFixed(1)} <span className="text-sm font-normal text-[var(--muted-foreground)]">{drug.totalDoseUnit}</span>
+                    <div className="text-2xl font-bold font-mono text-white tracking-tight">
+                      {drug.selectedTotalDose.toFixed(1)}{' '}
+                      <span className="text-xs font-normal text-slate-400">{drug.totalDoseUnit}</span>
                     </div>
-                    <div className="text-xs text-[var(--muted-foreground)]">
+                    <div className="text-xs font-mono text-slate-500">
                       [{drug.totalDoseMin.toFixed(1)} – {drug.totalDoseMax.toFixed(1)}]
                     </div>
                   </div>
 
                   <div className="space-y-1">
-                    <span className="text-xs font-medium text-[var(--muted-foreground)] uppercase">
+                    <span className="text-[11px] font-semibold uppercase tracking-wider text-slate-400 block">
                       {t.colVolumeOrSpeed || 'Объем / Скорость'}
                     </span>
-                    <div className="text-xl font-bold text-[var(--primary)]">
+                    <div className="text-2xl font-bold font-mono text-sky-400 tracking-tight">
                       {drug.phase === 'induction' ? (
                         <>
-                          {drug.selectedVolumeMl?.toFixed(1)} <span className="text-sm font-normal text-[var(--muted-foreground)]">{t.unitMl || 'мл'}</span>
+                          {drug.selectedVolumeMl?.toFixed(1)}{' '}
+                          <span className="text-xs font-normal text-slate-400">{t.unitMl || 'мл'}</span>
                         </>
                       ) : (
                         <>
-                          {drug.selectedRateMlHour?.toFixed(1)} <span className="text-sm font-normal text-[var(--muted-foreground)]">{t.unitMlHour || 'мл/ч'}</span>
+                          {drug.selectedRateMlHour?.toFixed(1)}{' '}
+                          <span className="text-xs font-normal text-slate-400">{t.unitMlHour || 'мл/ч'}</span>
                         </>
                       )}
                     </div>
-                    <div className="text-xs text-[var(--muted-foreground)]">
+                    <div className="text-xs font-mono text-slate-500">
                       {drug.phase === 'induction' 
                         ? `[${drug.volumeMinMl?.toFixed(1)}–${drug.volumeMaxMl?.toFixed(1)}]`
                         : `[${drug.rateMinMlHour?.toFixed(1)}–${drug.rateMaxMlHour?.toFixed(1)}]`
@@ -733,45 +800,50 @@ export const IntubationDoseCalculator: React.FC = () => {
                   </div>
                 </div>
 
-                <div className="mt-auto pt-4 flex items-start gap-2 text-sm text-[var(--muted-foreground)] border-t border-[var(--border)]">
+                {/* Explanation */}
+                <div className="pt-2 flex items-start gap-2.5 text-xs text-slate-400 leading-relaxed border-t border-slate-800/60">
                   <InfoIcon />
-                  <span className="flex-1">{drug.explanation}</span>
+                  <span>{drug.explanation}</span>
                 </div>
-              </Card>
+              </div>
             ))}
           </div>
-        </Card>
+        </div>
       )}
 
-      <Card className="p-6 space-y-6">
-        <div className="border-b border-[var(--border)] pb-4">
-          <h2 className="text-lg font-semibold text-[var(--foreground)]">
-            {t.cheatSheetTitle || 'Шпаргалка применения массы тела'}
+      {/* SECTION 4: Cheat Sheet Section */}
+      <div className="space-y-4">
+        <div className="flex items-center gap-3">
+          <div className="w-8 h-8 rounded-xl bg-sky-500/10 text-sky-400 flex items-center justify-center font-bold text-sm border border-sky-500/20">
+            4
+          </div>
+          <h2 className="text-lg font-bold text-white tracking-tight">
+            {t.cheatSheetTitle || 'Шпаргалка применения массы тела в ОРИТ и анестезиологии'}
           </h2>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {[
-            { param: t.paramVentVt || 'Параметры ИВЛ (Vt)', scalar: 'IBW', rationale: t.rationaleVentVt },
-            { param: t.paramPropInduction || 'Пропофол (Индукция)', scalar: 'LBW', rationale: t.rationalePropInduction },
-            { param: t.paramPropMaintenance || 'Пропофол (Инфузия)', scalar: 'TBW / TCI', rationale: t.rationalePropMaintenance },
-            { param: t.paramRelaxants || 'Миорелаксанты', scalar: 'IBW', rationale: t.rationaleRelaxants },
-            { param: t.paramSuxamethonium || 'Суксаметоний', scalar: 'TBW', rationale: t.rationaleSuxamethonium },
-            { param: t.paramFentanyl || 'Фентанил', scalar: 'LBW', rationale: t.rationaleFentanyl },
-            { param: t.paramAminoglycosides || 'Аминогликозиды / Ванкомицин', scalar: 'ABW', rationale: t.rationaleAminoglycosides }
+            { param: t.paramVentVt || 'Параметры ИВЛ (Vt)', scalar: 'IBW', rationale: t.rationaleVentVt || 'Размер легких зависит от роста и пола человека, а не от объема жировой ткани. Предотвращает волюмотравму.' },
+            { param: t.paramPropInduction || 'Пропофол (Индукция)', scalar: 'LBW', rationale: t.rationalePropInduction || 'Предотвращает тяжелую вазодилатацию и глубокую гипотензию у пациентов с ожирением.' },
+            { param: t.paramPropMaintenance || 'Пропофол (Инфузия / TCI)', scalar: 'TBW / TCI', rationale: t.rationalePropMaintenance || 'Перераспределение препарата в жировую ткань при продолжительном введении требует учета клиренса и фактической массы.' },
+            { param: t.paramRelaxants || 'Миорелаксанты (Рокуроний, Векуроний, Атракуриум)', scalar: 'IBW', rationale: t.rationaleRelaxants || 'Объем распределения гидрофильных релаксантов не увеличивается пропорционально жировой массе. Защищает от затяжного блока.' },
+            { param: t.paramSuxamethonium || 'Суксаметоний (Дитилин)', scalar: 'TBW', rationale: t.rationaleSuxamethonium || 'При ожирении уровень псевдохолинэстеразы плазмы и объем крови повышены.' },
+            { param: t.paramFentanyl || 'Фентанил (Индукция и поддерживающая инфузия)', scalar: 'LBW', rationale: t.rationaleFentanyl || 'Липофильный опиоид, но первичный центральный эффект и фармакокинетика зависят от метаболически активных орг.' },
+            { param: t.paramAminoglycosides || 'Аминогликозиды / Ванкомицин', scalar: 'ABW', rationale: t.rationaleAminoglycosides || 'Жировая ткань содержит ~20-30% внеклеточной жидкости. Коррекция предотвращает нефротоксичность.' }
           ].map((item, idx) => (
-            <div key={idx} className="bg-[var(--background)] border border-[var(--border)] rounded-xl p-4 space-y-2">
+            <div key={idx} className="bg-[#101828] border border-slate-800/80 rounded-xl p-4.5 space-y-2.5 hover:border-slate-700 transition-colors shadow-xs">
               <div className="flex justify-between items-start gap-2">
-                <span className="font-medium text-[var(--foreground)] text-sm">{item.param}</span>
-                <Badge variant="gray">{item.scalar}</Badge>
+                <span className="font-semibold text-white text-sm leading-snug">{item.param}</span>
+                <Badge variant="gray" className="font-mono text-[11px] shrink-0">{item.scalar}</Badge>
               </div>
-              <p className="text-xs text-[var(--muted-foreground)] leading-relaxed">
+              <p className="text-xs text-slate-400 leading-relaxed">
                 {item.rationale}
               </p>
             </div>
           ))}
         </div>
-      </Card>
+      </div>
     </div>
   );
 };

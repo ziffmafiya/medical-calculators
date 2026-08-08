@@ -31,7 +31,7 @@ export default function LanguageSelector() {
     <div className="relative" ref={dropdownRef}>
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="inline-flex items-center gap-2 px-3 py-2 text-sm font-medium text-[var(--gray-300)] hover:text-[var(--foreground)] border border-[var(--border)] rounded-lg hover:bg-[var(--accent)] transition-colors duration-150 h-10 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[rgba(54,191,250,0.24)] focus-visible:border-[var(--primary)]"
+        className="inline-flex items-center gap-2 px-3 py-2 text-sm font-medium text-[var(--gray-300)] hover:text-[var(--foreground)] border border-[var(--border)] rounded-lg hover:bg-[var(--accent)] transition-colors duration-150 h-10 focus-visible:outline-hidden focus-visible:ring-4 focus-visible:ring-[rgba(54,191,250,0.24)] focus-visible:border-[var(--primary)]"
       >
         <span className="text-base">{currentLang.flag}</span>
         <span className="hidden sm:inline uppercase">{currentLang.code}</span>
@@ -55,7 +55,7 @@ export default function LanguageSelector() {
                 setLanguage(lang.id as any);
                 setIsOpen(false);
               }}
-              className="w-full flex items-center gap-3 px-3 py-2 text-sm hover:bg-[var(--accent)] transition-colors duration-150 text-[var(--foreground)] focus-visible:outline-none focus-visible:bg-[var(--accent)]"
+              className="w-full flex items-center gap-3 px-3 py-2 text-sm hover:bg-[var(--accent)] transition-colors duration-150 text-[var(--foreground)] focus-visible:outline-hidden focus-visible:bg-[var(--accent)]"
             >
               <span className="text-base">{lang.flag}</span>
               <span className="flex-1 text-left">{lang.label}</span>

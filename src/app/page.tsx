@@ -101,7 +101,7 @@ export default function Home() {
       <header className="sticky top-0 z-30 bg-[var(--background)]/95 backdrop-blur-sm border-b border-[var(--border)]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
           <button 
-            className="flex items-center gap-2 cursor-pointer focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[rgba(54,191,250,0.24)] rounded-lg p-1" 
+            className="flex items-center gap-2 cursor-pointer focus-visible:outline-hidden focus-visible:ring-4 focus-visible:ring-[rgba(54,191,250,0.24)] rounded-lg p-1" 
             onClick={() => setActiveCalculator('home')}
           >
             <div className="w-8 h-8 rounded-lg bg-[var(--primary)]/15 text-[var(--primary)] flex items-center justify-center font-bold text-lg">
@@ -115,7 +115,7 @@ export default function Home() {
               <button
                 key={item.id}
                 onClick={() => setActiveCalculator(item.id as CalculatorType)}
-                className={`text-sm font-medium transition-colors duration-150 px-1 pt-1 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[rgba(54,191,250,0.24)] rounded ${
+                className={`text-sm font-medium transition-colors duration-150 px-1 pt-1 focus-visible:outline-hidden focus-visible:ring-4 focus-visible:ring-[rgba(54,191,250,0.24)] rounded ${
                   activeCalculator === item.id 
                     ? 'text-[var(--primary)] border-b-2 border-[var(--primary)] pb-[18px]' 
                     : 'text-[var(--muted-foreground)] hover:text-[var(--foreground)] pb-[20px]'
@@ -129,7 +129,7 @@ export default function Home() {
           <div className="flex items-center gap-3">
             <LanguageSelector />
             <button 
-              className="md:hidden p-2 rounded-lg text-[var(--gray-300)] hover:text-[var(--foreground)] hover:bg-[var(--accent)] transition-colors duration-150 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[rgba(54,191,250,0.24)]"
+              className="md:hidden p-2 rounded-lg text-[var(--gray-300)] hover:text-[var(--foreground)] hover:bg-[var(--accent)] transition-colors duration-150 focus-visible:outline-hidden focus-visible:ring-4 focus-visible:ring-[rgba(54,191,250,0.24)]"
               onClick={() => setIsMobileMenuOpen(true)}
             >
               <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -166,7 +166,7 @@ export default function Home() {
                 <button 
                   key={calc.id}
                   onClick={() => setActiveCalculator(calc.id as CalculatorType)}
-                  className="bg-[var(--card)] border border-[var(--border)] rounded-xl p-5 cursor-pointer group transition-all duration-200 hover:border-[var(--primary)]/40 hover:shadow-[var(--shadow-md)] text-left focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[rgba(54,191,250,0.24)] focus-visible:border-[var(--primary)]"
+                  className="bg-[var(--card)] border border-[var(--border)] rounded-xl p-5 cursor-pointer group transition-all duration-200 hover:border-[var(--primary)]/40 hover:shadow-[var(--shadow-md)] text-left focus-visible:outline-hidden focus-visible:ring-4 focus-visible:ring-[rgba(54,191,250,0.24)] focus-visible:border-[var(--primary)]"
                 >
                   <div className={`w-10 h-10 rounded-lg flex items-center justify-center mb-3 ${calc.iconBg}`}>
                     <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -195,7 +195,7 @@ export default function Home() {
             <div className="inline-flex items-center gap-1.5 text-sm text-[var(--muted-foreground)] mb-6">
               <button 
                 onClick={() => setActiveCalculator('home')}
-                className="hover:text-[var(--foreground)] transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[rgba(54,191,250,0.24)] rounded px-1"
+                className="hover:text-[var(--foreground)] transition-colors duration-150 focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-[rgba(54,191,250,0.24)] rounded px-1"
               >
                 {t.home || 'Главная'}
               </button>

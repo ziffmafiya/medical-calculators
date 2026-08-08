@@ -52,19 +52,19 @@ export const StatCard: React.FC<StatCardProps> = ({
   };
 
   return (
-    <div className={`bg-[var(--gray-900)] border border-[var(--border)] rounded-xl p-4 sm:p-5 transition-all duration-200 ${className}`}>
-      <div className="text-xs font-medium text-[var(--muted-foreground)] mb-2 flex justify-between items-center">
-        {displayLabel}
+    <div className={`bg-[#0d1424] border border-slate-800/80 rounded-xl p-4 sm:p-5 transition-all duration-200 hover:border-slate-700/60 shadow-xs ${className}`}>
+      <div className="text-xs font-semibold text-slate-400 mb-2 flex justify-between items-center tracking-wide">
+        <span>{displayLabel}</span>
         {trend && <span>{trendIcon[trend]}</span>}
       </div>
-      <div>
+      <div className="flex items-baseline gap-1.5 flex-wrap">
         <span className={`text-2xl sm:text-3xl font-bold font-mono tracking-tight ${statusStyles[status]}`}>
           {value}
         </span>
-        {unit && <span className="text-sm font-normal text-[var(--muted-foreground)] ml-1">{unit}</span>}
+        {unit && <span className="text-xs font-medium text-sky-400 bg-sky-500/10 px-2 py-0.5 rounded-md">{unit}</span>}
       </div>
-      {displaySublabel && <div className="text-xs text-[var(--gray-500)] mt-1.5">{displaySublabel}</div>}
-      {description && <div className="mt-2">{description}</div>}
+      {displaySublabel && <div className="text-xs text-slate-500 mt-2">{displaySublabel}</div>}
+      {description && <div className="mt-2.5">{description}</div>}
     </div>
   );
 };

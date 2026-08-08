@@ -40,7 +40,7 @@ export const Select: React.FC<SelectProps> = ({
           onChange={(e) => onChange(e.target.value)}
           disabled={disabled}
           required={required}
-          className={`appearance-none w-full px-3.5 py-2.5 pr-10 bg-[var(--gray-900)] border rounded-lg text-[var(--foreground)] placeholder:text-[var(--gray-500)] text-sm h-11 transition-all duration-200 cursor-pointer focus-visible:outline-none focus-visible:ring-4 ${
+          className={`appearance-none w-full px-3.5 py-2.5 pr-10 bg-[var(--gray-900)] border rounded-lg text-[var(--foreground)] placeholder:text-[var(--gray-500)] text-sm h-11 transition-all duration-200 cursor-pointer focus-visible:outline-hidden focus-visible:ring-4 ${
             error
               ? 'border-[var(--error-500)] focus-visible:ring-[var(--shadow-ring-error)]'
               : 'border-[var(--input-border)] focus-visible:ring-[var(--ring)] focus-visible:border-[var(--primary)]'

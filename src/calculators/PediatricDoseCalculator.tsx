@@ -337,7 +337,7 @@ export const PediatricDoseCalculator: React.FC = () => {
                 }}
                 onFocus={() => setShowAutocomplete(true)}
                 placeholder={t.searchPlaceholder}
-                className="w-full px-3.5 py-2.5 bg-[var(--gray-900)] border border-[var(--input-border)] rounded-lg text-[var(--foreground)] placeholder:text-[var(--gray-500)] text-sm h-11 transition-all duration-200 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[var(--ring)] focus-visible:border-[var(--primary)]"
+                className="w-full px-3.5 py-2.5 bg-[var(--gray-900)] border border-[var(--input-border)] rounded-lg text-[var(--foreground)] placeholder:text-[var(--gray-500)] text-sm h-11 transition-all duration-200 focus-visible:outline-hidden focus-visible:ring-4 focus-visible:ring-[var(--ring)] focus-visible:border-[var(--primary)]"
               />
               
               {showAutocomplete && inputs.medication.length > 0 && (
@@ -383,7 +383,7 @@ export const PediatricDoseCalculator: React.FC = () => {
               value={inputs.indication}
               onChange={(e) => setInputs({ ...inputs, indication: e.target.value })}
               placeholder={t.indicationPlaceholder}
-              className="w-full px-3.5 py-2.5 bg-[var(--gray-900)] border border-[var(--input-border)] rounded-lg text-[var(--foreground)] placeholder:text-[var(--gray-500)] text-sm h-11 transition-all duration-200 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[var(--ring)] focus-visible:border-[var(--primary)]"
+              className="w-full px-3.5 py-2.5 bg-[var(--gray-900)] border border-[var(--input-border)] rounded-lg text-[var(--foreground)] placeholder:text-[var(--gray-500)] text-sm h-11 transition-all duration-200 focus-visible:outline-hidden focus-visible:ring-4 focus-visible:ring-[var(--ring)] focus-visible:border-[var(--primary)]"
             />
           </div>
         </div>
@@ -518,7 +518,7 @@ export const PediatricDoseCalculator: React.FC = () => {
                   placeholder={t.searchPlaceholder}
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  className="w-full pl-10 pr-4 py-2 bg-[var(--gray-900)] border border-[var(--input-border)] rounded-lg text-[var(--foreground)] placeholder:text-[var(--gray-500)] text-sm h-10 transition-all focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[var(--ring)] focus-visible:border-[var(--primary)]"
+                  className="w-full pl-10 pr-4 py-2 bg-[var(--gray-900)] border border-[var(--input-border)] rounded-lg text-[var(--foreground)] placeholder:text-[var(--gray-500)] text-sm h-10 transition-all focus-visible:outline-hidden focus-visible:ring-4 focus-visible:ring-[var(--ring)] focus-visible:border-[var(--primary)]"
                 />
                 <svg className="absolute left-3 top-2.5 w-5 h-5 text-[var(--gray-500)]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
@@ -536,7 +536,7 @@ export const PediatricDoseCalculator: React.FC = () => {
               </div>
 
               <select 
-                className="w-full px-3.5 py-2 bg-[var(--gray-900)] border border-[var(--input-border)] rounded-lg text-[var(--foreground)] text-sm h-10 transition-all focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[var(--ring)] focus-visible:border-[var(--primary)]"
+                className="w-full px-3.5 py-2 bg-[var(--gray-900)] border border-[var(--input-border)] rounded-lg text-[var(--foreground)] text-sm h-10 transition-all focus-visible:outline-hidden focus-visible:ring-4 focus-visible:ring-[var(--ring)] focus-visible:border-[var(--primary)]"
                 value={selectedCategory}
                 onChange={(e) => setSelectedCategory(e.target.value)}
               >
@@ -556,7 +556,7 @@ export const PediatricDoseCalculator: React.FC = () => {
                   <button
                     key={category}
                     onClick={() => setSelectedCategory(isSelected ? 'all' : category)}
-                    className="focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--ring)] rounded-full"
+                    className="focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-[var(--ring)] rounded-full"
                   >
                     <Badge 
                       variant={isSelected ? 'brand' : 'gray'} 
