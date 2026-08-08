@@ -47,10 +47,12 @@ export const NumberInput: React.FC<NumberInputProps> = ({
   return (
     <div className="flex flex-col w-full">
       {label && (
-        <label className="text-sm font-medium text-[var(--gray-300)] mb-1.5">
-          {label}
-          {required && <span className="text-[var(--error-500)] ml-0.5">*</span>}
-        </label>
+        <div className="min-h-[38px] flex items-end pb-1.5">
+          <label className="text-xs font-semibold text-[var(--gray-300)] uppercase tracking-wider leading-tight">
+            {label}
+            {required && <span className="text-[var(--error-500)] ml-0.5">*</span>}
+          </label>
+        </div>
       )}
       <div className="relative">
         <input
